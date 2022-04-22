@@ -1,17 +1,19 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Vivienda
+      Buscador
     </ion-title>
   </ion-toolbar>
 </ion-header>
+
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Vivie 9086nda</ion-title>
+      <ion-title size="large">Buscador</ion-title>
     </ion-toolbar>
   </ion-header>
-  
-  <app-explore-container name="Vivienda"></app-explore-container>
-  <ion-button color="danger">Danger</ion-button>
+
+  <ion-searchbar placeholder="Producto, recomendación, comentario, etc..."></ion-searchbar>
+
+  <app-explore-container name="Buscador"></app-explore-container>
 </ion-content>
