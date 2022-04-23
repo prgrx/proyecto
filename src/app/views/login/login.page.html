@@ -1,7 +1,9 @@
 <ion-header>
   <ion-toolbar>
-
-    <ion-segment value="options">
+    <ion-segment 
+      value="options" 
+      [(ngModel)]="segmentModel" 
+    >
       <ion-segment-button value="login">
         Login
       </ion-segment-button>
@@ -13,7 +15,43 @@
 </ion-header>
 
 <ion-content>
+  <ion-card *ngIf="segmentModel === 'signup'">
+    <form>
+      <ion-title>Registrar</ion-title>
+      <ion-item lines="full">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" #email required></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input type="text" #name required></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" #password required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-button type="submit" (click)="signUp(email, password, name)" color="danger">Submit</ion-button>
+      </ion-item>
+      <ion-item>
+      </ion-item>
+    </form>
+  </ion-card>
 
-  <!-- contenido aquí -->
-
+  <ion-card *ngIf="segmentModel === 'login'">
+    <form>
+      <ion-title>Login</ion-title>
+      <ion-item lines="full">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" #email2 required></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" #password2 required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-button type="submit" (click)="loginUser(email2, password2)" color="danger">Submit</ion-button>
+      </ion-item>
+    </form>
+  </ion-card>
 </ion-content>

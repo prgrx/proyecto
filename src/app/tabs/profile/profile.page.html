@@ -19,7 +19,7 @@
         <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
       </ion-avatar>
       <div>
-        <ion-card-title>Nombre Apellido</ion-card-title>
+        <ion-card-title>{{user?.name}}</ion-card-title>
         <ion-card-subtitle>Online</ion-card-subtitle>
       </div>
     </ion-card-header>
@@ -57,6 +57,12 @@
       xxxxx, xxx xxxx, xxxxx,xxxxxxx xxx xxxxxxxx xxxxxxx xx xxxx.
     </ion-card-content>
   </ion-card>
+
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="log-out-outline" (click)="authService.signOut()"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>

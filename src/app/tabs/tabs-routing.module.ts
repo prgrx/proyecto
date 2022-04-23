@@ -4,41 +4,36 @@ import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
   {
-    path: 'app',
+    path: '',
     component: TabsPage,
     children: [
       {
-        path: 'perfil',
-        loadChildren: () => import('../tabs/perfil/tab1.module').then(m => m.Tab1PageModule)
+        path: 'profile',
+        loadChildren: () => import('../tabs/profile/profile.module').then(m => m.ProfilePageModule)
       },
       {
-        path: 'mensajes',
-        loadChildren: () => import('../tabs/mensajes/tab2.module').then(m => m.Tab2PageModule)
+        path: 'messages',
+        loadChildren: () => import('./messages/messages.module').then(m => m.MessagesPageModule)
       },
       {
-        path: 'productos',
-        loadChildren: () => import('../tabs/productos/tab3.module').then(m => m.Tab3PageModule)
+        path: 'products',
+        loadChildren: () => import('../tabs/products/products.module').then(m => m.ProductsPageModule)
       },
       {
-        path: 'buscador',
-        loadChildren: () => import('../tabs/buscador/tab4.module').then(m => m.Tab4PageModule)
+        path: 'finder',
+        loadChildren: () => import('./finder/finder.module').then(m => m.FinderPageModule)
       },
       {
-        path: 'vivienda',
-        loadChildren: () => import('../tabs/vivienda/tab5.module').then(m => m.Tab5PageModule)
+        path: 'housing',
+        loadChildren: () => import('./housing/housing.module').then(m => m.HousingPageModule)
       },
       {
         path: '',
-        redirectTo: '/app/perfil',
+        redirectTo: 'profile',
         pathMatch: 'full'
       }
     ]
   },
-  {
-    path: '',
-    redirectTo: '/app/perfil',
-    pathMatch: 'full'
-  }
 ];
 
 @NgModule({

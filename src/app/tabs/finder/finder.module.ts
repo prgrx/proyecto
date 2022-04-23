@@ -1,11 +1,12 @@
 import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Tab1Page } from './tab1.page';
+import { FinderPage } from './finder.page';
 import { ExploreContainerComponentModule } from '../../components/explore-container/explore-container.module';
 
-import { Tab1PageRoutingModule } from './tab1-routing.module';
+import { FinderPageRoutingModule } from './finder-routing.module';
 
 @NgModule({
   imports: [
@@ -13,8 +14,9 @@ import { Tab1PageRoutingModule } from './tab1-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    Tab1PageRoutingModule
+    RouterModule.forChild([{ path: '', component: FinderPage }]),
+    FinderPageRoutingModule,
   ],
-  declarations: [Tab1Page]
+  declarations: [FinderPage]
 })
-export class Tab1PageModule {}
+export class FinderPageModule {}

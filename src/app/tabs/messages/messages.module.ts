@@ -3,10 +3,10 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Tab5Page } from './tab5.page';
+import { MessagesPage } from './messages.page';
 import { ExploreContainerComponentModule } from '../../components/explore-container/explore-container.module';
 
-import { Tab5PageRoutingModule } from './tab5-routing.module';
+import { MessagesPageRoutingModule } from './messages-routing.module';
 
 @NgModule({
   imports: [
@@ -14,9 +14,8 @@ import { Tab5PageRoutingModule } from './tab5-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    RouterModule.forChild([{ path: '', component: Tab5Page }]),
-    Tab5PageRoutingModule,
+    MessagesPageRoutingModule
   ],
-  declarations: [Tab5Page]
+  declarations: [MessagesPage]
 })
-export class Tab5PageModule {}
+export class MessagesPageModule {}
