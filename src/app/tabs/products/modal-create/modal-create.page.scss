@@ -1,0 +1,49 @@
+@import '../../../../theme/variables.scss';
+
+ion-content{
+  --background: var(--ion-item-background);
+
+  .item {
+    
+    &-image {
+      --highlight-height: 0px;
+      --highlight-color-invalid: var(--ion-item-background);
+      --highlight-color-valid: var(--ion-item-background);
+  
+      .icon-image{
+        margin-right: 1rem;
+      }
+  
+      .input-image {
+        position: absolute;
+        opacity: 0;
+      }
+    }
+    
+    &-backImage {
+      height: 23rem;
+      width: 100%;
+      display: none;
+      background-color: var(--ion-item-background);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+  
+      &::part(native) {
+        display: none;
+      }
+    }
+
+    &-button {
+      --padding-top: 1.25rem;
+      --padding-end: 1rem;
+
+      ion-button {
+        width: 9rem;
+        height: 2.5rem;
+      }
+    }
+  }
+}
+
+

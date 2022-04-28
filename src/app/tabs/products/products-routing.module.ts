@@ -6,7 +6,12 @@ const routes: Routes = [
   {
     path: '',
     component: ProductsPage,
+  },
+  {
+    path: 'modal-create',
+    loadChildren: () => import('./modal-create/modal-create.module').then( m => m.ModalCreatePageModule)
   }
+
 ];
 
 @NgModule({
