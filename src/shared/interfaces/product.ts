@@ -3,6 +3,6 @@ export interface Product {
     name: string
     description: string
     image: string
-    sale: boolean
     price: number
+    user_id: string
 }

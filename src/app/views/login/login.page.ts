@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { IonInput } from '@ionic/angular';
 import { User } from 'src/shared/interfaces/auth';
@@ -19,7 +19,6 @@ export class LoginPage implements OnInit {
     public authService: AuthService,
     public router: Router,
     public ngFireAuth: AngularFireAuth,
-    private ngZone : NgZone,
   ) { }
 
   ngOnInit() {

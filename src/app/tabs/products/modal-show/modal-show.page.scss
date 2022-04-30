@@ -1,0 +1,23 @@
+.name {
+    font-size: 1.3rem;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.image {
+    height: 20rem;
+    overflow: hidden;
+}
+
+.price {
+    font-size: 1.6rem;
+    letter-spacing: 0.5px;
+}
+
+.description {
+    white-space: break-spaces;
+}
+
+ion-content {
+    --background: var(--ion-item-background);
+}

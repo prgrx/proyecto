@@ -10,8 +10,11 @@ const routes: Routes = [
   {
     path: 'modal-create',
     loadChildren: () => import('./modal-create/modal-create.module').then( m => m.ModalCreatePageModule)
+  },
+  {
+    path: 'modal-show',
+    loadChildren: () => import('./modal-show/modal-show.module').then( m => m.ModalShowPageModule)
   }
-
 ];
 
 @NgModule({

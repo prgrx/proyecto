@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { ModalController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { Product } from 'src/shared/interfaces/product';
 
 @Component({
@@ -17,8 +17,9 @@ export class ModalCreatePage implements OnInit  {
   productForm: FormGroup;
   imgBase64: string;
   productsCollection: AngularFirestoreDocument<any>;
+  actionValue: Subscription;
 
-  constructor(private modalCtrl: ModalController, private db : AngularFirestore) { }
+  constructor(private modalController: ModalController, private db : AngularFirestore) { }
   
   ngOnInit() {
     this.productForm = new FormGroup({
@@ -29,33 +30,47 @@ export class ModalCreatePage implements OnInit  {
       price: new FormControl(this.previousProduct.controls.price.value)
     });
 
+    this.resetPrice();
+
     if (this.previousImg) {
       this.setImgBackground(this.previousImg);
     }
   }
 
+  ionViewDidLeave() {
+    console.log('He entrado')
+    this.modalController.dismiss({
+      'form': this.productForm,
+      'imgBase64' : this.previousImg ? this.previousImg : this.imgBase64
+    });
+    this.actionValue.unsubscribe();
+  }
+
   dismissModal(): void {
-    this.modalCtrl.dismiss({
+    this.modalController.dismiss({
      'form': this.productForm,
      'imgBase64' : this.previousImg ? this.previousImg : this.imgBase64
     });
   }
 
   sendProduct() {
-    let product: Product = {
-      id: this.db.createId(),
-      name: this.productForm.controls.name.value,
-      description: this.productForm.controls.description.value,
-      image: this.imgBase64 ? this.imgBase64 : this.previousImg,
-      sale: (this.productForm.controls.action.value == "true"),
-      price: this.productForm.controls.price.value
-    };
-    const productRef: AngularFirestoreDocument<any> = this.db.doc(
-      `products/${product.id}`
-    );
-    return productRef.set(product, {
-      merge: true,
-    });
+    if (this.productForm.valid) {
+      let description = this.productForm.controls.description.value.replaceAll('\n', "\\n")
+      let product: Product = {
+        id: this.db.createId(),
+        name: this.productForm.controls.name.value,
+        description: description,
+        image: this.imgBase64 ? this.imgBase64 : this.previousImg,
+        price: this.productForm.controls.price.value,
+        user_id: JSON.parse(localStorage.getItem('user')!).uid
+      };
+      const productRef: AngularFirestoreDocument<any> = this.db.doc(
+        `products/${product.id}`
+      );
+      return productRef.set(product, {
+        merge: true,
+      });
+    }
   }
 
   resetProduct(): void {
@@ -69,7 +84,7 @@ export class ModalCreatePage implements OnInit  {
     let size: number = +((event.target.files[0].size/1024/1024).toFixed(2));
     console.log(size + 'MB')
     
-    if (size < 1) {
+    if (size < 100) {
       if (photo != undefined) {
         let reader = new FileReader();
         reader.readAsDataURL(photo);
@@ -93,5 +108,13 @@ export class ModalCreatePage implements OnInit  {
   removeImgBackground(): void {
     let divBackImg: HTMLElement = document.querySelector('.item-backImage');
     divBackImg.style.display = 'none';
+  }
+
+  resetPrice() {
+    this.actionValue = this.productForm.controls.action.valueChanges.subscribe( (value : boolean) => {
+      if (value) {
+        this.productForm.controls.price.setValue(0);
+      }
+    });
   }
 }

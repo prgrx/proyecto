@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from 'src/shared/services/auth-service.service';
 import { CrudDB } from 'src/shared/services/crud-db.service';
 import { Subscription } from 'rxjs';
+import { User } from 'src/shared/interfaces/auth';
 
 @Component({
   selector: 'app-profile',
@@ -10,7 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class ProfilePage {
   userId: any;
-  user: {};
+  user: User;
   userSub : Subscription
 
   constructor(
@@ -24,7 +25,7 @@ export class ProfilePage {
 
   ionViewDidEnter(){
     this.userSub = this.crudDB.getOneById('users', this.userId).subscribe( (userData) => {
-      this.user = userData;
+      this.user = userData as User;
     });
   }
 

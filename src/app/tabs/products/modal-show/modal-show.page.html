@@ -1,0 +1,27 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Producto Seleccionado</ion-title>
+    <ion-buttons slot="end" (click)="dismissModal()">
+      <ion-button>Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item>
+    <p class="name fw-bold">{{product.name}}</p>
+  </ion-item>
+  <div class="image">
+    <img [src]="product.image" alt="Product Image" class="w-100 h-100">
+  </div>
+  <ion-item>
+    <p class="price my-2 ms-1 fw-bold">{{product.price ? 'Precio: ' + product.price + '€' : 'Recomendado'}}</p>
+  </ion-item>
+  <ion-item>
+    <p class="description m-3">{{product.description}}</p>
+  </ion-item>
+  <ion-item class="item-button">
+    <div class="w-100 d-flex flex-direction-row align-items-center justify-content-around my-3">
+      <ion-button>Contactar</ion-button>
+    </div>
+  </ion-item>
+</ion-content>

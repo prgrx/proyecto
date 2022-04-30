@@ -10,11 +10,11 @@
   <form [formGroup]="productForm">
     <ion-item lines="full">
       <ion-label position="floating">Nombre del Producto</ion-label>
-      <ion-input type="text" formControlName="name" required></ion-input>
+      <ion-input type="text" formControlName="name" required autocapitalize="on"></ion-input>
     </ion-item>
     <ion-item lines="full">
       <ion-label position="floating">Descripción del Producto</ion-label>
-      <ion-input type="text" formControlName="description" required></ion-input>
+      <ion-textarea formControlName="description" required autocapitalize="sentences"></ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label>Acción</ion-label>
@@ -34,7 +34,7 @@
     </ion-item>
     <ion-item class="item-backImage"></ion-item>
     <ion-item class="item-button">
-      <div class="w-100 d-flex flex-direction-row align-items-center justify-content-around">
+      <div class="w-100 d-flex flex-direction-row align-items-center justify-content-around mb-3">
         <ion-button (click)="sendProduct()">Subir Producto</ion-button>
         <ion-button (click)="resetProduct()">Limpiar</ion-button>
       </div>

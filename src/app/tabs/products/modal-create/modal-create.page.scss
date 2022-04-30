@@ -19,9 +19,15 @@ ion-content{
         opacity: 0;
       }
     }
+
+    ion-textarea {
+      ::ng-deep .native-textarea.sc-ion-textarea-md {
+        height: 10rem;
+      }
+    }
     
     &-backImage {
-      height: 23rem;
+      height: 21.5rem;
       width: 100%;
       display: none;
       background-color: var(--ion-item-background);
@@ -41,6 +47,7 @@ ion-content{
       ion-button {
         width: 9rem;
         height: 2.5rem;
+        letter-spacing: 0 !important;
       }
     }
   }
