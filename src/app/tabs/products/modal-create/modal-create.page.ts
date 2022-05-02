@@ -1,7 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
-import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
-import { ModalController } from '@ionic/angular';
+import {
+  AngularFirestore,
+  AngularFirestoreDocument,
+} from '@angular/fire/compat/firestore';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { ModalController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/shared/interfaces/product';
 
@@ -10,24 +13,45 @@ import { Product } from 'src/shared/interfaces/product';
   templateUrl: './modal-create.page.html',
   styleUrls: ['./modal-create.page.scss'],
 })
-export class ModalCreatePage implements OnInit  {
-
+export class ModalCreatePage implements OnInit {
   @Input() previousProduct: FormGroup;
   @Input() previousImg: string;
+  @Input() action: string;
   productForm: FormGroup;
   imgBase64: string;
   productsCollection: AngularFirestoreDocument<any>;
   actionValue: Subscription;
 
-  constructor(private modalController: ModalController, private db : AngularFirestore) { }
-  
+  constructor(
+    private modalController: ModalController,
+    private toastController: ToastController,
+    private firestore: AngularFirestore
+  ) {}
+
   ngOnInit() {
     this.productForm = new FormGroup({
-      name: new FormControl(this.previousProduct.controls.name.value),
-      description: new FormControl(this.previousProduct.controls.description.value),
-      image: new FormControl(this.previousImg),
-      action: new FormControl(this.previousProduct.controls.action.value),
-      price: new FormControl(this.previousProduct.controls.price.value)
+      name: new FormControl(
+        this.previousProduct.controls.name.value,
+        Validators.required
+      ),
+      description: new FormControl(
+        this.previousProduct.controls.description.value,
+        Validators.required
+      ),
+      image: new FormControl(this.previousImg,
+        Validators.required
+      ),
+      action: new FormControl(
+        this.previousProduct.controls.action.value,
+        Validators.required
+      ),
+      price: new FormControl(
+        this.previousProduct.controls.price.value,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/^0{1}$|^[1-9]*$|^([0-9]*.[0-9]{2})$/),
+        ])
+      ),
     });
 
     this.resetPrice();
@@ -38,53 +62,75 @@ export class ModalCreatePage implements OnInit  {
   }
 
   ionViewDidLeave() {
-    console.log('He entrado')
     this.modalController.dismiss({
-      'form': this.productForm,
-      'imgBase64' : this.previousImg ? this.previousImg : this.imgBase64
+      form: this.productForm,
+      imgBase64: this.previousImg ? this.previousImg : this.imgBase64,
     });
     this.actionValue.unsubscribe();
   }
 
   dismissModal(): void {
     this.modalController.dismiss({
-     'form': this.productForm,
-     'imgBase64' : this.previousImg ? this.previousImg : this.imgBase64
+      form: this.productForm,
+      imgBase64: this.previousImg ? this.previousImg : this.imgBase64,
     });
   }
 
   sendProduct() {
     if (this.productForm.valid) {
-      let description = this.productForm.controls.description.value.replaceAll('\n', "\\n")
+      let description = this.productForm.controls.description.value.replaceAll(
+        '\n',
+        '\\n'
+      );
       let product: Product = {
-        id: this.db.createId(),
+        id: this.previousProduct.controls.id
+          ? this.previousProduct.controls.id.value
+          : this.firestore.createId(),
         name: this.productForm.controls.name.value,
         description: description,
         image: this.imgBase64 ? this.imgBase64 : this.previousImg,
         price: this.productForm.controls.price.value,
-        user_id: JSON.parse(localStorage.getItem('user')!).uid
+        user_id: JSON.parse(localStorage.getItem('user')!).uid,
       };
-      const productRef: AngularFirestoreDocument<any> = this.db.doc(
-        `products/${product.id}`
-      );
-      return productRef.set(product, {
-        merge: true,
-      });
+
+      const productRef: AngularFirestoreDocument<any> =
+        this.firestore.doc(`products/${product.id}`);
+
+      if (this.action === 'create') {
+        productRef.set(product, {
+          merge: true,
+        });
+        this.showToast('¡Se ha creado el producto correctamente!', 5);
+        this.resetProduct();
+        this.previousImg = '';
+        this.imgBase64 = '';
+        this.dismissModal();
+      } else {
+        productRef.update(product);
+        this.showToast('¡Se ha actualizado el producto correctamente!', 5);
+        this.modalController.dismiss({
+          productModified: product,
+        });
+      }
+
+    } else {
+      this.showToast('No se ha podido crear el producto', 3);
     }
   }
 
   resetProduct(): void {
     this.productForm.reset();
+    this.productForm.controls.price.setValue(0);
     this.removeImgBackground();
   }
 
   getPhoto(event: any): void {
     this.previousImg = '';
     let photo: File = event.target.files[0];
-    let size: number = +((event.target.files[0].size/1024/1024).toFixed(2));
-    console.log(size + 'MB')
-    
-    if (size < 100) {
+    let size: number = +(event.target.files[0].size / 1024 / 1024).toFixed(2);
+    console.log(size + 'MB');
+
+    if (size < 1) {
       if (photo != undefined) {
         let reader = new FileReader();
         reader.readAsDataURL(photo);
@@ -95,14 +141,15 @@ export class ModalCreatePage implements OnInit  {
             this.setImgBackground(this.imgBase64);
           }
         };
-      } 
+      }
     }
   }
 
   setImgBackground(img: string): void {
     let divBackImg: HTMLElement = document.querySelector('.item-backImage');
     divBackImg.style.display = 'block';
-    divBackImg.style.backgroundImage = "url('" + img.replace(/(\r\n|\n|\r)/gm, '') + "')";
+    divBackImg.style.backgroundImage =
+      "url('" + img.replace(/(\r\n|\n|\r)/gm, '') + "')";
   }
 
   removeImgBackground(): void {
@@ -111,10 +158,21 @@ export class ModalCreatePage implements OnInit  {
   }
 
   resetPrice() {
-    this.actionValue = this.productForm.controls.action.valueChanges.subscribe( (value : boolean) => {
-      if (value) {
-        this.productForm.controls.price.setValue(0);
+    this.actionValue = this.productForm.controls.action.valueChanges.subscribe(
+      (value: boolean) => {
+        if (value) {
+          this.productForm.controls.price.setValue(0);
+        }
       }
+    );
+  }
+
+  async showToast(message: string, seconds: number) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: seconds * 1000,
+      color: 'light',
     });
+    toast.present();
   }
 }

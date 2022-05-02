@@ -1,6 +1,7 @@
 <ion-header translucent>
   <ion-toolbar>
-    <ion-title>Crear Producto</ion-title>
+    <ion-title *ngIf="action === 'create'">Crear Producto</ion-title>
+    <ion-title *ngIf="action != 'create'">Modificar Producto</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="dismissModal()">Cerrar</ion-button>
     </ion-buttons>
@@ -10,12 +11,18 @@
   <form [formGroup]="productForm">
     <ion-item lines="full">
       <ion-label position="floating">Nombre del Producto</ion-label>
-      <ion-input type="text" formControlName="name" required autocapitalize="on"></ion-input>
+      <ion-input type="text" formControlName="name" autocapitalize="on"></ion-input>
     </ion-item>
+    <span class="error ion-padding" *ngIf="productForm.controls.name.touched && productForm.controls.name.errors?.required">
+      <ion-icon name="alert-circle-outline"></ion-icon> El nombre no puede estar vacío
+    </span>
     <ion-item lines="full">
       <ion-label position="floating">Descripción del Producto</ion-label>
-      <ion-textarea formControlName="description" required autocapitalize="sentences"></ion-textarea>
+      <ion-textarea formControlName="description" required autocapitalize="sentences" autoGrow="true"></ion-textarea>
     </ion-item>
+    <span class="error ion-padding" *ngIf="productForm.controls.description.touched && productForm.controls.description.errors?.required">
+      <ion-icon name="alert-circle-outline"></ion-icon> La descripción no puede estar vacío
+     </span>
     <ion-item>
       <ion-label>Acción</ion-label>
       <ion-select interface="popover" formControlName="action">
@@ -23,19 +30,32 @@
         <ion-select-option value="false">Recomendar</ion-select-option>
       </ion-select>
     </ion-item>
+    <span class="error ion-padding" *ngIf="productForm.controls.action.touched && productForm.controls.action.errors?.required">
+      <ion-icon name="alert-circle-outline"></ion-icon> Tienes que seleccionar alguna opción
+    </span>
     <ion-item lines="full">
       <ion-label position="floating">Precio</ion-label>
       <ion-input type="tel" formControlName="price" [disabled]="productForm.controls.action.value == 'false'"></ion-input>
     </ion-item>
+    <span class="error ion-padding" *ngIf="productForm.controls.price.touched && productForm.controls.price.errors?.required && !productForm.controls.price.errors?.pattern">
+      <ion-icon name="alert-circle-outline"></ion-icon> Tienes que poner algún precio 
+    </span>
+    <span class="error ion-padding" *ngIf="productForm.controls.price.touched && productForm.controls.price.errors?.pattern && !productForm.controls.price.errors?.required">
+      <ion-icon name="alert-circle-outline"></ion-icon> Tienes que poner un precio correcto
+    </span>
     <ion-item lines="full" class="item-image">
       <ion-input type="file" class="input-image" formControlName="image" required (change)="getPhoto($event)" accept="image/*"></ion-input>
-      <ion-icon name="cloud-upload-outline" class="icon-image"></ion-icon>
-      <ion-label>Imagen del producto</ion-label>
+      <ion-icon name="cloud-upload-outline" class="icon-image" [ngClass]="productForm.controls.image.touched && productForm.controls.image.errors?.required ? 'error_color' : ''"></ion-icon>
+      <ion-label [ngClass]="productForm.controls.image.touched && productForm.controls.image.errors?.required ? 'error_color' : ''">Imagen del producto</ion-label>
     </ion-item>
+    <span class="error ion-padding" *ngIf="productForm.controls.image.touched && productForm.controls.image.errors?.required">
+      <ion-icon name="alert-circle-outline"></ion-icon> Tienes que poner un precio correcto
+    </span>
     <ion-item class="item-backImage"></ion-item>
     <ion-item class="item-button">
-      <div class="w-100 d-flex flex-direction-row align-items-center justify-content-around mb-3">
-        <ion-button (click)="sendProduct()">Subir Producto</ion-button>
+      <div class="w-100 d-flex flex-direction-row align-items-center justify-content-around mb-3 ps-2">
+        <ion-button (click)="sendProduct()" *ngIf="action === 'create'">Subir Producto</ion-button>
+        <ion-button (click)="sendProduct()" *ngIf="action != 'create'">Modificar Producto</ion-button>
         <ion-button (click)="resetProduct()">Limpiar</ion-button>
       </div>
     </ion-item>

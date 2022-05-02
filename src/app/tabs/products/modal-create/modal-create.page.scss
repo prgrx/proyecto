@@ -21,8 +21,8 @@ ion-content{
     }
 
     ion-textarea {
-      ::ng-deep .native-textarea.sc-ion-textarea-md {
-        height: 10rem;
+      ::ng-deep .textarea-wrapper.sc-ion-textarea-md, ::ng-deep .native-textarea.sc-ion-textarea-md {
+        min-height: 10rem !important;
       }
     }
     
@@ -45,11 +45,25 @@ ion-content{
       --padding-end: 1rem;
 
       ion-button {
-        width: 9rem;
+        width: 10rem;
         height: 2.5rem;
         letter-spacing: 0 !important;
       }
     }
+  }
+
+  .error {
+    color: var(--ion-color-danger-tint);
+    font-size: 0.90rem;
+
+    ion-icon {
+      vertical-align: text-top;
+      padding-top: 1px;
+    }
+  }
+
+  .error_color{
+    color: var(--ion-color-danger-tint);
   }
 }
 

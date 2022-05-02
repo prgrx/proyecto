@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { collection, query, where } from "firebase/firestore";
+import { collection, limit, query, where } from "firebase/firestore";
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
@@ -27,11 +27,16 @@ export class ProductsPage{
 
   previousImg: string;
   allProducts: Product[] = [];
+  principalProducts: Product[] = []
+  allUserProducts: Product[] = [];
   userProducts: Product[] = [];
   productsSub: Subscription;
   segmentProducts: string = 'allProducts';
+  dataLoaded: boolean = false;
+  limitAllProducts: number = 6;
+  limitUserProducts: number = 6;
 
-  constructor(private modalController: ModalController, private db: AngularFirestore) {}
+  constructor(private modalController: ModalController, private firestore: AngularFirestore) {}
 
   ngOnInit() {
     this.getAllProducts();
@@ -57,7 +62,8 @@ export class ProductsPage{
       component: ModalCreatePage,
       componentProps: {
         'previousProduct': this.previousProduct,
-        'previousImg' : this.previousImg
+        'previousImg' : this.previousImg,
+        'action' : 'create'
       }
     });
 
@@ -72,16 +78,42 @@ export class ProductsPage{
   getAllProducts() {
     let id_user: string = JSON.parse(localStorage.getItem('user')).uid;
 
-    this.productsSub = this.db.collection('/products').snapshotChanges().subscribe( (productsSnapshot) => {
+    this.productsSub = this.firestore.collection('/products').snapshotChanges().subscribe( (productsSnapshot) => {
       this.allProducts = [];
-      console.log(productsSnapshot)
+      this.allUserProducts = [];
+      this.principalProducts = [];
       productsSnapshot.forEach((productDB) => {
         let product : Product = productDB.payload.doc.data() as Product;
         this.allProducts.push(product)
         if (product.user_id == id_user) {
-          this.userProducts.push(productDB.payload.doc.data() as Product)
+          this.allUserProducts.push(productDB.payload.doc.data() as Product)
         }
       });
+      this.principalProducts = this.allProducts.slice(0, this.limitAllProducts);
+      this.userProducts = this.allUserProducts.slice(0, this.limitUserProducts);
+      this.dataLoaded = true;
     })
+  }
+
+  loadPrincipalProductData(event) {
+    setTimeout(() => {
+      event.target.complete();
+      this.principalProducts.push(...this.allProducts.slice(this.limitAllProducts, this.limitAllProducts + 6))
+      this.limitAllProducts += 6;
+      if (this.principalProducts.length >= this.allProducts.length) {
+        event.target.disabled = true;
+      }
+    }, 1000);
+  }
+
+  loadUserProductData(event) {
+    setTimeout(() => {
+      event.target.complete();
+      this.userProducts.push(...this.allUserProducts.slice(this.limitUserProducts, this.limitUserProducts + 6))
+      this.limitUserProducts += 6;
+      if (this.userProducts.length >= this.allUserProducts.length) {
+        event.target.disabled = true;
+      }
+    }, 1000);
   }
 }
