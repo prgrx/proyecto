@@ -13,7 +13,20 @@ const routes: Routes = [
       },
       {
         path: 'messages',
-        loadChildren: () => import('./messages/messages.module').then(m => m.MessagesPageModule)
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./messages/messages.module').then(m => m.MessagesPageModule)
+          },
+          {
+            path: 'new',
+            loadChildren: () => import('./messages/new/new.module').then(m => m.NewPageModule)
+          },
+          {
+            path: ':id',
+            loadChildren: () => import('./messages/message/message.module').then(m => m.MessagePageModule)
+          }
+        ]
       },
       {
         path: 'products',

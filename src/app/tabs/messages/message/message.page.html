@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{conversation?.subject}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item *ngFor="let message of messages">
+      <ion-avatar slot="start">
+        <img [src]="photo"/>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{message.senderId | nameById | async }}</h2>
+        <sup>{{message.createdAt?.toMillis() | date:'short'}}</sup>
+        <h3>{{message?.content}}</h3>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
+
+<ion-footer keyboard-attach>
+  <ion-toolbar>
+    <form (ngSubmit)="sendMessage()">
+    <ion-item>
+      <ion-input  [formControl]="msgToSend" required spellcheck="true"></ion-input>
+      <ion-button type="submit" [disabled]="msgToSend.value==''" item-end>
+        <ion-icon name="send-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+    </form>
+  </ion-toolbar>
+</ion-footer>
