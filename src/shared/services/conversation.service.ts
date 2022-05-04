@@ -15,13 +15,14 @@ export class ConversationService {
   ) { }
 
   getAll(){
+    console.log(LogedUser.uid)
     return this.firestore
       .collection<Conversation>('conversations',
         ref => ref
-          //.where("members", "array-contains", LogedUser.uid)
+          .where("members", "array-contains", LogedUser.uid)
           .orderBy("updatedAt", "desc")
       )
-      .snapshotChanges();
+      .valueChanges();
   }
 
   getOneById(id: string){
@@ -49,7 +50,7 @@ export class ConversationService {
         `conversations/${conversationId}/messages`,
          ref => ref.orderBy("createdAt").limit(limit)
       )
-      .snapshotChanges();
+      .valueChanges();
   }
 
   postMessage(conversationId: string, message: Message){

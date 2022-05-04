@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -6,7 +6,7 @@ import { Message } from 'src/shared/interfaces/message';
 import { ConversationService } from 'src/shared/services/conversation.service';
 import { Photo } from 'src/shared/interfaces/dummyProfilePhoto'
 import { serverTimestamp } from '@angular/fire/firestore';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { LogedUser } from 'src/shared/constants/logedUser';
 
 @Component({
   selector: 'app-message',
@@ -14,6 +14,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
   styleUrls: ['./message.page.scss'],
 })
 export class MessagePage implements OnInit {
+
+  @ViewChild('content') private content: any;
 
   converId : string
   conversation: any
@@ -29,8 +31,7 @@ export class MessagePage implements OnInit {
 
   constructor(
     public cs : ConversationService,
-    private activatedRoute : ActivatedRoute,
-    private af : AngularFirestore,
+    private activatedRoute : ActivatedRoute
   ) { }
 
   ngOnInit() {}
@@ -46,10 +47,10 @@ export class MessagePage implements OnInit {
 
     this.messageSub = this.cs.getMessages(this.converId, 25)
       .subscribe ( messages => {
-        this.messages = messages.map(
-          x => x.payload.doc.data()
-        );
+        this.messages = messages as Message[]
       });
+
+    this.scrollToBottom();
 
   }
 
@@ -62,7 +63,7 @@ export class MessagePage implements OnInit {
 
       this.cs.postMessage(this.converId, {
         content: this.msgToSend.value,
-        senderId: JSON.parse(localStorage.getItem('user'))['uid'],
+        senderId: LogedUser.uid,
         createdAt: serverTimestamp()
       } as Message)
 
@@ -71,9 +72,18 @@ export class MessagePage implements OnInit {
       });
 
       this.msgToSend.setValue('');
+      this.scrollToBottom();
 
     }
 
   }
+
+
+  scrollToBottom(){
+    setTimeout( () => {
+      this.content.scrollToBottom(300);
+    }, 2000)
+  }
+
 
 }

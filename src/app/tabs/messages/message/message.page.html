@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content #content>
 
   <ion-list>
     <ion-item *ngFor="let message of messages">
@@ -16,7 +16,7 @@
       </ion-avatar>
       <ion-label>
         <h2>{{message.senderId | nameById | async }}</h2>
-        <sup>{{message.createdAt?.toMillis() | date:'short'}}</sup>
+        <!--<sup>{{message.createdAt?.toMillis() | date:'short'}}</sup>-->
         <h3>{{message?.content}}</h3>
       </ion-label>
     </ion-item>

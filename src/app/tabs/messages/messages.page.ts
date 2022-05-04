@@ -16,7 +16,7 @@ export class MessagesPage {
   conversations : Array<Conversation> 
   conversSub : Subscription
 
-  user:any
+  user : any
 
   photo = Photo 
 
@@ -29,9 +29,7 @@ export class MessagesPage {
   ionViewDidEnter(){
     this.conversSub = this.conversationService.getAll()
       .subscribe( (conversations) => {
-        this.conversations = conversations.map(
-          x => x.payload.doc.data() as Conversation
-        );
+        this.conversations = conversations as Conversation[]
 
       });
   }

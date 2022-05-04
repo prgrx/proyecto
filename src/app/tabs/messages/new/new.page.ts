@@ -20,7 +20,7 @@ export class NewPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.logedUser = LogedUser;
+    this.logedUser = LogedUser as User;
   }
 
   ionViewDidEnter(){
