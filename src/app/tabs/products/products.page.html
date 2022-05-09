@@ -18,25 +18,17 @@
   <div *ngIf="dataLoaded">
     <ion-grid>
       <ion-row *ngIf="segmentProducts === 'allProducts'">
-        <ion-col class="p-0 d-flex flex-row justify-content-start" *ngFor="let product of principalProducts">
-          <ion-card (click)="openModalShowProduct(product)">
-            <div class="img w-100 text-center">
-              <img [src]="product.image" class="mx-auto" />
-            </div>
-            <ion-card-header>
-              <ion-card-subtitle>{{product.price ? product.price + '€' : 'Recomendado'}}</ion-card-subtitle>
-              <ion-card-title>{{product.name}}</ion-card-title>
-            </ion-card-header>
-          </ion-card>
+        <ion-col class="p-0 d-flex flex-row justify-content-start" *ngFor="let product of allProducts">
+          <app-product class="mt-3" *ngIf="product.id" (click)="openModalShowProduct(product)" [product]="product"></app-product>
         </ion-col>
-        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadPrincipalProductData($event)">
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadAllProductData($event)">
           <ion-infinite-scroll-content
             loadingSpinner="bubbles"
             loadingText="Cargado mas productos...">
           </ion-infinite-scroll-content>
         </ion-infinite-scroll>
       </ion-row>
-      <ion-row *ngIf="segmentProducts != 'allProducts'">
+      <!-- <ion-row *ngIf="segmentProducts != 'allProducts'">
         <ion-col class="p-0 d-flex flex-row justify-content-start" *ngFor="let product of userProducts">
           <ion-card (click)="openModalShowProduct(product)">
             <div class="img w-100 text-center">
@@ -54,7 +46,7 @@
             loadingText="Cargado mas productos...">
           </ion-infinite-scroll-content>
         </ion-infinite-scroll>
-      </ion-row>
+      </ion-row> -->
     </ion-grid>
   </div>
   <div *ngIf="!dataLoaded">

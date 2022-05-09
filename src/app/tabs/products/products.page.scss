@@ -1,21 +1,6 @@
-ion-card{
+app-product, ion-card {
     width: 11rem;
     height: 16.75rem;
     margin-inline: 7px !important;
     border-radius: 0.7rem;
-
-    &-subtitle {
-        font-size: 1.15rem;
-    }
-
-    &-title {
-        font-size: 1.15rem;
-        height: 2.9rem;
-        overflow: hidden;
-    }
-
-    img {
-        height: 9.5rem;
-        width: 100%;
-    }
 }

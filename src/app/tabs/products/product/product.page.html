@@ -1,0 +1,9 @@
+<ion-card>
+  <div class="img w-100 text-center">
+    <img [src]="product?.image" class="mx-auto" />
+  </div>
+  <ion-card-header>
+    <ion-card-subtitle>{{product?.price ? product?.price + '€' : 'Recomendado'}}</ion-card-subtitle>
+    <ion-card-title>{{product?.name}}</ion-card-title>
+  </ion-card-header>
+</ion-card>

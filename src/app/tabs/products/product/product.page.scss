@@ -1,0 +1,18 @@
+ion-card {
+    margin: 0 !important;
+
+    &-subtitle {
+        font-size: 1.15rem;
+    }
+
+    &-title {
+        font-size: 1.15rem;
+        height: 2.9rem;
+        overflow: hidden;
+    }
+
+    img {
+        height: 9.5rem;
+        width: 100%;
+    }
+}

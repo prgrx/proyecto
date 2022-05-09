@@ -1,11 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  AngularFirestore,
-  AngularFirestoreDocument,
-} from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AlertController, ModalController, ToastController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Product } from 'src/shared/interfaces/product';
+import { ToastMessageService } from 'src/shared/services/toast-message.service';
 import { ModalCreatePage } from '../modal-create/modal-create.page';
 
 @Component({
@@ -15,7 +13,6 @@ import { ModalCreatePage } from '../modal-create/modal-create.page';
 })
 export class ModalShowPage implements OnInit {
   @Input() product: Product;
-
   description: string;
   isSameUser: boolean;
   productForm: FormGroup;
@@ -23,24 +20,26 @@ export class ModalShowPage implements OnInit {
   constructor(
     private modalController: ModalController,
     private alertController: AlertController,
-    private toastController: ToastController,
+    private toastMessage: ToastMessageService,
     private firestore: AngularFirestore
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.isSameUser =
-      JSON.parse(localStorage.getItem('user')!).uid == this.product.user_id
-        ? true
-        : false;
-    this.product.description = this.product!.description.replace(/\\n/gm, '\n');
+      JSON.parse(localStorage.getItem('user')!).uid == this.product.user_id ? true : false;
+    this.firestore.doc('/products/'+this.product.id).valueChanges().subscribe( (value) => {
+      this.product = value as Product;
+      this.formatDescription();
+    });
+
   }
 
   dismissModal(): void {
     this.modalController.dismiss();
   }
 
-  async openModalCreate() {
-    this.product.description = this.product!.description.replace(/\\n/gm, '\n');
+  async openModalCreate(): Promise<void> {
+    this.formatDescription();
     this.productForm = new FormGroup({
       id: new FormControl(this.product.id),
       name: new FormControl(this.product.name),
@@ -62,17 +61,14 @@ export class ModalShowPage implements OnInit {
     modal.onDidDismiss().then((product) => {
       if (product.data.productModified) {
         this.product = product.data.productModified;
-        this.product.description = this.product!.description.replace(
-          /\\n/gm,
-          '\n'
-        );
+        this.formatDescription();
       }
     });
 
-    return await modal.present();
+    await modal.present();
   }
 
-  async openAlertDelete() {
+  async openAlertDelete(): Promise<void> {
     const alert = await this.alertController.create({
       cssClass: 'alertDelete',
       header: 'Eliminar Producto',
@@ -84,26 +80,23 @@ export class ModalShowPage implements OnInit {
         },
         {
           text: 'Confirmar',
-          handler: (value) => {
+          handler: () => {
             const productRef: AngularFirestoreDocument<any> =
               this.firestore.doc(`products/${this.product.id}`);
             productRef.delete();
-            this.showToast('¡Se ha eliminado el producto correctamente!', 5);
+            this.toastMessage.createToast('¡Se ha eliminado el producto correctamente!', 5);
             this.modalController.dismiss();
           },
         },
       ],
     });
 
-    return await alert.present();
+    await alert.present();
   }
 
-  async showToast(message: string, seconds: number) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: seconds * 1000,
-      color: 'light',
-    });
-    toast.present();
+  formatDescription(): void {
+    if (this.product) {
+      this.product.description = this.product!.description.replace(/\\n/gm, '\n');
+    }
   }
 }

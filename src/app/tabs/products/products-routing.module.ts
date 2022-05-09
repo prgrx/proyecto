@@ -14,7 +14,12 @@ const routes: Routes = [
   {
     path: 'modal-show',
     loadChildren: () => import('./modal-show/modal-show.module').then( m => m.ModalShowPageModule)
+  },  {
+    path: 'product',
+    loadChildren: () => import('./product/product.module').then( m => m.ProductPageModule)
   }
+
+
 ];
 
 @NgModule({
