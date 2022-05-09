@@ -7,6 +7,7 @@ import { MessagesPage } from './messages.page';
 import { ExploreContainerComponentModule } from '../../components/explore-container/explore-container.module';
 
 import { MessagesPageRoutingModule } from './messages-routing.module';
+import { PipesModule } from 'src/shared/pipes/pipes.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { MessagesPageRoutingModule } from './messages-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    MessagesPageRoutingModule
+    MessagesPageRoutingModule,
+    PipesModule
   ],
   declarations: [MessagesPage]
 })

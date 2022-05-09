@@ -16,22 +16,21 @@
     </ion-item>
 
     <ion-item>
-      <ion-label>Miembros</ion-label>
-      <ion-select multiple="true" cancelText="Cancelar" okText="Hecho" [value]="[logedUser.uid]">
+      <ion-label>Contacto</ion-label>
+      <ion-select multiple="false" cancelText="Cancelar" okText="Hecho">
         <ion-select-option 
           *ngFor="let user of allUsers" 
           [value]="user?.uid"
-          [disabled]="itsMe(user?.uid)"
         >
-          {{itsMe(user?.uid) ? 'Tú' : user?.name }}
+          {{user?.name}}
         </ion-select-option>
       </ion-select>
     </ion-item>
 
-    <ion-item>
+    <!--<ion-item>
       <ion-label position="floating">Imagen</ion-label>
       <ion-input></ion-input>
-    </ion-item>
+    </ion-item>-->
 
     <ion-grid>
       <ion-row class="ion-align-items-center">

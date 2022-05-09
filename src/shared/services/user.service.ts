@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { LogedUser } from '../constants/logedUser';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +13,18 @@ export class UserService {
 
   getAll(){
     return this.firestore
-      .collection('users')
-      .snapshotChanges();
+      .collection('users',
+      ref => ref
+        .where("uid", "!=", LogedUser.uid)
+      )
+      .valueChanges();
   }
 
-  getNameById(id: string) {
-    let name = 'Usuario';
-      //this.firebase.collection('users');
-    return name;
+  get(id){
+    return this.firestore
+      .collection('users')
+      .doc(id)
+      .valueChanges();
   }
 
 }

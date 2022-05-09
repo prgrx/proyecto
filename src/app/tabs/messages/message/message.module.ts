@@ -8,6 +8,7 @@ import { MessagePageRoutingModule } from './message-routing.module';
 
 import { MessagePage } from './message.page';
 import { PipesModule } from 'src/shared/pipes/pipes.module';
+import { DomChangeDirective } from 'src/shared/directives/dom-change.directive';
 
 @NgModule({
   imports: [
@@ -16,8 +17,11 @@ import { PipesModule } from 'src/shared/pipes/pipes.module';
     ReactiveFormsModule,
     IonicModule,
     MessagePageRoutingModule,
-    PipesModule
+    PipesModule,
   ],
-  declarations: [MessagePage]
+  declarations: [
+    MessagePage,
+    DomChangeDirective
+  ]
 })
 export class MessagePageModule {}

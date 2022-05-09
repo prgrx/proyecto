@@ -14,11 +14,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { ScrollToBottomDirective } from 'src/shared/directives/scroll-to-bottom.directive';
+//import { DomChangeDirective } from 'src/shared/directives/dom-change.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ScrollToBottomDirective
+    ScrollToBottomDirective,
+    //DomChangeDirective
   ],
   entryComponents: [],
   imports: [

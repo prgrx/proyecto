@@ -8,21 +8,21 @@
 </ion-header>
 
 <ion-content #content>
-
-  <ion-list>
+  <ion-list (domChange)="onDomChange($event)">
     <ion-item *ngFor="let message of messages">
-      <ion-avatar slot="start">
+      <ion-avatar [slot]="(message.senderId == myself) ? 'end' : 'start'">
         <img [src]="photo"/>
       </ion-avatar>
-      <ion-label>
-        <h2>{{message.senderId | nameById | async }}</h2>
-        <!--<sup>{{message.createdAt?.toMillis() | date:'short'}}</sup>-->
-        <h3>{{message?.content}}</h3>
+      <ion-label [style]="(message.senderId == myself) ? 'text-align:right;' : ''" text-wrap>
+        <h2 *ngIf="message.senderId != myself">{{message?.senderId | nameById | async }}</h2>
+        <sup>{{message?.createdAt?.['seconds']*1000 | date:'short'}}</sup>
+        <h3 style="font-size: larger;">{{message?.content}}</h3>
       </ion-label>
     </ion-item>
   </ion-list>
-
 </ion-content>
+
+
 
 <ion-footer keyboard-attach>
   <ion-toolbar>

@@ -12,6 +12,7 @@ export class NameByIdPipe implements PipeTransform {
   ) { }
 
   async transform(id: any): Promise<string> {
+    if (id == undefined) return; 
     return (await this.af.firestore.doc(`users/${id}`).get()).data()['name']
   }
 

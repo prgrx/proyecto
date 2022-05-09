@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LogedUser } from 'src/shared/constants/logedUser';
 import { User } from 'src/shared/interfaces/auth';
+import { Conversation } from 'src/shared/interfaces/conversation';
+import { ConversationService } from 'src/shared/services/conversation.service';
 import { UserService } from 'src/shared/services/user.service';
 
 @Component({
@@ -16,7 +18,8 @@ export class NewPage implements OnInit {
   allUsersSub : Subscription
 
   constructor(
-    private userService : UserService
+    private userService : UserService,
+    private convService : ConversationService
   ) {}
 
   ngOnInit() {
@@ -26,9 +29,7 @@ export class NewPage implements OnInit {
   ionViewDidEnter(){
     this.allUsersSub = this.userService.getAll().subscribe(
       allUsers => {
-        this.allUsers = allUsers.map(
-          x => x.payload.doc.data() as User
-        );
+        this.allUsers = allUsers as User[]
       })
   }
 
@@ -38,6 +39,14 @@ export class NewPage implements OnInit {
 
   itsMe(userId){
     return this.logedUser.uid == userId;
+  }
+
+  newConversation(){
+    this.convService.newConversation({
+      subject: "",
+      members: []
+
+    } as Conversation);
   }
 
 }

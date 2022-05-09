@@ -26,7 +26,7 @@
       </ion-avatar>
       <ion-label>
         <h2>
-          <ion-text>{{conv?.members.join(', ')}}</ion-text>
+          <ion-text>{{ conv.members | excludeMyself | async | nameById | async }}</ion-text>
         </h2>
         <h3>{{conv?.subject}}</h3>
       </ion-label>

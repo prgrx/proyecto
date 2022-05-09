@@ -15,7 +15,6 @@ export class ConversationService {
   ) { }
 
   getAll(){
-    console.log(LogedUser.uid)
     return this.firestore
       .collection<Conversation>('conversations',
         ref => ref
@@ -32,9 +31,16 @@ export class ConversationService {
       .valueChanges();
   }
 
-  newConversation(){
+  newConversation(conversation: Conversation){
 
-    /** COMPLETAR */
+    this.firestore
+      .collection('conversations')
+      .add(conversation)
+      .then(conv => {
+        this.firestore
+          .collection(`conversations`)
+          .doc(conv.id).update({id: conv.id})
+      });
 
   }
 
@@ -48,7 +54,7 @@ export class ConversationService {
     return this.firestore
       .collection<Message>(
         `conversations/${conversationId}/messages`,
-         ref => ref.orderBy("createdAt").limit(limit)
+         ref => ref.orderBy("createdAt").limitToLast(limit)
       )
       .valueChanges();
   }

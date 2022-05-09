@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Message } from 'src/shared/interfaces/message';
 import { ConversationService } from 'src/shared/services/conversation.service';
 import { Photo } from 'src/shared/interfaces/dummyProfilePhoto'
@@ -21,17 +21,18 @@ export class MessagePage implements OnInit {
   conversation: any
   converSub : Subscription
 
-  messages: Array<any>
+  messages: Array<Message>
   messageSub: Subscription
+  
+  myself = LogedUser.uid;
 
-  //DummyPhoto [BORRAR CUANDO FUNCIONE]
   photo = Photo
 
   msgToSend = new FormControl(''/*, Validators.requiredTrue*/)
 
   constructor(
     public cs : ConversationService,
-    private activatedRoute : ActivatedRoute
+    private activatedRoute : ActivatedRoute,
   ) { }
 
   ngOnInit() {}
@@ -47,42 +48,52 @@ export class MessagePage implements OnInit {
 
     this.messageSub = this.cs.getMessages(this.converId, 25)
       .subscribe ( messages => {
-        this.messages = messages as Message[]
+        this.messages = messages as Message[];
       });
 
-    this.scrollToBottom();
+  }
 
+  ionViewDidEnter(){
   }
 
   ionViewDidLeave(){
+  }
 
+  ngOnDestroy(){
+    this.converSub.unsubscribe();
+    this.messageSub.unsubscribe();
+  }
+
+  onDomChange($event: Event): void {
+    this.scrollToBottom();
   }
 
   sendMessage(){
+
     if (this.msgToSend.value != ''){
 
-      this.cs.postMessage(this.converId, {
+      let message = {
         content: this.msgToSend.value,
         senderId: LogedUser.uid,
         createdAt: serverTimestamp()
-      } as Message)
+      } as Message;
+
+      this.cs.postMessage(this.converId, message);
+ 
+      this.msgToSend.setValue('');
 
       this.cs.updateConversation(this.converId,{
         updatedAt: serverTimestamp()
       });
 
-      this.msgToSend.setValue('');
-      this.scrollToBottom();
-
     }
 
   }
 
-
   scrollToBottom(){
-    setTimeout( () => {
+    setTimeout(() =>{
       this.content.scrollToBottom(300);
-    }, 2000)
+    }, 300);
   }
 
 
