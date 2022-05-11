@@ -1,17 +1,24 @@
-.name {
-  font-size: 1.25rem;
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem;
+
+.btn-contact {
+  height: 2.6rem;
 }
 
 .image {
   height: 22rem;
   overflow: hidden;
+
+  img {
+    object-fit: cover;
+    border-radius: 10px;
+  }
 }
 
 .price {
-  font-size: 1.6rem;
-  letter-spacing: 0.5px;
+  font-size: 1.5rem;
+}
+
+.name {
+  letter-spacing: 1px;
 }
 
 .description {

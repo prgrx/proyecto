@@ -7,6 +7,7 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { ModalController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/shared/interfaces/product';
+import { serverTimestamp } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-modal-create',
@@ -49,7 +50,7 @@ export class ModalCreatePage implements OnInit {
         this.previousProduct.controls.price.value,
         Validators.compose([
           Validators.required,
-          Validators.pattern(/^0{1}$|^[1-9]*$|^([0-9]*.[0-9]{2})$/),
+          Validators.pattern(/^\d+(.[1-9]\d)?$/),
         ])
       ),
     });
@@ -90,6 +91,7 @@ export class ModalCreatePage implements OnInit {
         description: description,
         image: this.imgBase64 ? this.imgBase64 : this.previousImg,
         price: this.productForm.controls.price.value,
+        last_modified: serverTimestamp(),
         user_id: JSON.parse(localStorage.getItem('user')!).uid,
       };
 
@@ -137,7 +139,6 @@ export class ModalCreatePage implements OnInit {
         reader.onload = () => {
           if (reader.result != null) {
             this.imgBase64 = reader.result.toString();
-            this.productForm.controls.image.value;
             this.setImgBackground(this.imgBase64);
           }
         };

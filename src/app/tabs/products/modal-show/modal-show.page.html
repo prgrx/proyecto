@@ -8,25 +8,27 @@
 </ion-header>
 <ion-content>
   <ion-item>
-    <p class="name fw-bold">{{product.name}}</p>
+    <ion-avatar slot="start">
+      <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" alt="Avatar of User" />
+    </ion-avatar>
+    <ion-label>
+      <h2>{{ userProduct?.name }}</h2>
+      <p>Verificado o no verificado</p>
+    </ion-label>
   </ion-item>
-  <div class="image">
+  <ion-button *ngIf="!isSameUser" expand="block" shape="round" class="mx-3 btn-contact mb-3">Contactar para comprar</ion-button>
+  <div class="image px-3">
     <img [src]="product.image" alt="Product Image" class="w-100 h-100">
   </div>
+  <div class="title mx-3 border-bottom">
+    <p class="price my-2 mb-0 fw-bold">{{product.price ? product.price + ' EUR' : 'Recomendado'}}</p>
+    <h2 class="name mt-1 fw-normal" >{{product.name}}</h2>
+  </div>
   <ion-item>
-    <p class="price my-2 ms-1 fw-bold">{{product.price ? 'Precio: ' + product.price + '€' : 'Recomendado'}}</p>
+    <p class="description mx-2 mt-2">{{product.description}}</p>
   </ion-item>
-  <ion-item>
-    <p class="description_title ms-1 mb-0 fw-bold">Descripción del producto:</p>
-  </ion-item>
-  <ion-item>
-    <p class="description mx-3">{{product.description}}</p>
-  </ion-item>
-  <ion-item class="item-button">
-    <div class="buttons w-100 d-flex flex-direction-row align-items-center justify-content-around my-3">
-      <ion-button *ngIf="!isSameUser">Contactar</ion-button>
-      <ion-button *ngIf="isSameUser" (click)="openModalCreate()">Editar Producto</ion-button>
-      <ion-button *ngIf="isSameUser" (click)="openAlertDelete()" color="danger">Borrar Producto</ion-button>
-    </div>
-  </ion-item>
+  <div class="buttons w-100 d-flex flex-direction-row align-items-center justify-content-around my-3" *ngIf="isSameUser">
+    <ion-button (click)="openModalCreate()">Editar Producto</ion-button>
+    <ion-button (click)="openAlertDelete()" color="danger">Borrar Producto</ion-button>
+  </div>
 </ion-content>

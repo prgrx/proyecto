@@ -5,6 +5,7 @@ import {
 } from '@angular/fire/compat/firestore';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AlertController, ModalController, ToastController } from '@ionic/angular';
+import { User } from 'src/shared/interfaces/user';
 import { Product } from 'src/shared/interfaces/product';
 import { ModalCreatePage } from '../modal-create/modal-create.page';
 
@@ -19,6 +20,7 @@ export class ModalShowPage implements OnInit {
   description: string;
   isSameUser: boolean;
   productForm: FormGroup;
+  userProduct: User;
 
   constructor(
     private modalController: ModalController,
@@ -32,15 +34,23 @@ export class ModalShowPage implements OnInit {
       JSON.parse(localStorage.getItem('user')!).uid == this.product.user_id
         ? true
         : false;
-    this.product.description = this.product!.description.replace(/\\n/gm, '\n');
+    this.product.description = this.product.description.replace(/\\n/gm, '\n');
+    this.getUserProduct();
   }
 
   dismissModal(): void {
     this.modalController.dismiss();
   }
 
+  getUserProduct(): void {
+    this.firestore.doc('/users/' + this.product.user_id).valueChanges().subscribe( (user) => {
+      this.userProduct = user as User;
+      console.log(this.userProduct)
+    })
+  }
+
   async openModalCreate() {
-    this.product.description = this.product!.description.replace(/\\n/gm, '\n');
+    this.product.description = this.product.description.replace(/\\n/gm, '\n');
     this.productForm = new FormGroup({
       id: new FormControl(this.product.id),
       name: new FormControl(this.product.name),
@@ -62,14 +72,14 @@ export class ModalShowPage implements OnInit {
     modal.onDidDismiss().then((product) => {
       if (product.data.productModified) {
         this.product = product.data.productModified;
-        this.product.description = this.product!.description.replace(
+        this.product.description = this.product.description.replace(
           /\\n/gm,
           '\n'
         );
       }
     });
 
-    return await modal.present();
+    await modal.present();
   }
 
   async openAlertDelete() {
@@ -84,7 +94,7 @@ export class ModalShowPage implements OnInit {
         },
         {
           text: 'Confirmar',
-          handler: (value) => {
+          handler: () => {
             const productRef: AngularFirestoreDocument<any> =
               this.firestore.doc(`products/${this.product.id}`);
             productRef.delete();
@@ -95,7 +105,7 @@ export class ModalShowPage implements OnInit {
       ],
     });
 
-    return await alert.present();
+    await alert.present();
   }
 
   async showToast(message: string, seconds: number) {
