@@ -43,9 +43,7 @@ export class NewPage implements OnInit {
 
   newConversation(){
     this.convService.newConversation({
-      subject: "",
       members: []
-
     } as Conversation);
   }
 

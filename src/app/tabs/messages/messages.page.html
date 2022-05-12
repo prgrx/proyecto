@@ -3,6 +3,11 @@
     <ion-title>
       Chats
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['../finder']">
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -22,13 +27,13 @@
       [routerLink]="[conv?.id]"
     >
       <ion-avatar slot="start">
-        <img [src]="photo"/>
+        <img [src]="conv?.members | excludeMyself | async | photoById | async"/>
       </ion-avatar>
       <ion-label>
         <h2>
-          <ion-text>{{ conv.members | excludeMyself | async | nameById | async }}</ion-text>
+          <ion-text>{{ conv?.members | excludeMyself | async | nameById | async }}</ion-text>
         </h2>
-        <h3>{{conv?.subject}}</h3>
+        <h3>{{conv?.lastMessage}}</h3>
       </ion-label>
     </ion-item>
 
@@ -36,10 +41,10 @@
 
   <!---->
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <!--<ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button [routerLink]="'new'">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-  </ion-fab>
+  </ion-fab>-->
 
 </ion-content>

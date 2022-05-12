@@ -4,4 +4,9 @@ export interface User {
     password: string
     name: string
     photo: string
+    isAdmin: boolean
+    isOnline: boolean
+    isBanned: boolean
+    isVerified: boolean
+    blocks: string[]
 }

@@ -31,6 +31,13 @@ export class ConversationService {
       .valueChanges();
   }
 
+  getOneByIdData(id: string){
+    return this.firestore
+      .collection('conversations')
+      .doc(id)
+      .get().toPromise()
+  }
+
   newConversation(conversation: Conversation){
 
     this.firestore

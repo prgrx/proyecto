@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/shared/services/auth-service.service';
-import { CrudDB } from 'src/shared/services/crud-db.service';
 import { Subscription } from 'rxjs';
+import { User } from '@firebase/auth';
+import { UserService } from 'src/shared/services/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -9,13 +10,13 @@ import { Subscription } from 'rxjs';
   styleUrls: ['profile.page.scss'],
 })
 export class ProfilePage {
-  userId: any;
-  user: {};
+  userId: any
+  user: User
   userSub : Subscription
 
   constructor(
     public authService: AuthService,
-    private crudDB : CrudDB, 
+    public userService: UserService
   ) {}
 
   ngOnInit() {
@@ -23,8 +24,8 @@ export class ProfilePage {
   }
 
   ionViewDidEnter(){
-    this.userSub = this.crudDB.getOneById('users', this.userId).subscribe( (userData) => {
-      this.user = userData;
+    this.userSub = this.userService.get(this.userId).subscribe( (user) => {
+      this.user = user as User;
     });
   }
 

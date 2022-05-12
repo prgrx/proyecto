@@ -7,6 +7,8 @@ import { ConversationService } from 'src/shared/services/conversation.service';
 import { Photo } from 'src/shared/interfaces/dummyProfilePhoto'
 import { serverTimestamp } from '@angular/fire/firestore';
 import { LogedUser } from 'src/shared/constants/logedUser';
+import { Conversation } from 'src/shared/interfaces/conversation';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-message',
@@ -18,13 +20,14 @@ export class MessagePage implements OnInit {
   @ViewChild('content') private content: any;
 
   converId : string
-  conversation: any
+  conversation: Conversation
   converSub : Subscription
 
   messages: Array<Message>
   messageSub: Subscription
   
   myself = LogedUser.uid;
+  contactName: string
 
   photo = Photo
 
@@ -33,18 +36,28 @@ export class MessagePage implements OnInit {
   constructor(
     public cs : ConversationService,
     private activatedRoute : ActivatedRoute,
+    private af : AngularFirestore
   ) { }
 
-  ngOnInit() {}
-
-  ionViewWillEnter(){
-
+  ngOnInit() {
     this.converId = this.activatedRoute.snapshot.paramMap.get('id');
 
-    this.converSub = this.cs.getOneById(this.converId)
-      .subscribe( conv => {
-        this.conversation = conv;
+    this.cs.getOneByIdData(this.converId)
+      .then( async conversation => {
+        this.conversation = conversation.data() as Conversation;
+
+        this.af.firestore.doc(`users/${
+          this.conversation.members.filter( x => x != LogedUser.uid )[0]
+        }`).get().then( x => {
+          this.contactName = x.data()['name']
+          this.photo = x.data()['photo']
+        })
+
       });
+
+  }
+
+  ionViewWillEnter(){
 
     this.messageSub = this.cs.getMessages(this.converId, 25)
       .subscribe ( messages => {
@@ -54,18 +67,18 @@ export class MessagePage implements OnInit {
   }
 
   ionViewDidEnter(){
+    this.scrollToBottom(500);
   }
 
   ionViewDidLeave(){
   }
 
   ngOnDestroy(){
-    this.converSub.unsubscribe();
     this.messageSub.unsubscribe();
   }
 
   onDomChange($event: Event): void {
-    this.scrollToBottom();
+    this.scrollToBottom(0);
   }
 
   sendMessage(){
@@ -78,22 +91,25 @@ export class MessagePage implements OnInit {
         createdAt: serverTimestamp()
       } as Message;
 
+      this.messages.push(message);
+
       this.cs.postMessage(this.converId, message);
- 
-      this.msgToSend.setValue('');
 
       this.cs.updateConversation(this.converId,{
-        updatedAt: serverTimestamp()
+        updatedAt: serverTimestamp(),
+        lastMessage: this.msgToSend.value
       });
+
+      this.msgToSend.setValue('');
 
     }
 
   }
 
-  scrollToBottom(){
+  scrollToBottom(delay){
     setTimeout(() =>{
-      this.content.scrollToBottom(300);
-    }, 300);
+      this.content.scrollToBottom(0);
+    }, delay);
   }
 
 
