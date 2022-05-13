@@ -81,7 +81,7 @@ export class MessagePage implements OnInit {
 
   onDomChange($event: Event): void {
     this.scrollToBottom(0);
-    this.display(500);
+    this.display(0);
   }
 
   sendMessage(){

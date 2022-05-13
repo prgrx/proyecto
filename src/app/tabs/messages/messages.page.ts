@@ -33,7 +33,7 @@ export class MessagesPage {
     .subscribe( (conversations) => {
       this.conversations = conversations as Conversation[]
     });
-    this.display(2000);
+    this.display(3000);
   }
 
   ionViewDidEnter(){
@@ -41,7 +41,7 @@ export class MessagesPage {
   }
 
   ionViewWillLeave(){
-    this.conversSub.unsubscribe();
+    //this.conversSub.unsubscribe();
   }
 
   onDomChange($event: Event): void {
@@ -59,6 +59,10 @@ export class MessagesPage {
         }
         );
     },time)
+  }
+
+  ngOnDestroy(){
+    this.conversSub.unsubscribe();
   }
 
 }
