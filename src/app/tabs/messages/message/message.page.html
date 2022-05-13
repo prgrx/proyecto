@@ -16,7 +16,7 @@
     <ion-item class="unhide" *ngFor="let message of messages">
       <ion-label [style]="(message.senderId == myself) ? 'text-align:right;' : ''" text-wrap>
         <h2 *ngIf="message.senderId != myself">{{contactName}}</h2>
-        <sup>{{message?.createdAt?.['seconds']*1000 | date:'short'}}</sup>
+        <!--<sup>{{message?.createdAt?.['seconds']*1000 | date:'short'}}</sup>-->
         <h3 style="font-size: larger;">{{message?.content}}</h3>
       </ion-label>
     </ion-item>
