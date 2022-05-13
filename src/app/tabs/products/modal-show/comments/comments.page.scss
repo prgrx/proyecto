@@ -1,0 +1,54 @@
+.btn-send {
+  font-size: 1rem;
+}
+
+.comment {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+
+  &__top {
+    &-user-names {
+      width: 80%;
+    }
+
+    ion-avatar {
+      width: 45px;
+      height: 45px;
+    }
+
+    .likes {
+      font-size: 1.2rem;
+
+      &:hover {
+        color: var(--ion-color-primary);
+      }
+    }
+
+    .liked {
+      color: var(--ion-color-primary);
+    }
+
+    .remove {
+      font-size: 1.2rem;
+
+      &:hover {
+        color: var(--ion-color-danger-tint);
+      }
+    }
+  }
+}
+
+.item__input {
+  &::part(native) {
+    background: rgba(255, 255, 255, 0.1) !important;
+  }
+}
+
+.error {
+  color: var(--ion-color-danger-tint);
+  font-size: 0.9rem;
+
+  ion-icon {
+    vertical-align: text-top;
+    padding-top: 1px;
+  }
+}

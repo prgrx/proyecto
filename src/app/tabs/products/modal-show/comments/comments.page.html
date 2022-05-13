@@ -1,0 +1,70 @@
+<form [formGroup]="commentGroup" (submit)="addComment()" class="mb-4">
+  <ion-item lines="full" class="item__input mb-1">
+    <ion-input
+      type="text"
+      formControlName="comment"
+      autocapitalize="on"
+      placeholder="Inserte un Comentario"
+    ></ion-input>
+    <ion-button slot="end" fill="clear" class="btn-send ms-3" type="submit">
+      <ion-icon name="send-outline"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <span
+    class="error ion-padding ps-0"
+    *ngIf="commentGroup.controls.comment.hasError('required') && commentGroup.controls.comment.touched"
+  >
+    <ion-icon name="alert-circle-outline"></ion-icon> El comentario no puede estar vacío
+  </span>
+</form>
+<div class="comments">
+  <div
+    class="comment border-bottom mb-4"
+    *ngFor="let comment of comments; trackBy: trackByFn;let i of index"
+  >
+    <div class="comment__top mb-2 d-flex flex-row justify-content-between">
+      <div class="comment__top-user d-flex flex-row">
+        <ion-avatar slot="start">
+          <img
+            src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
+            alt="Avatar of User"
+          />
+        </ion-avatar>
+        <div class="comment__top-user-names d-flex flex-column">
+          <ion-label class="ms-2">
+            <h2>{{comment.user_id | nameById | async}}</h2>
+            <p>Verificado o no verificado</p>
+          </ion-label>
+        </div>
+      </div>
+      <div class="comment__top-info d-flex flex-row">
+        <p class="mb-0 me-3 align-self-center">
+          {{comment.date?.['seconds'] * 1000 | date:'shortDate'}}
+        </p>
+        <div
+          class="likes d-flex flex-row align-items-center"
+          [ngClass]="comment.likes.includes(user_id) ? 'liked' : ''"
+          role="button"
+          (click)="likeComment(comment)"
+        >
+          <p class="mb-0 me-1">{{comment.likes.length}}</p>
+          <ion-icon name="thumbs-up-outline"></ion-icon>
+        </div>
+        <div
+          class="ms-2 d-flex flex-row align-items-center"
+          role="button"
+          (click)="openAlertDelete(comment)"
+        >
+          <ion-icon
+            *ngIf="comment.user_id === user_id"
+            name="trash-outline"
+            class="remove self-align-items"
+          ></ion-icon>
+        </div>
+      </div>
+    </div>
+    <div class="comment__bottom ms-4">
+      <p class="mb-2">{{comment.content}}</p>
+    </div>
+  </div>
+</div>

@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: ModalShowPage
+  },
+  {
+    path: 'comments',
+    loadChildren: () => import('./comments/comments.module').then( m => m.CommentsPageModule)
   }
 ];
 

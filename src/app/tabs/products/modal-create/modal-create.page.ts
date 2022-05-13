@@ -20,6 +20,7 @@ export class ModalCreatePage implements OnInit {
   @Input() action: string;
   productForm: FormGroup;
   imgBase64: string;
+  submitted: boolean = false;
   productsCollection: AngularFirestoreDocument<any>;
   actionValue: Subscription;
 
@@ -78,6 +79,7 @@ export class ModalCreatePage implements OnInit {
   }
 
   sendProduct() {
+    this.submitted = true;
     if (this.productForm.valid) {
       let description = this.productForm.controls.description.value.replaceAll(
         '\n',
@@ -114,7 +116,7 @@ export class ModalCreatePage implements OnInit {
           productModified: product,
         });
       }
-
+      this.submitted = false;
     } else {
       this.showToast('No se ha podido crear el producto', 3);
     }
@@ -124,6 +126,7 @@ export class ModalCreatePage implements OnInit {
     this.productForm.reset();
     this.productForm.controls.price.setValue(0);
     this.removeImgBackground();
+    this.submitted = false;
   }
 
   getPhoto(event: any): void {

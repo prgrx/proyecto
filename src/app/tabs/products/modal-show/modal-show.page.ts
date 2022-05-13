@@ -45,8 +45,7 @@ export class ModalShowPage implements OnInit {
   getUserProduct(): void {
     this.firestore.doc('/users/' + this.product.user_id).valueChanges().subscribe( (user) => {
       this.userProduct = user as User;
-      console.log(this.userProduct)
-    })
+    });
   }
 
   async openModalCreate() {
