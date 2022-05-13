@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ConversationService } from 'src/shared/services/conversation.service';
 import { UserService } from 'src/shared/services/user.service';
@@ -13,6 +13,8 @@ import { Photo } from 'src/shared/interfaces/dummyProfilePhoto';
 })
 export class MessagesPage {
 
+  @ViewChild('content') private content: any;
+
   conversations : Array<Conversation> 
   conversSub : Subscription
 
@@ -26,16 +28,37 @@ export class MessagesPage {
     public af : AngularFirestore,
   ) {}
 
-  ionViewDidEnter(){
+  ngOnInit(){
     this.conversSub = this.conversationService.getAll()
-      .subscribe( (conversations) => {
-        this.conversations = conversations as Conversation[]
+    .subscribe( (conversations) => {
+      this.conversations = conversations as Conversation[]
+    });
+    this.display(2000);
+  }
 
-      });
+  ionViewDidEnter(){
+    this.display(500);
   }
 
   ionViewWillLeave(){
     this.conversSub.unsubscribe();
+  }
+
+  onDomChange($event: Event): void {
+    this.display(500);
+  }
+
+  display(time:number){
+    setTimeout(()=>{
+      [].forEach.call(
+        document.getElementsByClassName('unhide'),
+        function (el) {
+          el.style.opacity = '1';
+          el.style.animationName = 'smooth';
+          el.style.animationDuration = '.5s';
+        }
+        );
+    },time)
   }
 
 }

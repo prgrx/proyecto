@@ -1,0 +1,8 @@
+.unhide{
+    opacity: 0;
+}
+
+@keyframes smooth {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}

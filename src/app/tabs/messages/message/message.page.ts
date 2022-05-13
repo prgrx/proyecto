@@ -55,6 +55,7 @@ export class MessagePage implements OnInit {
 
       });
 
+      this.display(2000);
   }
 
   ionViewWillEnter(){
@@ -68,6 +69,7 @@ export class MessagePage implements OnInit {
 
   ionViewDidEnter(){
     this.scrollToBottom(500);
+    this.display(500);
   }
 
   ionViewDidLeave(){
@@ -79,6 +81,7 @@ export class MessagePage implements OnInit {
 
   onDomChange($event: Event): void {
     this.scrollToBottom(0);
+    this.display(500);
   }
 
   sendMessage(){
@@ -90,8 +93,6 @@ export class MessagePage implements OnInit {
         senderId: LogedUser.uid,
         createdAt: serverTimestamp()
       } as Message;
-
-      this.messages.push(message);
 
       this.cs.postMessage(this.converId, message);
 
@@ -110,6 +111,19 @@ export class MessagePage implements OnInit {
     setTimeout(() =>{
       this.content.scrollToBottom(0);
     }, delay);
+  }
+
+  display(time:number){
+    setTimeout(()=>{
+      [].forEach.call(
+        document.getElementsByClassName('unhide'),
+        function (el) {
+          el.style.opacity = '1';
+          el.style.animationName = 'smooth';
+          el.style.animationDuration = '.5s';
+        }
+        );
+    },time)
   }
 
 

@@ -3,17 +3,17 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ this.contactName }}</ion-title>
+    <ion-title class="unhide">{{ this.contactName }}</ion-title>
     <ion-avatar slot="start" style="width: 36px !important;  
     height : 36px !important; ">
-      <img [src]="photo"/>
+      <img class="unhide" [src]="photo"/>
     </ion-avatar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content #content>
   <ion-list (domChange)="onDomChange($event)">
-    <ion-item *ngFor="let message of messages">
+    <ion-item class="unhide" *ngFor="let message of messages">
       <ion-label [style]="(message.senderId == myself) ? 'text-align:right;' : ''" text-wrap>
         <h2 *ngIf="message.senderId != myself">{{contactName}}</h2>
         <sup>{{message?.createdAt?.['seconds']*1000 | date:'short'}}</sup>

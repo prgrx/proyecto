@@ -11,7 +11,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" #content>
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Chats</ion-title>
@@ -20,9 +20,9 @@
 
   <!---->
   
-  <ion-list>
+  <ion-list (domChange)="onDomChange($event)">
 
-    <ion-item 
+    <ion-item class="unhide"
       *ngFor="let conv of conversations"
       [routerLink]="[conv?.id]"
     >
