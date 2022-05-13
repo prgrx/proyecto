@@ -30,7 +30,7 @@ export class ModalCreatePage implements OnInit {
     private firestore: AngularFirestore
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.productForm = new FormGroup({
       name: new FormControl(
         this.previousProduct.controls.name.value,
@@ -63,7 +63,7 @@ export class ModalCreatePage implements OnInit {
     }
   }
 
-  ionViewDidLeave() {
+  ionViewDidLeave(): void {
     this.modalController.dismiss({
       form: this.productForm,
       imgBase64: this.previousImg ? this.previousImg : this.imgBase64,
@@ -78,7 +78,7 @@ export class ModalCreatePage implements OnInit {
     });
   }
 
-  sendProduct() {
+  sendProduct(): void {
     this.submitted = true;
     if (this.productForm.valid) {
       let description = this.productForm.controls.description.value.replaceAll(
@@ -161,7 +161,7 @@ export class ModalCreatePage implements OnInit {
     divBackImg.style.display = 'none';
   }
 
-  resetPrice() {
+  resetPrice(): void {
     this.actionValue = this.productForm.controls.action.valueChanges.subscribe(
       (value: boolean) => {
         if (value) {
@@ -171,7 +171,7 @@ export class ModalCreatePage implements OnInit {
     );
   }
 
-  async showToast(message: string, seconds: number) {
+  async showToast(message: string, seconds: number): Promise<void> {
     const toast = await this.toastController.create({
       message: message,
       duration: seconds * 1000,

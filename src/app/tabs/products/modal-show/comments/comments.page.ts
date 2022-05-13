@@ -1,14 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  AngularFirestore,
-  AngularFirestoreDocument,
-} from '@angular/fire/compat/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Product } from 'src/shared/interfaces/product';
 import { serverTimestamp } from '@angular/fire/firestore';
 import { Comment } from 'src/shared/interfaces/comment';
-import { User } from 'src/shared/interfaces/user';
 import { AlertController, ToastController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-comments',
@@ -22,6 +19,7 @@ export class CommentsPage implements OnInit {
     comment: new FormControl('', Validators.required),
   });
   user_id: string = JSON.parse(localStorage.getItem('user')).uid;
+  getCommentsSubscription: Subscription;
 
   constructor(
     private firestore: AngularFirestore,
@@ -29,8 +27,12 @@ export class CommentsPage implements OnInit {
     private toastController: ToastController
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getAllComments();
+  }
+
+  ionViewWillLeave(): void {
+    this.getCommentsSubscription.unsubscribe();
   }
 
   addComment(): void {
@@ -53,7 +55,7 @@ export class CommentsPage implements OnInit {
   }
 
   getAllComments(): void {
-    this.firestore
+    this.getCommentsSubscription = this.firestore
       .collection('/products/' + this.product.id + '/comments', (ref) =>
         ref.orderBy('date', 'desc')
       )
@@ -63,18 +65,6 @@ export class CommentsPage implements OnInit {
         if (comments[0].date === null) return;
         this.comments = comments;
       });
-  }
-
-  getUserComment(id: string): User {
-    let user: User;
-    this.firestore
-      .collection('/users')
-      .doc(id)
-      .valueChanges()
-      .subscribe((userBD) => {
-        user = userBD as User;
-      });
-    return user;
   }
 
   likeComment(comment: Comment): void {
@@ -119,7 +109,7 @@ export class CommentsPage implements OnInit {
       duration: seconds * 1000,
       color: 'light',
     });
-    toast.present();
+    await toast.present();
   }
 
   trackByFn(item: any): number {

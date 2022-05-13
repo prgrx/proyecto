@@ -4,10 +4,15 @@ import {
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AlertController, ModalController, ToastController } from '@ionic/angular';
+import {
+  AlertController,
+  ModalController,
+  ToastController,
+} from '@ionic/angular';
 import { User } from 'src/shared/interfaces/user';
 import { Product } from 'src/shared/interfaces/product';
 import { ModalCreatePage } from '../modal-create/modal-create.page';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-modal-show',
@@ -16,11 +21,11 @@ import { ModalCreatePage } from '../modal-create/modal-create.page';
 })
 export class ModalShowPage implements OnInit {
   @Input() product: Product;
-
   description: string;
   isSameUser: boolean;
   productForm: FormGroup;
   userProduct: User;
+  userProductsSubscription: Subscription;
 
   constructor(
     private modalController: ModalController,
@@ -38,14 +43,21 @@ export class ModalShowPage implements OnInit {
     this.getUserProduct();
   }
 
+  ionViewWillLeave(): void {
+    this.userProductsSubscription.unsubscribe();
+  }
+
   dismissModal(): void {
     this.modalController.dismiss();
   }
 
   getUserProduct(): void {
-    this.firestore.doc('/users/' + this.product.user_id).valueChanges().subscribe( (user) => {
-      this.userProduct = user as User;
-    });
+    this.userProductsSubscription = this.firestore
+      .doc('/users/' + this.product.user_id)
+      .valueChanges()
+      .subscribe((user) => {
+        this.userProduct = user as User;
+      });
   }
 
   async openModalCreate() {
@@ -113,6 +125,6 @@ export class ModalShowPage implements OnInit {
       duration: seconds * 1000,
       color: 'light',
     });
-    toast.present();
+    await toast.present();
   }
 }

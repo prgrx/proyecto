@@ -21,7 +21,6 @@ export class ProductsPage {
     action: new FormControl(),
     price: new FormControl(0),
   });
-
   orderDirection: OrderByDirection = 'asc';
   orderBy: string = 'last_modified';
   previousImg: string;
@@ -41,15 +40,15 @@ export class ProductsPage {
     private menuController: MenuController
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getAllProducts();
   }
 
-  ionViewDidLeave() {
+  ionViewDidLeave(): void {
     this.productsSub.unsubscribe();
   }
 
-  async openModalShowProduct(product: Product) {
+  async openModalShowProduct(product: Product): Promise<void> {
     const modal = await this.modalController.create({
       component: ModalShowPage,
       componentProps: {
@@ -60,7 +59,7 @@ export class ProductsPage {
     await modal.present();
   }
 
-  async openModalCreateProduct() {
+  async openModalCreateProduct(): Promise<void> {
     const modal = await this.modalController.create({
       component: ModalCreatePage,
       componentProps: {
@@ -78,7 +77,7 @@ export class ProductsPage {
     await modal.present();
   }
 
-  getAllProducts() {
+  getAllProducts(): void {
     let id_user: string = JSON.parse(localStorage.getItem('user')).uid;
 
     this.productsSub = this.firestore
@@ -107,7 +106,7 @@ export class ProductsPage {
       });
   }
 
-  loadPrincipalProductData(event) {
+  loadPrincipalProductData(event): void {
     setTimeout(() => {
       event.target.complete();
       this.principalProducts.push(
@@ -123,7 +122,7 @@ export class ProductsPage {
     }, 1000);
   }
 
-  loadUserProductData(event) {
+  loadUserProductData(event): void {
     setTimeout(() => {
       event.target.complete();
       this.userProducts.push(
@@ -139,19 +138,18 @@ export class ProductsPage {
     }, 1000);
   }
 
-  changeSort(orderBy: string, orderDirection: OrderByDirection) {
+  changeSort(orderBy: string, orderDirection: OrderByDirection): void {
     this.orderBy = orderBy;
     this.orderDirection = orderDirection;
     this.getAllProducts();
     this.closeMenuSort()
   }
 
-  async openMenuSort() {
+  async openMenuSort(): Promise<void> {
     await this.menuController.open('filtersSort');
   }
 
-  async closeMenuSort() {
-    
+  async closeMenuSort(): Promise<void> {
     await this.menuController.close('filtersSort');
   }
 }
