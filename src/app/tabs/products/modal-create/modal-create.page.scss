@@ -1,0 +1,70 @@
+@import '../../../../theme/variables.scss';
+
+ion-content{
+  --background: var(--ion-item-background);
+
+  .item {
+    
+    &-image {
+      --highlight-height: 0px;
+      --highlight-color-invalid: var(--ion-item-background);
+      --highlight-color-valid: var(--ion-item-background);
+  
+      .icon-image{
+        margin-right: 1rem;
+      }
+  
+      .input-image {
+        position: absolute;
+        opacity: 0;
+      }
+    }
+
+    ion-textarea {
+      ::ng-deep .textarea-wrapper.sc-ion-textarea-md, ::ng-deep .native-textarea.sc-ion-textarea-md {
+        min-height: 10rem !important;
+      }
+    }
+    
+    &-backImage {
+      height: 21.5rem;
+      width: 100%;
+      display: none;
+      background-color: var(--ion-item-background);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+  
+      &::part(native) {
+        display: none;
+      }
+    }
+
+    &-button {
+      --padding-top: 1.25rem;
+      --padding-end: 1rem;
+
+      ion-button {
+        width: 10rem;
+        height: 2.5rem;
+        letter-spacing: 0 !important;
+      }
+    }
+  }
+
+  .error {
+    color: var(--ion-color-danger-tint);
+    font-size: 0.90rem;
+
+    ion-icon {
+      vertical-align: text-top;
+      padding-top: 1px;
+    }
+  }
+
+  .error_color{
+    color: var(--ion-color-danger-tint);
+  }
+}
+
+

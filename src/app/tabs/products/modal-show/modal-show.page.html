@@ -1,0 +1,38 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Producto Seleccionado</ion-title>
+    <ion-buttons slot="end" (click)="dismissModal()">
+      <ion-button>Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item>
+    <ion-avatar slot="start">
+      <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" alt="Avatar of User" />
+    </ion-avatar>
+    <ion-label>
+      <h2>{{ userProduct?.name }}</h2>
+      <p>Verificado o no verificado</p>
+    </ion-label>
+  </ion-item>
+  <ion-button *ngIf="!isSameUser" expand="block" shape="round" class="mx-3 btn-contact mb-3">Contactar para comprar</ion-button>
+  <div class="image px-3">
+    <img [src]="product.image" alt="Product Image" class="w-100 h-100">
+  </div>
+  <div class="title mx-3 border-bottom">
+    <p class="price my-2 mb-0 fw-bold">{{product.price ? product.price + ' EUR' : 'Recomendado'}}</p>
+    <h2 class="name mt-1 fw-normal" >{{product.name}}</h2>
+  </div>
+  <ion-item>
+    <p class="description mx-2 mt-2">{{product.description}}</p>
+  </ion-item>
+  <div class="buttons w-100 d-flex flex-direction-row align-items-center justify-content-around my-3" *ngIf="isSameUser">
+    <ion-button (click)="openModalCreate()">Editar Producto</ion-button>
+    <ion-button (click)="openAlertDelete()" color="danger">Borrar Producto</ion-button>
+  </div>
+  <h2 class="mx-3 pb-2 text-center">Comentarios</h2>
+  <div class="mx-3">
+    <app-comments [product]="product"></app-comments>
+  </div>
+</ion-content>

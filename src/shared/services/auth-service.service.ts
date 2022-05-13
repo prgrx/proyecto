@@ -18,8 +18,7 @@ export class AuthService {
   constructor(
     public afStore: AngularFirestore,
     public ngFireAuth: AngularFireAuth,
-    public router: Router,
-    public ngZone: NgZone
+    public router: Router
   ) { }
 
   loginUser(email: string, password: string) {

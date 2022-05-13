@@ -1,0 +1,46 @@
+
+.btn-contact {
+  height: 2.6rem;
+}
+
+.image {
+  height: 22rem;
+  overflow: hidden;
+
+  img {
+    object-fit: cover;
+    border-radius: 10px;
+  }
+}
+
+.price {
+  font-size: 1.5rem;
+}
+
+.name {
+  letter-spacing: 1px;
+}
+
+.description {
+  white-space: break-spaces;
+
+  &_title {
+    font-size: 1.3rem;
+  }
+}
+
+.buttons {
+  ion-button {
+    width: 10rem;
+    height: 2.5rem;
+    letter-spacing: 0 !important;
+  }
+}
+
+ion-content {
+  --background: var(--ion-item-background);
+}
+
+::ng-deep .alertDelete {
+  --max-width: 85%;
+}
