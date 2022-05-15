@@ -30,7 +30,16 @@ const routes: Routes = [
       },
       {
         path: 'products',
-        loadChildren: () => import('../tabs/products/products.module').then(m => m.ProductsPageModule)
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../tabs/products/products.module').then(m => m.ProductsPageModule)
+          },
+          {
+            path: ':id',
+            loadChildren: () => import('./products/modal-show/modal-show.module').then(m => m.ModalShowPageModule)
+          }
+        ]
       },
       {
         path: 'finder',

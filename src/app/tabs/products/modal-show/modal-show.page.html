@@ -1,38 +1,56 @@
 <ion-header translucent>
   <ion-toolbar>
-    <ion-title>Producto Seleccionado</ion-title>
+    <ion-title>{{product?.name}}</ion-title>
     <ion-buttons slot="end" (click)="dismissModal()">
-      <ion-button>Cerrar</ion-button>
+      <ion-icon name="close-circle-outline" class="close-icon"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content *ngIf="product">
   <ion-item>
     <ion-avatar slot="start">
-      <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" alt="Avatar of User" />
+      <img
+        [src]="product.user_id | photoById | async"
+        alt="Avatar of User"
+      />
     </ion-avatar>
     <ion-label>
       <h2>{{ userProduct?.name }}</h2>
       <p>Verificado o no verificado</p>
     </ion-label>
   </ion-item>
-  <ion-button *ngIf="!isSameUser" expand="block" shape="round" class="mx-3 btn-contact mb-3">Contactar para comprar</ion-button>
-  <div class="image px-3">
-    <img [src]="product.image" alt="Product Image" class="w-100 h-100">
+  <ion-button
+    *ngIf="!isSameUser"
+    expand="block"
+    shape="round"
+    class="ion-margin-horizontal ion-margin-bottom btn-contact"
+    >Contactar para comprar</ion-button
+  >
+  <div class="image ion-padding-horizontal">
+    <img
+      [src]="product.image"
+      alt="Image of the product"
+      style="display: none"
+      onload="this.style.display=''"
+    />
   </div>
-  <div class="title mx-3 border-bottom">
-    <p class="price my-2 mb-0 fw-bold">{{product.price ? product.price + ' EUR' : 'Recomendado'}}</p>
-    <h2 class="name mt-1 fw-normal" >{{product.name}}</h2>
+  <div class="title ion-margin-horizontal border-bottom">
+    <p class="price">
+      {{product.price ? product.price + ' EUR' : 'Recomendado'}}
+    </p>
+    <h2 class="name">{{product.name}}</h2>
   </div>
   <ion-item>
-    <p class="description mx-2 mt-2">{{product.description}}</p>
+    <p class="description">{{product.description}}</p>
   </ion-item>
-  <div class="buttons w-100 d-flex flex-direction-row align-items-center justify-content-around my-3" *ngIf="isSameUser">
+  <ion-row class="item-button ion-justify-content-evenly" *ngIf="isSameUser">
     <ion-button (click)="openModalCreate()">Editar Producto</ion-button>
-    <ion-button (click)="openAlertDelete()" color="danger">Borrar Producto</ion-button>
-  </div>
-  <h2 class="mx-3 pb-2 text-center">Comentarios</h2>
-  <div class="mx-3">
+    <ion-button (click)="openAlertDelete()" color="danger"
+      >Borrar Producto</ion-button
+    >
+  </ion-row>
+  <h2 class="commentsTitle ion-margin-horizontal ion-text-center">Comentarios</h2>
+  <div class="ion-margin-horizontal">
     <app-comments [product]="product"></app-comments>
   </div>
 </ion-content>

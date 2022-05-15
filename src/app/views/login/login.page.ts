@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { IonInput, ModalController } from '@ionic/angular';
-import { User } from 'src/shared/interfaces/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthService } from "../../../shared/services/auth-service.service";
 import { FormControl, FormGroup, Validators } from '@angular/forms';

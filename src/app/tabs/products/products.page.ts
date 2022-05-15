@@ -33,6 +33,7 @@ export class ProductsPage {
   dataLoaded: boolean = false;
   limitAllProducts: number = 6;
   limitUserProducts: number = 6;
+  skeletons: number[] = [0, 1, 2, 3]
 
   constructor(
     private modalController: ModalController,

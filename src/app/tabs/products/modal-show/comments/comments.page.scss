@@ -1,13 +1,45 @@
+form {
+  margin-bottom: 1.25rem;
+
+  ion-item {
+    margin-bottom: 0.25rem;
+  }
+
+  .error {
+    color: var(--ion-color-danger-tint);
+    font-size: 0.9rem;
+    padding-left: 0;
+
+    ion-icon {
+      vertical-align: text-top;
+      padding-top: 1px;
+    }
+  }
+}
+
 .btn-send {
   font-size: 1rem;
 }
 
 .comment {
   border-color: rgba(255, 255, 255, 0.3) !important;
+  margin-bottom: 1.25rem;
 
   &__top {
+    margin-bottom: 0.5rem;
+
     &-user-names {
       width: 80%;
+
+      ion-col {
+        margin-left: 0.5rem;
+      }
+    }
+
+    &-info {
+      p {
+        margin-bottom: 0;
+      }
     }
 
     ion-avatar {
@@ -17,6 +49,13 @@
 
     .likes {
       font-size: 1.2rem;
+      margin-left: 0.75rem;
+      margin-right: 0.5rem;
+
+      p {
+        margin-bottom: 0;
+        margin-right: 0.25rem;
+      }
 
       &:hover {
         color: var(--ion-color-primary);
@@ -35,6 +74,14 @@
       }
     }
   }
+
+  &__bottom {
+    margin-left: 1.25rem;
+
+    p {
+      margin-bottom: 0.5rem;
+    }
+  }
 }
 
 .item__input {
@@ -43,12 +90,4 @@
   }
 }
 
-.error {
-  color: var(--ion-color-danger-tint);
-  font-size: 0.9rem;
 
-  ion-icon {
-    vertical-align: text-top;
-    padding-top: 1px;
-  }
-}

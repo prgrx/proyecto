@@ -13,6 +13,7 @@ import { User } from 'src/shared/interfaces/user';
 import { Product } from 'src/shared/interfaces/product';
 import { ModalCreatePage } from '../modal-create/modal-create.page';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-modal-show',
@@ -26,29 +27,55 @@ export class ModalShowPage implements OnInit {
   productForm: FormGroup;
   userProduct: User;
   userProductsSubscription: Subscription;
+  activatedRouteSubscription: Subscription;
+  id: string;
 
   constructor(
     private modalController: ModalController,
     private alertController: AlertController,
     private toastController: ToastController,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.activatedRouteSubscription = this.activatedRoute.params.subscribe((params: Params) => {
+      if (params.id) {
+        this.id = params.id;
+        this.firestore
+          .doc('/products/' + params.id)
+          .valueChanges()
+          .subscribe((product: Product) => {
+            this.product = product;
+            this.initialActions();
+          });
+      }else {
+        this.initialActions();
+      }
+    });
+  }
+
+  ionViewWillLeave(): void {
+    this.userProductsSubscription.unsubscribe();
+    this.activatedRouteSubscription.unsubscribe();
+  }
+
+  initialActions(): void {
     this.isSameUser =
-      JSON.parse(localStorage.getItem('user')!).uid == this.product.user_id
+      JSON.parse(localStorage.getItem('user')!).uid == this.product?.user_id
         ? true
         : false;
     this.product.description = this.product.description.replace(/\\n/gm, '\n');
     this.getUserProduct();
   }
 
-  ionViewWillLeave(): void {
-    this.userProductsSubscription.unsubscribe();
-  }
-
   dismissModal(): void {
-    this.modalController.dismiss();
+    if (this.id) {
+      this.router.navigate(['/app/products'], { replaceUrl: true})
+    }else {
+      this.modalController.dismiss();
+    }
   }
 
   getUserProduct(): void {
