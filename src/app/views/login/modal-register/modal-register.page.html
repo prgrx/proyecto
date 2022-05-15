@@ -1,0 +1,251 @@
+<ion-content fullscreen>
+  <form [formGroup]="remainUser">
+    <ion-slides pager="true" #slides>
+      <ion-slide>
+        <ion-fab vertical="top" horizontal="start" slot="fixed">
+          <ion-fab-button>
+            <ion-icon
+              name="log-out-outline"
+              (click)="backToRegister()"
+            ></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+        <ion-col>
+          <h1>¿Cómo te llamas?</h1>
+          <ion-item
+            class="ion-padding-horizontal ion-margin-top"
+            [ngClass]="(remainUser.controls.name.touched || nameSubmitted) && remainUser.controls.name.errors?.required ? 'errorInput' : ''"
+          >
+            <ion-input
+              formControlName="name"
+              autocapitalize="sentences"
+            ></ion-input>
+          </ion-item>
+          <div class="ion-text-start ion-padding-horizontal">
+            <span
+              class="error"
+              *ngIf="(remainUser.controls.name.touched || nameSubmitted) && remainUser.controls.name.errors?.required"
+            >
+              <ion-icon name="alert-circle-outline"></ion-icon> Tienes que poner
+              algún nombre
+            </span>
+          </div>
+        </ion-col>
+        <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+          <ion-row
+            class="next ion-align-items-center"
+            (click)="nextSlides(remainUser.controls.name); nameSubmitted = true"
+          >
+            <p class="ion-no-margin">Siguiente</p>
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </ion-row>
+        </ion-fab>
+      </ion-slide>
+      <ion-slide>
+        <ion-col>
+          <h1>¿Cuando es tu fecha de nacimiento?</h1>
+          <ion-datetime [value]="today" presentation="date" formControlName="birthday"></ion-datetime>
+          <div class="ion-text-start ion-padding-horizontal">
+            <span
+              class="error"
+              *ngIf="(remainUser.controls.birthday.touched || birthdaySubmitted) && remainUser.controls.birthday.errors?.required"
+            >
+              <ion-icon name="alert-circle-outline"></ion-icon> Tienes que poner
+              tu edad
+            </span>
+          </div>
+        </ion-col>
+        <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+          <ion-row
+            class="next ion-align-items-center"
+            (click)="previousSlides()"
+          >
+            <ion-icon name="arrow-back-outline"></ion-icon>
+            <p class="ion-no-margin">Anterior</p>
+          </ion-row>
+        </ion-fab>
+        <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+          <ion-row
+            class="next ion-align-items-center"
+            (click)="nextSlides(remainUser.controls.birthday); birthdaySubmitted = true"
+          >
+            <p class="ion-no-margin">Siguiente</p>
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </ion-row>
+        </ion-fab>
+      </ion-slide>
+      <ion-slide>
+        <ion-col>
+          <h1>Presentate un poco para que los demás te conozcan</h1>
+          <ion-item
+            class="ion-padding-horizontal ion-margin-top"
+            [ngClass]="(remainUser.controls.presentation.touched || presentationSubmitted) && remainUser.controls.presentation.errors?.required ? 'errorInput' : ''"
+          >
+            <ion-textarea
+              formControlName="presentation"
+              required
+              autocapitalize="sentences"
+            ></ion-textarea>
+          </ion-item>
+          <div class="ion-text-start ion-padding-horizontal">
+            <span
+              class="error"
+              *ngIf="(remainUser.controls.presentation.touched || presentationSubmitted) && remainUser.controls.presentation.errors?.required"
+            >
+              <ion-icon name="alert-circle-outline"></ion-icon> Tienes que
+              presentarte
+            </span>
+          </div>
+        </ion-col>
+        <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+          <ion-row
+            class="next ion-align-items-center"
+            (click)="previousSlides()"
+          >
+            <ion-icon name="arrow-back-outline"></ion-icon>
+            <p class="ion-no-margin">Anterior</p>
+          </ion-row>
+        </ion-fab>
+        <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+          <ion-row
+            class="next ion-align-items-center"
+            (click)="nextSlides(remainUser.controls.presentation); presentationSubmitted = true"
+          >
+            <p class="ion-no-margin">Siguiente</p>
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </ion-row>
+        </ion-fab>
+      </ion-slide>
+      <ion-slide>
+        <ion-col>
+          <h1>Cuentanos lo que haces en tu tiempo libre</h1>
+          <ion-item
+            class="ion-padding-horizontal ion-margin-top"
+            [ngClass]="(remainUser.controls.hobbies.touched || hobbiesSubmitted) && remainUser.controls.hobbies.errors?.required ? 'errorInput' : ''"
+          >
+            <ion-textarea
+              formControlName="hobbies"
+              required
+              autocapitalize="sentences"
+            ></ion-textarea>
+          </ion-item>
+          <div class="ion-text-start ion-padding-horizontal">
+            <span
+              class="error"
+              *ngIf="(remainUser.controls.hobbies.touched || hobbiesSubmitted) && remainUser.controls.hobbies.errors?.required"
+            >
+              <ion-icon name="alert-circle-outline"></ion-icon> Tienes que decir
+              tus hobbies
+            </span>
+          </div>
+        </ion-col>
+        <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+          <ion-row
+            class="next ion-align-items-center"
+            (click)="previousSlides()"
+          >
+            <ion-icon name="arrow-back-outline"></ion-icon>
+            <p class="ion-no-margin">Anterior</p>
+          </ion-row>
+        </ion-fab>
+        <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+          <ion-row
+            class="next ion-align-items-center"
+            (click)="nextSlides(remainUser.controls.hobbies); hobbiesSubmitted = true"
+          >
+            <p class="ion-no-margin">Siguiente</p>
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </ion-row>
+        </ion-fab>
+      </ion-slide>
+      <ion-slide>
+        <ion-col>
+          <h1>Cuenta tus experiencias para entenderte mejor</h1>
+          <ion-item
+            class="ion-padding-horizontal ion-margin-top"
+            [ngClass]="(remainUser.controls.experiences.touched || experiencesSubmitted) && remainUser.controls.experiences.errors?.required ? 'errorInput' : ''"
+          >
+            <ion-textarea
+              formControlName="experiences"
+              required
+              autocapitalize="sentences"
+            ></ion-textarea>
+          </ion-item>
+          <div class="ion-text-start ion-padding-horizontal">
+            <span
+              class="error"
+              *ngIf="(remainUser.controls.experiences.touched || experiencesSubmitted) && remainUser.controls.experiences.errors?.required"
+            >
+              <ion-icon name="alert-circle-outline"></ion-icon> Tienes que decir
+              tus experiencias
+            </span>
+          </div>
+        </ion-col>
+        <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+          <ion-row
+            class="next ion-align-items-center"
+            (click)="previousSlides()"
+          >
+            <ion-icon name="arrow-back-outline"></ion-icon>
+            <p class="ion-no-margin">Anterior</p>
+          </ion-row>
+        </ion-fab>
+        <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+          <ion-row
+            class="next ion-align-items-center"
+            (click)="nextSlides(remainUser.controls.experiences); experiencesSubmitted = true"
+          >
+            <p class="ion-no-margin">Siguiente</p>
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </ion-row>
+        </ion-fab>
+      </ion-slide>
+      <ion-slide>
+        <ion-col>
+          <h1>Introduce una foto</h1>
+          <div
+            class="circle"
+            [ngClass]="(remainUser.controls.imageProfile.touched || imageProfileSubmitted) && remainUser.controls.imageProfile.errors?.required ? 'circle__error' : ''"
+          >
+            <div class="circle__inside">
+              <ion-icon name="add-outline"></ion-icon>
+              <p>Agrega una foto</p>
+              <ion-input
+                type="file"
+                formControlName="imageProfile"
+                (change)="getPhoto($event)"
+              ></ion-input>
+            </div>
+          </div>
+          <div class="ion-text-center ion-padding-horizontal">
+            <span
+              class="error"
+              *ngIf="(remainUser.controls.imageProfile.touched || imageProfileSubmitted) && remainUser.controls.imageProfile.errors?.required"
+            >
+              <ion-icon name="alert-circle-outline"></ion-icon> Tienes que poner
+              alguna imagen
+            </span>
+          </div>
+        </ion-col>
+        <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+          <ion-row
+            class="next ion-align-items-center"
+            (click)="previousSlides()"
+          >
+            <ion-icon name="arrow-back-outline"></ion-icon>
+            <p class="ion-no-margin">Anterior</p>
+          </ion-row>
+        </ion-fab>
+        <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+          <ion-row
+            class="next ion-align-items-center"
+            (click)="registerUser(); imageProfileSubmitted = true"
+          >
+            <p class="ion-no-margin">Terminar</p>
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </ion-row>
+        </ion-fab>
+      </ion-slide>
+    </ion-slides>
+  </form>
+</ion-content>

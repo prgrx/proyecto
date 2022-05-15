@@ -133,7 +133,6 @@ export class ModalCreatePage implements OnInit {
     this.previousImg = '';
     let photo: File = event.target.files[0];
     let size: number = +(event.target.files[0].size / 1024 / 1024).toFixed(2);
-    console.log(size + 'MB');
 
     if (size < 1) {
       if (photo != undefined) {
