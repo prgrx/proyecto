@@ -1,10 +1,10 @@
-import { Timestamp } from "rxjs";
+import { FieldValue } from "@angular/fire/firestore"
 import { Message } from "./message";
 
 export interface Conversation {
     id: string
-	createdAt: any
-	updatedAt: number
+	createdAt: FieldValue
+	updatedAt: FieldValue
 	lastMessage: string
 	createdBy: string
 	members: string[]

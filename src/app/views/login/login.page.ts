@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { IonInput } from '@ionic/angular';
-import { User } from 'src/shared/interfaces/auth';
+import { User } from 'src/shared/interfaces/user';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthService } from "../../../shared/services/auth-service.service";
+import { UserService } from 'src/shared/services/user.service';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class LoginPage implements OnInit {
   
   constructor(
     public authService: AuthService,
+    public userService: UserService,
     public router: Router,
     public ngFireAuth: AngularFireAuth,
   ) { }
@@ -34,7 +36,6 @@ export class LoginPage implements OnInit {
       let user : User = {
         uid: res.user.uid,
         email: email,
-        password: password,
         name: name
       };
       this.authService.setUserData(user);
@@ -50,6 +51,7 @@ export class LoginPage implements OnInit {
     this.authService.loginUser(email, password)
     .then((res) => {
       localStorage.setItem('user', JSON.stringify(res.user));
+      this.userService.update(res.user.uid,{isOnline: true});
       this.router.navigate(['app/profile']);
     })
     .catch((error) => {

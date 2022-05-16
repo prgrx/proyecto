@@ -1,13 +1,14 @@
 import { Injectable, NgZone } from '@angular/core';
 import * as auth from 'firebase/auth';
 
-import { User } from '../interfaces/auth';
+import { User } from 'src/shared/interfaces/user'
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class AuthService {
   constructor(
     public afStore: AngularFirestore,
     public ngFireAuth: AngularFireAuth,
+    public userService: UserService,
     public router: Router
   ) { }
 
@@ -36,18 +38,19 @@ export class AuthService {
     const userData: User = {
       uid: user.uid,
       email: user.email,
-      password : user.password,
       name : user.name
     };
+
     return userRef.set(userData, {
       merge: true,
     });
   }
 
-  signOut() {
+  async signOut(id) {
     return this.ngFireAuth.signOut().then(() => {
+      this.userService.update(id,{isOnline: false});
       localStorage.removeItem('user');
-      this.router.navigate(['login']);
+      this.router.navigate(['login'], { replaceUrl: true });
     });
   }
 }

@@ -6,15 +6,11 @@ const routes: Routes = [
   {
     path: '',
     component: MessagesPage,
-  },  {
-    path: 'message',
-    loadChildren: () => import('./message/message.module').then( m => m.MessagePageModule)
   },
   {
-    path: 'new',
-    loadChildren: () => import('./new/new.module').then( m => m.NewPageModule)
+    path: 'message',
+    loadChildren: () => import('./message/message.module').then( m => m.MessagePageModule)
   }
-
 ];
 
 @NgModule({

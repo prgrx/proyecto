@@ -18,33 +18,38 @@
     </ion-toolbar>
   </ion-header>
 
-  <!---->
-  
-  <ion-list (domChange)="onDomChange($event)">
 
-    <ion-item class="unhide"
-      *ngFor="let conv of conversations"
-      [routerLink]="[conv?.id]"
-    >
-      <ion-avatar slot="start">
-        <img [src]="conv?.members | excludeMyself | async | photoById | async"/>
-      </ion-avatar>
-      <ion-label>
-        <h2>
-          <ion-text>{{ conv?.members | excludeMyself | async | nameById | async }}</ion-text>
-        </h2>
-        <h3>{{conv?.lastMessage}}</h3>
-      </ion-label>
-    </ion-item>
+  <ion-list *ngIf="conversations?.length > 0; else noConver" (domChange)="onDomChange($event)">
+
+    <ion-item-sliding *ngFor="let conv of conversations; trackBy: trackByFn">
+      <ion-item [routerLink]="[conv?.id]">
+        <ion-avatar slot="start">
+          <img *ngIf="conv?.members | excludeMyself | async | photoById | async" class="smooth" [src]="conv?.members | excludeMyself | async | photoById | async"/>
+        </ion-avatar>
+        <ion-label>
+          <h2>
+            <ion-text class="smooth">{{ conv?.members | excludeMyself | async | nameById | async }}</ion-text>
+          </h2>
+          <h3 class="smooth">{{conv?.lastMessage}}</h3>
+        </ion-label>
+      </ion-item>
+      <ion-item-options>
+        <ion-item-option color="danger" (click)="delete(conv.id)">
+          <ion-icon slot="icon-only" name="trash-bin-outline"></ion-icon>
+          <!--Borrar-->
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
 
   </ion-list>
 
-  <!---->
+  <ng-template #noConver>
 
-  <!--<ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button [routerLink]="'new'">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>-->
+    <app-explore-container 
+      name="Ninguna conversación"
+      message="Puedes comenzar una conversación desde el perfil de un usuario o desde un producto por el que estés interesado."
+    ></app-explore-container>
+    
+  </ng-template>
 
 </ion-content>

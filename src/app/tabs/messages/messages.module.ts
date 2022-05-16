@@ -8,7 +8,6 @@ import { ExploreContainerComponentModule } from '../../components/explore-contai
 
 import { MessagesPageRoutingModule } from './messages-routing.module';
 import { PipesModule } from 'src/shared/pipes/pipes.module';
-import { DomChangeDirective } from 'src/shared/directives/dom-change.directive';
 
 @NgModule({
   imports: [
@@ -21,7 +20,6 @@ import { DomChangeDirective } from 'src/shared/directives/dom-change.directive';
   ],
   declarations: [
     MessagesPage,
-    DomChangeDirective
   ]
 })
 export class MessagesPageModule {}

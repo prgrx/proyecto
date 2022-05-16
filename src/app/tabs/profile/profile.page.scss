@@ -6,3 +6,26 @@
         margin-left: 15px;
     }
 }
+
+[contenteditable] {
+    outline: 0px solid transparent;
+}
+
+.selectable{
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+ion-card-title {
+    display: inline;
+}
+
+ion-card-content {
+    color: var(--ion-color-primary-contrast);
+    font-weight: 400;
+    font-size: medium;
+    text-align: justify;
+}

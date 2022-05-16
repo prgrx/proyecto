@@ -9,6 +9,9 @@ import { serverTimestamp } from '@angular/fire/firestore';
 import { LogedUser } from 'src/shared/constants/logedUser';
 import { Conversation } from 'src/shared/interfaces/conversation';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { DomChangeDirective } from 'src/shared/directives/dom-change.directive';
+import { User } from 'src/shared/interfaces/user';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-message',
@@ -20,23 +23,26 @@ export class MessagePage implements OnInit {
   @ViewChild('content') private content: any;
 
   converId : string
+  conversationData: Conversation
+
   conversation: Conversation
   converSub : Subscription
 
   messages: Array<Message>
-  messageSub: Subscription
+  messagesSub: Subscription
   
-  myself = LogedUser.uid;
+  myself = JSON.parse(localStorage.getItem('user')).uid;
   contactName: string
 
-  photo = Photo
+  photo : string
 
   msgToSend = new FormControl(''/*, Validators.requiredTrue*/)
 
   constructor(
     public cs : ConversationService,
     private activatedRoute : ActivatedRoute,
-    private af : AngularFirestore
+    private af : AngularFirestore,
+    public alertCrtl : AlertController
   ) { }
 
   ngOnInit() {
@@ -44,10 +50,10 @@ export class MessagePage implements OnInit {
 
     this.cs.getOneByIdData(this.converId)
       .then( async conversation => {
-        this.conversation = conversation.data() as Conversation;
+        this.conversationData = conversation.data() as Conversation;
 
         this.af.firestore.doc(`users/${
-          this.conversation.members.filter( x => x != LogedUser.uid )[0]
+          this.conversationData.members.filter( x => x != JSON.parse(localStorage.getItem('user')).uid )[0]
         }`).get().then( x => {
           this.contactName = x.data()['name']
           this.photo = x.data()['photo']
@@ -55,33 +61,37 @@ export class MessagePage implements OnInit {
 
       });
 
-      this.display(2000);
+    this.converSub = this.cs.getOneById(this.converId)
+      .subscribe ( conversation => {
+        this.conversation = conversation as Conversation;
+      });
+    
   }
 
   ionViewWillEnter(){
-
-    this.messageSub = this.cs.getMessages(this.converId, 25)
+    this.messagesSub = this.cs.getMessages(this.converId, 25)
       .subscribe ( messages => {
         this.messages = messages as Message[];
       });
-
+    this.scrollToBottom(3000);
   }
 
   ionViewDidEnter(){
-    this.scrollToBottom(500);
-    this.display(500);
+    this.scrollToBottom(300);
   }
 
   ionViewDidLeave(){
+    this.messagesSub.unsubscribe();
+    this.converSub.unsubscribe();
   }
 
   ngOnDestroy(){
-    this.messageSub.unsubscribe();
+    this.messagesSub.unsubscribe();
+    this.converSub.unsubscribe();
   }
 
   onDomChange($event: Event): void {
     this.scrollToBottom(0);
-    this.display(0);
   }
 
   sendMessage(){
@@ -90,9 +100,19 @@ export class MessagePage implements OnInit {
 
       let message = {
         content: this.msgToSend.value,
-        senderId: LogedUser.uid,
+        senderId: JSON.parse(localStorage.getItem('user')).uid,
         createdAt: serverTimestamp()
       } as Message;
+
+      // Comprobar si es un día distinto
+      let today = (new Date()).getDate();
+      let lastMessageDay = (new Date(this.conversation?.updatedAt['seconds']*1000)).getDate();
+      if (today != lastMessageDay){
+        this.cs.postMessage(this.converId, {
+          system: true,
+          createdAt: serverTimestamp()
+        } as Message);
+      }
 
       this.cs.postMessage(this.converId, message);
 
@@ -109,22 +129,47 @@ export class MessagePage implements OnInit {
 
   scrollToBottom(delay){
     setTimeout(() =>{
-      this.content.scrollToBottom(0);
+      this.content.scrollToBottom(300);
     }, delay);
   }
 
-  display(time:number){
-    setTimeout(()=>{
-      [].forEach.call(
-        document.getElementsByClassName('unhide'),
-        function (el) {
-          el.style.opacity = '1';
-          el.style.animationName = 'smooth';
-          el.style.animationDuration = '.5s';
-        }
-        );
-    },time)
+  trackByFn(item: any): number {
+    return item.serialNumber;
   }
 
+  delete(slidingItem: any, conversationId: string, messageId: string){
+    this.presentConfirm(
+      '¿Borrar mensaje?',
+      'Dejará de mostrarse para ambos usuarios.',
+      'Borrar',
+      async () => {
+        this.cs.deleteMessage(conversationId, messageId);
+        slidingItem.close();
+      }
+    );
+  }
+
+  async presentConfirm(
+    title:string, 
+    text:string, 
+    button:string, 
+    action:any
+  ) {
+    let alert = await this.alertCrtl.create({
+      header: title,
+      message: text,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: button,
+          handler: action
+        }
+      ]
+    });
+    await alert.present();
+  }
 
 }

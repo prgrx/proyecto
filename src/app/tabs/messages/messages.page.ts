@@ -5,6 +5,7 @@ import { UserService } from 'src/shared/services/user.service';
 import { Conversation } from 'src/shared/interfaces/conversation';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Photo } from 'src/shared/interfaces/dummyProfilePhoto';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-messages',
@@ -26,6 +27,7 @@ export class MessagesPage {
     private conversationService : ConversationService,
     public userService : UserService,
     public af : AngularFirestore,
+    public alertCtrl : AlertController
   ) {}
 
   ngOnInit(){
@@ -33,36 +35,57 @@ export class MessagesPage {
     .subscribe( (conversations) => {
       this.conversations = conversations as Conversation[]
     });
-    this.display(3000);
   }
 
   ionViewDidEnter(){
-    this.display(500);
   }
 
   ionViewWillLeave(){
-    //this.conversSub.unsubscribe();
   }
 
   onDomChange($event: Event): void {
-    this.display(500);
-  }
-
-  display(time:number){
-    setTimeout(()=>{
-      [].forEach.call(
-        document.getElementsByClassName('unhide'),
-        function (el) {
-          el.style.opacity = '1';
-          el.style.animationName = 'smooth';
-          el.style.animationDuration = '.5s';
-        }
-        );
-    },time)
   }
 
   ngOnDestroy(){
     this.conversSub.unsubscribe();
+  }
+
+  trackByFn(item: any): number {
+    return item.serialNumber;
+  }
+
+  delete(conversationId){
+    this.presentConfirm(
+      '¿Borrar conversación?',
+      'Se borrará para ambos usuarios.',
+      'Borrar',
+      () => {
+        this.conversationService.deleteConversation(conversationId);
+      }
+    );
+  }
+
+  async presentConfirm(
+    title:string, 
+    text:string, 
+    button:string, 
+    action:any
+  ) {
+    let alert = await this.alertCtrl.create({
+      header: title,
+      message: text,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: button,
+          handler: action
+        }
+      ]
+    });
+    await alert.present();
   }
 
 }

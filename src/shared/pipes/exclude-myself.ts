@@ -16,7 +16,7 @@ export class ExcludeMyselfPipe implements PipeTransform {
   async transform(array: Array<string>): Promise<string> {
 
     return array
-      .filter( x => x != LogedUser.uid )
+      .filter( x => x != JSON.parse(localStorage.getItem('user')).uid )
       //.map( async (x) => (await (await this.af.firestore.doc(`users/${x}`).get())).data()['name'] )
       .join(', ');
 

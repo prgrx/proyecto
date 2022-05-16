@@ -15,7 +15,7 @@ export class UserService {
     return this.firestore
       .collection('users',
       ref => ref
-        .where("uid", "!=", LogedUser.uid)
+        .where("uid", "!=", JSON.parse(localStorage.getItem('user')).uid)
       )
       .valueChanges();
   }
@@ -25,6 +25,12 @@ export class UserService {
       .collection('users')
       .doc(id)
       .valueChanges();
+  }
+
+  update(id,data){
+    this.firestore
+      .doc(`users/${id}`)
+      .update(data);
   }
 
 }

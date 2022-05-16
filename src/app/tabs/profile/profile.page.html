@@ -3,6 +3,14 @@
     <ion-title>
       Perfil
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logOut()">
+        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -16,11 +24,16 @@
   <div id="perfil-top">
     <ion-card-header id="perfil-top-content">
       <ion-avatar>
-        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+        <img *ngIf="user" [src]="user?.photo" class="smooth">
       </ion-avatar>
       <div>
-        <ion-card-title>{{user?.name}}</ion-card-title>
-        <ion-card-subtitle>Online</ion-card-subtitle>
+        <ion-card-title class="smooth">
+          {{user?.name}}
+          <ion-icon *ngIf="user?.isVerified" name="checkmark-circle-outline"></ion-icon>
+        </ion-card-title>
+        <ion-card-subtitle [color]="user?.isOnline ? 'success' : 'danger'">
+          <ion-text *ngIf="user" class="smooth">{{user?.isOnline ? 'On' : 'Off'}}line</ion-text>
+        </ion-card-subtitle>
       </div>
     </ion-card-header>
   </div>
@@ -28,46 +41,44 @@
   <ion-card>
     <ion-card-header>
       <ion-card-title>Presentación</ion-card-title>
+      &nbsp;
+      <ion-text (click)="edit('presentation')" class="selectable" id="edit-presentation">Editar</ion-text>
+      &nbsp;
+      <ion-text (click)="cancel('presentation')" class="hidden selectable" id="cancel-presentation">Cancelar</ion-text>
     </ion-card-header>
     
-    <ion-card-content>
-      xxxxxxx xxxxx x x xxxxxx xxxxx xx xxxxxxx xx xxxxxx xxxx xx xxxxx xx xxxx. xxxxxx
-      xxxxx, xxx xxxx, xxxxx,xxxxxxx xxx xxxxxxxx xxxxxxx xx xxxx.
+    <ion-card-content id="presentation">
+      {{user?.presentation}}
     </ion-card-content>
   </ion-card>
 
   <ion-card>
     <ion-card-header>
       <ion-card-title>Aficiones</ion-card-title>
+      &nbsp;
+      <ion-text (click)="edit('hobbies')" class="selectable" id="edit-hobbies">Editar</ion-text>
+      &nbsp;
+      <ion-text (click)="cancel('hobbies')" class="hidden selectable" id="cancel-hobbies">Cancelar</ion-text>
+      
     </ion-card-header>
     
-    <ion-card-content>
-      xxxxxxx xxxxx x x xxxxxx xxxxx xx xxxxxxx xx xxxxxx xxxx xx xxxxx xx xxxx. xxxxxx
-      xxxxx, xxx xxxx, xxxxx,xxxxxxx xxx xxxxxxxx xxxxxxx xx xxxx.
+    <ion-card-content id="hobbies">
+      {{user?.hobbies}}
     </ion-card-content>
   </ion-card>
 
   <ion-card>
     <ion-card-header>
       <ion-card-title>Experiencias</ion-card-title>
+      &nbsp;
+      <ion-text (click)="edit('experiences')" class="selectable" id="edit-experiences">Editar</ion-text>
+      &nbsp;
+      <ion-text (click)="cancel('experiences')" class="hidden selectable" id="cancel-experiences">Cancelar</ion-text>
     </ion-card-header>
     
-    <ion-card-content>
-      xxxxxxx xxxxx x x xxxxxx xxxxx xx xxxxxxx xx xxxxxx xxxx xx xxxxx xx xxxx. xxxxxx
-      xxxxx, xxx xxxx, xxxxx,xxxxxxx xxx xxxxxxxx xxxxxxx xx xxxx.
+    <ion-card-content id="experiences">
+      {{user?.experiences}}
     </ion-card-content>
   </ion-card>
-
-  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-    <ion-fab-button>
-      <ion-icon name="log-out-outline" (click)="authService.signOut()"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button>
-      <ion-icon name="pencil"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 
 </ion-content>
