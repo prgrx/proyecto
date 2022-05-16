@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonSlides, ModalController } from '@ionic/angular';
+import { IonSlides, ModalController, ToastController } from '@ionic/angular';
 import { User } from 'src/shared/interfaces/user';
 import { AuthService } from 'src/shared/services/auth-service.service';
 import { Timestamp } from '@angular/fire/firestore';
@@ -38,6 +38,7 @@ export class ModalRegisterPage implements OnInit {
     private authService: AuthService,
     private router: Router,
     private modalController: ModalController,
+    private toastController: ToastController
   ) {}
 
 
@@ -117,8 +118,17 @@ export class ModalRegisterPage implements OnInit {
         this.router.navigate(['app/profile']);
         this.modalController.dismiss();
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        this.showToast('Ya hay una cuenta creada con ese correo', 5)
       });
+  }
+
+  async showToast(message: string, seconds: number): Promise<void> {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: seconds * 1000,
+      color: 'light',
+    });
+    toast.present();
   }
 }
