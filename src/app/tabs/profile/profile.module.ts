@@ -6,6 +6,7 @@ import { ProfilePage } from './profile.page';
 import { ExploreContainerComponentModule } from '../../components/explore-container/explore-container.module';
 
 import { ProfilePageRoutingModule } from './profile-routing.module';
+import { VerificationTagComponentModule } from 'src/app/components/verification-tag/verification-tag.module';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
+    VerificationTagComponentModule,
     ProfilePageRoutingModule
   ],
   declarations: [ProfilePage]

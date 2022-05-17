@@ -3,6 +3,7 @@ import { AuthService } from 'src/shared/services/auth-service.service';
 import { Subscription } from 'rxjs';
 import { User } from 'src/shared/interfaces/user';
 import { UserService } from 'src/shared/services/user.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',
@@ -15,11 +16,13 @@ export class ProfilePage {
   user: User
   userSub : Subscription
   userVerified : boolean = false
+  photoEventSet : boolean = false
 
   constructor(
     public authService: AuthService,
     public userService: UserService,
-    private _elementRef: ElementRef
+    private _elementRef: ElementRef, 
+    public alertCtrl : AlertController
   ) {}
 
   ngOnInit() {
@@ -59,6 +62,8 @@ export class ProfilePage {
       }
     });
 
+    el.spellcheck = false;
+
     if(el.contentEditable == 'true'){
       editBtn.innerText = 'Editar';
       this.userService.update(
@@ -84,6 +89,75 @@ export class ProfilePage {
     cancelBtn.style.display = 'none';
   }
 
+  changePhoto(input){
+    let fileInput = this.element(input);
+
+    fileInput.click();
+
+    if(!this.photoEventSet){
+      this.photoEventSet = true;
+
+      fileInput.addEventListener("change", () =>{
+
+        let photo = fileInput.files[0];
+
+        let fr = new FileReader();
+        fr.readAsDataURL(photo);
+        fr.onload = () => {
+
+          if (fr.result != null) {
+            let base64 = fr.result.toString();
+
+            this.presentConfirm(
+              '¿Cambiar foto de perfil?',
+              `
+              <div class="ion-text-center">
+                  <img src="${base64}" style="height: 50px !important; width: 50px !important; border-radius: 50%; margin:0 auto;">
+              </div>
+              `
+              ,
+              'Cambiar',
+              async () => {
+                this.uploadPhoto(base64);
+              }
+            );
+
+          }
+
+        };
+        
+      });
+
+    }
+
+
+
+    /*
+    this.previousImg = '';
+    let photo: File = event.target.files[0];
+    let size: number = +(event.target.files[0].size / 1024 / 1024).toFixed(2);
+    console.log(size + 'MB');
+
+    if (size < 1) {
+      if (photo != undefined) {
+        let reader = new FileReader();
+        reader.readAsDataURL(photo);
+        reader.onload = () => {
+          if (reader.result != null) {
+            this.imgBase64 = reader.result.toString();
+            this.setImgBackground(this.imgBase64);
+          }
+        };
+      }
+    }*/
+  }
+
+  uploadPhoto(photo:string){
+    this.userService.update(this.userId,{
+      photo: photo
+    });
+  }
+
   element(query:string){
     return this
       ._elementRef
@@ -91,5 +165,27 @@ export class ProfilePage {
       .querySelector(query);
   }
 
+  async presentConfirm(
+    title:string, 
+    text:string, 
+    button:string, 
+    action:any
+  ) {
+    let alert = await this.alertCtrl.create({
+      header: title,
+      message: text,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: button,
+          handler: action
+        }
+      ]
+    });
+    await alert.present();
+  }
 
 }

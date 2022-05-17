@@ -23,13 +23,14 @@
 
   <div id="perfil-top">
     <ion-card-header id="perfil-top-content">
-      <ion-avatar>
-        <img *ngIf="user" [src]="user?.photo" class="smooth">
+      <ion-avatar (click)="changePhoto('#photo-input')" class="selectable" [ngClass]="user?.isOnline ?  'online' : 'offline'">
+        <img *ngIf="user" [src]="user?.photo" class="smooth" id="photo-image">
       </ion-avatar>
+      <input type="file" class="hidden" id="photo-input" accept="image/png, image/jpeg">
       <div>
-        <ion-card-title class="smooth">
+        <ion-card-title class="smooth" id="user-verified">
           {{user?.name}}
-          <ion-icon *ngIf="user?.isVerified" name="checkmark-circle-outline"></ion-icon>
+          <verification-tag *ngIf="user?.isVerified"></verification-tag>
         </ion-card-title>
         <ion-card-subtitle [color]="user?.isOnline ? 'success' : 'danger'">
           <ion-text *ngIf="user" class="smooth">{{user?.isOnline ? 'On' : 'Off'}}line</ion-text>
