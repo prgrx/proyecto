@@ -66,7 +66,7 @@ export class ModalRegisterPage implements OnInit {
 
   getPhoto(event: any): void {
     let photo: File = event.target.files[0];
-    let size: number = +(event.target.files[0].size / 1024 / 1024).toFixed(2);
+    let size: number = +(photo.size / 1024 / 1024).toFixed(2);
 
     if (size < 1) {
       if (photo != undefined) {
@@ -79,6 +79,8 @@ export class ModalRegisterPage implements OnInit {
           }
         };
       }
+    }else {
+      this.showToast('No se aceptan imagenes de mas de 1MB', 5);
     }
   }
 
