@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-import { IonInput, ModalController } from '@ionic/angular';
+import { IonInput, ModalController, ToastController } from '@ionic/angular';
 import { User } from 'src/shared/interfaces/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthService } from "../../../shared/services/auth-service.service";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalRegisterPage } from './modal-register/modal-register.page';
+import { FirebaseError } from '@angular/fire/app';
 
 
 @Component({
@@ -16,6 +17,7 @@ import { ModalRegisterPage } from './modal-register/modal-register.page';
 export class LoginPage implements OnInit {
 
   segmentModel: string = 'login';
+  emailValid: boolean = true;
   registerSubmitted: boolean = false;
   registerForm = new FormGroup({
     email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^[^@]+@[^@]+\.[^@]+$/)])),
@@ -26,7 +28,8 @@ export class LoginPage implements OnInit {
     public authService: AuthService,
     public router: Router,
     public ngFireAuth: AngularFireAuth,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private toastController: ToastController
   ) { }
 
   ngOnInit() { }
@@ -56,6 +59,32 @@ export class LoginPage implements OnInit {
     .catch((error) => {
       console.log(error.message);
     });
+  }
+
+  comprobateEmail(): void {
+    this.authService
+      .registerUser(
+        this.registerForm.controls.email.value,
+        this.registerForm.controls.password.value
+        ).then(() => {
+          this.openModalRegister();
+        }).catch((error : FirebaseError) => {
+        this.emailValid = false;
+        if (error.message.includes('formatted')) {
+          this.showToast('El correo no puede estar vacío', 5);
+        }else {
+          this.showToast('Ya hay una cuenta creada con ese correo', 5)
+        }
+      })
+  }
+
+  async showToast(message: string, seconds: number): Promise<void> {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: seconds * 1000,
+      color: 'light',
+    });
+    toast.present();
   }
 
 }

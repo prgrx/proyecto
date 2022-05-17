@@ -120,9 +120,6 @@ export class ModalRegisterPage implements OnInit {
         this.router.navigate(['app/profile']);
         this.modalController.dismiss();
       })
-      .catch(() => {
-        this.showToast('Ya hay una cuenta creada con ese correo', 5)
-      });
   }
 
   async showToast(message: string, seconds: number): Promise<void> {
