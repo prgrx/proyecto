@@ -61,8 +61,9 @@ export class CommentsPage implements OnInit {
       )
       .valueChanges()
       .subscribe((comments: Comment[]) => {
-        if (comments.length === 0) return;
-        if (comments[0].date === null) return;
+        if (comments.length > 0) {
+          if (comments[0].date === null) return;
+        }
         this.comments = comments;
       });
   }
@@ -94,6 +95,7 @@ export class CommentsPage implements OnInit {
             this.firestore
             .doc('/products/' + this.product.id + '/comments/' + comment.id)
             .delete();
+            this.getAllComments();
             this.showToast('¡Se ha eliminado el comentario correctamente!', 5);
           },
         },
