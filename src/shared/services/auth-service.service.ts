@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 import { Injectable, NgZone } from '@angular/core';
 import * as auth from 'firebase/auth';
 
 import { User } from 'src/shared/interfaces/user'
+=======
+import { Injectable } from '@angular/core';
+import { User } from '../interfaces/user';
+>>>>>>> origin/productsImprovement
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
@@ -31,14 +36,24 @@ export class AuthService {
     return this.ngFireAuth.createUserWithEmailAndPassword(email, password);
   }
 
-  setUserData(user) {
+  setUserData(user: User) {
     const userRef: AngularFirestoreDocument<any> = this.afStore.doc(
       `users/${user.uid}`
     );
     const userData: User = {
       uid: user.uid,
       email: user.email,
-      name : user.name
+      name: user.name,
+      birthday: user.birthday,
+      presentation: user.presentation,
+      hobbies: user.hobbies,
+      experiences: user.experiences,
+      photo: user.photo,
+      isAdmin: false,
+      isOnline: true,
+      isBanned: false,
+      isVerified: false,
+      blocks: []
     };
 
     return userRef.set(userData, {

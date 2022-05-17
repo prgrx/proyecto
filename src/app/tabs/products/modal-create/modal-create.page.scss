@@ -41,11 +41,10 @@ ion-content{
     }
 
     &-button {
-      --padding-top: 1.25rem;
-      --padding-end: 1rem;
+      padding-top: 2rem;
 
       ion-button {
-        width: 10rem;
+        width: 11rem;
         height: 2.5rem;
         letter-spacing: 0 !important;
       }
@@ -67,4 +66,7 @@ ion-content{
   }
 }
 
-
+.close-icon {
+  font-size: 2rem;
+  padding-right: 0.5rem;
+} 

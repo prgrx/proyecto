@@ -1,39 +1,60 @@
 <ion-header>
   <ion-toolbar>
-    <ion-segment 
-      value="options" 
-      [(ngModel)]="segmentModel" 
-    >
-      <ion-segment-button value="login">
-        Login
-      </ion-segment-button>
-      <ion-segment-button value="signup">
-        Registrarse
-      </ion-segment-button>
+    <ion-segment value="options" [(ngModel)]="segmentModel">
+      <ion-segment-button value="login"> Login </ion-segment-button>
+      <ion-segment-button value="signup"> Registrarse </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-card *ngIf="segmentModel === 'signup'">
-    <form>
+    <form [formGroup]="registerForm">
       <ion-title>Registrar</ion-title>
-      <ion-item lines="full">
+      <ion-item
+        lines="full"
+        [ngClass]="(registerForm.controls.email.touched || registerSubmitted) && registerForm.controls.email.errors?.required ? 'errorInput' : ''"
+      >
         <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" #email required></ion-input>
+        <ion-input type="email" formControlName="email"></ion-input>
       </ion-item>
-      <ion-item lines="full">
-        <ion-label position="floating">Nombre</ion-label>
-        <ion-input type="text" #name required></ion-input>
-      </ion-item>
-      <ion-item lines="full">
+      <span
+        class="error ion-padding"
+        *ngIf="registerForm.controls.email.errors?.pattern"
+      >
+        <ion-icon name="alert-circle-outline"></ion-icon> Tiene que ser un email
+        válido
+      </span>
+      <span
+        class="error ion-padding"
+        *ngIf="(registerForm.controls.email.touched || registerSubmitted) && registerForm.controls.email.errors?.required"
+      >
+        <ion-icon name="alert-circle-outline"></ion-icon> Tienes que poner un
+        email
+      </span>
+      <ion-item
+        lines="full"
+        [ngClass]="(registerForm.controls.password.touched || registerSubmitted) && registerForm.controls.password.errors?.required ? 'errorInput' : ''"
+      >
         <ion-label position="floating">Password</ion-label>
-        <ion-input type="password" #password required></ion-input>
+        <ion-input type="password" formControlName="password"></ion-input>
       </ion-item>
+      <span
+        class="error ion-padding"
+        *ngIf="registerForm.controls.password.errors?.minlength"
+      >
+        <ion-icon name="alert-circle-outline"></ion-icon> Tiene que tener 6
+        carácteres
+      </span>
+      <span
+        class="error ion-padding"
+        *ngIf="(registerForm.controls.password.touched || registerSubmitted) && registerForm.controls.password.errors?.required"
+      >
+        <ion-icon name="alert-circle-outline"></ion-icon> Tiene que tener 6
+        carácteres
+      </span>
       <ion-item>
-        <ion-button type="submit" (click)="signUp(email, password, name)" color="danger">Submit</ion-button>
-      </ion-item>
-      <ion-item>
+        <ion-button type="submit" color="danger" (click)="openModalRegister()">Submit</ion-button>
       </ion-item>
     </form>
   </ion-card>
@@ -50,7 +71,12 @@
         <ion-input type="password" #password2 required></ion-input>
       </ion-item>
       <ion-item>
-        <ion-button type="submit" (click)="loginUser(email2, password2)" color="danger">Submit</ion-button>
+        <ion-button
+          type="submit"
+          (click)="loginUser(email2, password2)"
+          color="danger"
+          >Submit</ion-button
+        >
       </ion-item>
     </form>
   </ion-card>

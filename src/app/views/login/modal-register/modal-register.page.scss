@@ -1,0 +1,100 @@
+form, ion-slides {
+  height: 100%;
+}
+
+ion-input {
+  &::part(native) {
+    background: rgba(255, 255, 255, 0.1) !important;
+  }
+}
+
+ion-textarea{
+  height: 12rem;
+  
+  ::ng-deep .textarea-wrapper {
+    height: 100%;
+
+    textarea {
+      height: 100%;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+}
+
+.error {
+  color: var(--ion-color-danger-tint);
+  font-size: 0.9rem;
+
+  ion-icon {
+    vertical-align: text-top;
+    padding-top: 1px;
+  }
+}
+
+.errorInput {
+  &::part(native) {
+    border-bottom: 1px solid var(--ion-color-danger-tint);
+  }
+}
+
+.next {
+  color: var(--ion-color-primary);
+  margin-bottom: 1.5rem;
+  margin-top: 0.5rem;
+
+  p {
+    margin-right: 0.3rem;
+  }
+}
+
+.circle {
+  height: 17rem;
+  width: 17rem;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: auto;
+  background-color: transparent;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  &__inside {
+    position: relative;
+    height: 100%;
+    padding-top: 3rem;
+    background-color: var(--ion-item-background);
+
+    ion-icon, p {
+      color: rgb(90, 90, 90);
+    }
+
+    ion-icon {
+      font-size: 5rem;
+    }
+
+    p {
+      font-size: 2rem;
+    }
+
+    ion-input {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      z-index: 100;
+
+      ::ng-deep input {
+        height: 100%;
+      }
+    }
+  }
+
+  &__error {
+    border: 3px solid var(--ion-color-danger-tint);
+  }
+}

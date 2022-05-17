@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-import { IonInput } from '@ionic/angular';
 import { User } from 'src/shared/interfaces/user';
+import { UserService } from 'src/shared/services/user.service';
+import { IonInput, ModalController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthService } from "../../../shared/services/auth-service.service";
-import { UserService } from 'src/shared/services/user.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ModalRegisterPage } from './modal-register/modal-register.page';
 
 
 @Component({
@@ -14,35 +16,35 @@ import { UserService } from 'src/shared/services/user.service';
 })
 export class LoginPage implements OnInit {
 
-  segmentModel = 'login';
-  
+  segmentModel: string = 'login';
+  registerSubmitted: boolean = false;
+  registerForm = new FormGroup({
+    email: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^[^@]+@[^@]+\.[^@]+$/)])),
+    password: new FormControl('', Validators.compose([Validators.required, Validators.minLength(6)]))
+  });
+
   constructor(
     public authService: AuthService,
     public userService: UserService,
     public router: Router,
     public ngFireAuth: AngularFireAuth,
+    private modalController: ModalController
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
-  signUp(emailInput: IonInput, passwordInput: IonInput, nameInput: IonInput){
-    let email: string = emailInput.value.toString();
-    let password: string = passwordInput.value.toString();
-    let name: string = nameInput.value.toString();
-
-    this.authService.registerUser(email, password).then((res) => {
-      localStorage.setItem('user', JSON.stringify(res.user));
-      let user : User = {
-        uid: res.user.uid,
-        email: email,
-        name: name
-      };
-      this.authService.setUserData(user);
-    }).catch((error) => {
-      console.log(error);
-    });
-    this.router.navigate(['app/profile']);
+  async openModalRegister(){
+    this.registerSubmitted = true;
+    if (this.registerForm.valid) {
+      const modal = await this.modalController.create({
+        component: ModalRegisterPage,
+        componentProps: {
+          registerForm: this.registerForm,
+        }
+      });
+  
+      await modal.present();
+    }
   }
 
   loginUser(emailInput: IonInput, passwordInput: IonInput){

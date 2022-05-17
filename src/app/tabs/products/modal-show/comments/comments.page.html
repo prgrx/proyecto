@@ -1,17 +1,17 @@
-<form [formGroup]="commentGroup" (submit)="addComment()" class="mb-4">
-  <ion-item lines="full" class="item__input mb-1">
+<form [formGroup]="commentGroup" (submit)="addComment()">
+  <ion-item lines="full" class="item__input">
     <ion-input
       type="text"
       formControlName="comment"
       autocapitalize="on"
       placeholder="Inserte un Comentario"
     ></ion-input>
-    <ion-button slot="end" fill="clear" class="btn-send ms-3" type="submit">
+    <ion-button slot="end" fill="clear" class="btn-send ion-margin-start" type="submit">
       <ion-icon name="send-outline"></ion-icon>
     </ion-button>
   </ion-item>
   <span
-    class="error ion-padding ps-0"
+    class="error ion-padding"
     *ngIf="commentGroup.controls.comment.hasError('required') && commentGroup.controls.comment.touched"
   >
     <ion-icon name="alert-circle-outline"></ion-icon> El comentario no puede estar vacío
@@ -19,39 +19,39 @@
 </form>
 <div class="comments">
   <div
-    class="comment border-bottom mb-4"
-    *ngFor="let comment of comments; trackBy: trackByFn;let i of index"
+    class="comment border-bottom"
+    *ngFor="let comment of comments; trackBy: trackByFn;"
   >
-    <div class="comment__top mb-2 d-flex flex-row justify-content-between">
-      <div class="comment__top-user d-flex flex-row">
-        <ion-avatar slot="start">
+    <ion-row class="comment__top ion-justify-content-between">
+      <ion-row class="comment__top-user ion-align-items-center">
+        <ion-avatar>
           <img
-            src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
+            [src]="comment.user_id | photoById | async"
             alt="Avatar of User"
           />
         </ion-avatar>
-        <div class="comment__top-user-names d-flex flex-column">
-          <ion-label class="ms-2">
+        <ion-col class="comment__top-user-names">
+          <ion-label>
             <h2>{{comment.user_id | nameById | async}}</h2>
             <p>Verificado o no verificado</p>
           </ion-label>
-        </div>
-      </div>
-      <div class="comment__top-info d-flex flex-row">
-        <p class="mb-0 me-3 align-self-center">
+        </ion-col>
+      </ion-row>
+      <ion-row class="comment__top-info">
+        <p class="ion-margin-right ion-align-self-center">
           {{comment.date?.['seconds'] * 1000 | date:'shortDate'}}
         </p>
-        <div
-          class="likes d-flex flex-row align-items-center"
+        <ion-row
+          class="likes ion-align-items-center"
           [ngClass]="comment.likes.includes(user_id) ? 'liked' : ''"
           role="button"
           (click)="likeComment(comment)"
         >
-          <p class="mb-0 me-1">{{comment.likes.length}}</p>
+          <p>{{comment.likes.length}}</p>
           <ion-icon name="thumbs-up-outline"></ion-icon>
-        </div>
-        <div
-          class="ms-2 d-flex flex-row align-items-center"
+        </ion-row>
+        <ion-row
+          class="ion-align-items-center"
           role="button"
           (click)="openAlertDelete(comment)"
         >
@@ -60,11 +60,11 @@
             name="trash-outline"
             class="remove self-align-items"
           ></ion-icon>
-        </div>
-      </div>
-    </div>
-    <div class="comment__bottom ms-4">
-      <p class="mb-2">{{comment.content}}</p>
+        </ion-row>
+      </ion-row>
+    </ion-row>
+    <div class="comment__bottom">
+      <p>{{comment.content}}</p>
     </div>
   </div>
 </div>
