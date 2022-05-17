@@ -1,12 +1,5 @@
-<<<<<<< HEAD
-import { Injectable, NgZone } from '@angular/core';
-import * as auth from 'firebase/auth';
-
-import { User } from 'src/shared/interfaces/user'
-=======
 import { Injectable } from '@angular/core';
 import { User } from '../interfaces/user';
->>>>>>> origin/productsImprovement
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
