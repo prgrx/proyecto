@@ -95,7 +95,6 @@ export class CommentsPage implements OnInit {
             this.firestore
             .doc('/products/' + this.product.id + '/comments/' + comment.id)
             .delete();
-            this.getAllComments();
             this.showToast('¡Se ha eliminado el comentario correctamente!', 5);
           },
         },
