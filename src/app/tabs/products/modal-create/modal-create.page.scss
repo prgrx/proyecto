@@ -67,4 +67,8 @@ ion-content{
   }
 }
 
-
+.errorInput {
+  &::part(native) {
+    border-bottom: 1px solid var(--ion-color-danger-tint);
+  }
+}
