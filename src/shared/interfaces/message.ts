@@ -5,7 +5,7 @@ export interface Message{
     content?: string
 	createdAt: FieldValue
 	senderId?: string
-	productId?: string // USAR PARA CUANDO SE CONTACTE DESDE UNA FICHA DE PRODUCTO
+	productId?: string 
 	deleted?: boolean
-	system: boolean
+	system?: boolean
 }

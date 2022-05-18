@@ -9,4 +9,5 @@ export interface Conversation {
 	createdBy: string
 	members: string[]
 	messages: Message[]
+	viewedBy?: object
 }
