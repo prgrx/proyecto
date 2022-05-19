@@ -14,6 +14,10 @@ const routes: Routes = [
   },  {
     path: 'modal-register',
     loadChildren: () => import('./modal-register/modal-register.module').then( m => m.ModalRegisterPageModule)
+  },
+  {
+    path: 'logo',
+    loadChildren: () => import('./logo/logo.module').then( m => m.LogoPageModule)
   }
 
 ];

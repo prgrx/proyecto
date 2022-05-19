@@ -1,5 +1,11 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { IonSlides, ModalController, ToastController } from '@ionic/angular';
 import { User } from 'src/shared/interfaces/user';
@@ -12,7 +18,6 @@ import { Timestamp } from '@angular/fire/firestore';
   styleUrls: ['./modal-register.page.scss'],
 })
 export class ModalRegisterPage implements OnInit {
-
   @Input() registerForm: FormGroup;
   remainUser: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -33,7 +38,7 @@ export class ModalRegisterPage implements OnInit {
   segmentModel: string;
   today: string = new Date().toISOString();
   @ViewChild('slides') slides: IonSlides;
-  
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -41,14 +46,19 @@ export class ModalRegisterPage implements OnInit {
     private toastController: ToastController
   ) {}
 
+  ngOnInit() {}
 
-  ngOnInit() { }
-  
   ionViewDidEnter() {
     this.slides.lockSwipeToNext(true);
   }
 
   async backToRegister(): Promise<void> {
+    (
+      await this.authService.loginUser(
+        this.registerForm.controls.email.value,
+        this.registerForm.controls.password.value
+      )
+    ).user.delete();
     this.modalController.dismiss();
   }
 
@@ -79,7 +89,7 @@ export class ModalRegisterPage implements OnInit {
           }
         };
       }
-    }else {
+    } else {
       this.showToast('No se aceptan imagenes de mas de 1MB', 5);
     }
   }
@@ -93,7 +103,7 @@ export class ModalRegisterPage implements OnInit {
   }
 
   registerUser() {
-    if (!this.imageProfileSubmitted) return
+    if (!this.imageProfileSubmitted) return;
     this.authService
       .registerUser(
         this.registerForm.controls.email.value,
@@ -105,10 +115,24 @@ export class ModalRegisterPage implements OnInit {
           uid: res.user.uid,
           email: this.registerForm.controls.email.value,
           name: this.remainUser.controls.name.value,
-          birthday: new Timestamp(Math.floor(new Date(this.remainUser.controls.birthday.value).getTime() / 1000), 0),
-          presentation: this.remainUser.controls.presentation.value.replaceAll('\n','\\n'),
-          hobbies: this.remainUser.controls.hobbies.value.replaceAll('\n','\\n'),
-          experiences: this.remainUser.controls.experiences.value.replaceAll('\n','\\n'),
+          birthday: new Timestamp(
+            Math.floor(
+              new Date(this.remainUser.controls.birthday.value).getTime() / 1000
+            ),
+            0
+          ),
+          presentation: this.remainUser.controls.presentation.value.replaceAll(
+            '\n',
+            '\\n'
+          ),
+          hobbies: this.remainUser.controls.hobbies.value.replaceAll(
+            '\n',
+            '\\n'
+          ),
+          experiences: this.remainUser.controls.experiences.value.replaceAll(
+            '\n',
+            '\\n'
+          ),
           photo: this.imageProfile,
           isAdmin: false,
           isOnline: true,
@@ -119,7 +143,7 @@ export class ModalRegisterPage implements OnInit {
         this.authService.setUserData(user);
         this.router.navigate(['app/profile']);
         this.modalController.dismiss();
-      })
+      });
   }
 
   async showToast(message: string, seconds: number): Promise<void> {
