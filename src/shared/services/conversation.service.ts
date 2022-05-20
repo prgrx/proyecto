@@ -125,6 +125,7 @@ export class ConversationService {
     }
 
     this.router.navigate(['app/messages/'+conversationId]);
+    return
   }
 
 }
