@@ -10,10 +10,11 @@
   <ion-toolbar>
     <ion-segment value="options" [(ngModel)]="segmentProducts">
       <ion-segment-button value="allProducts">
-        Todos los productos
+        Todos
       </ion-segment-button>
       <ion-segment-button value="myProducts">
         Mis productos
+        <i *ngIf="productsNotifications > 0" class="circle"></i>
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
@@ -57,9 +58,12 @@
       <ion-row *ngIf="segmentProducts != 'allProducts'">
         <ion-col class="ion-no-padding" *ngFor="let product of userProducts">
           <ion-card
-            class="ion-no-margin"
-            (click)="openModalShowProduct(product)"
+            class="ion-no-margin custom-class"
+            (click)="openModalShowProduct(product); setRead(product.id)"
           >
+          
+            <ion-badge *ngIf="product.unread > 0" color="danger">{{product.unread}}</ion-badge>
+
             <div class="imgContainer ion-text-center">
               <img [src]="product.image" alt="Imagen del producto" />
             </div>

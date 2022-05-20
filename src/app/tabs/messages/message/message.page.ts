@@ -116,9 +116,14 @@ export class MessagePage implements OnInit {
 
       this.cs.postMessage(this.converId, message);
 
+      //Modificar mensajes leídos y no leídos
+      let myself = JSON.parse(localStorage.getItem('user')).uid;
+
       this.cs.updateConversation(this.converId,{
         updatedAt: serverTimestamp(),
-        lastMessage: this.msgToSend.value
+        lastMessage: this.msgToSend.value,
+        [myself]: 0,
+        [this.conversation.members.find(x=>x!=myself)]: ++this.conversation[this.conversation.members.find(x=>x!=myself)]
       });
 
       this.msgToSend.setValue('');
@@ -148,6 +153,12 @@ export class MessagePage implements OnInit {
       }
     );
   }
+
+  clearUnread(conversationId){
+    this.cs.updateConversation(conversationId,{
+      [JSON.parse(localStorage.getItem('user')).uid]: 0
+    });
+}
 
   async presentConfirm(
     title:string, 

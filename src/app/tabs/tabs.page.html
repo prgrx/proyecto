@@ -7,11 +7,13 @@
     </ion-tab-button>
 
     <ion-tab-button tab="messages">
+      <ion-badge *ngIf="conversations > 0" color="danger"></ion-badge>
       <ion-icon name="chatbox-outline"></ion-icon>
       <ion-label>Chats</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="products">
+      <ion-badge *ngIf="products > 0" color="danger"></ion-badge>
       <ion-icon name="grid-outline"></ion-icon>
       <ion-label>Productos</ion-label>
     </ion-tab-button>

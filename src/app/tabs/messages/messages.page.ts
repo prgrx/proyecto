@@ -37,6 +37,10 @@ export class MessagesPage {
     });
   }
 
+  ionViewWillEnter(){
+    this.user = this.userService.getMyUserId();
+  }
+
   ionViewDidEnter(){
   }
 
@@ -63,6 +67,12 @@ export class MessagesPage {
         this.conversationService.deleteConversation(conversationId);
       }
     );
+  }
+
+  clearUnread(conversationId){
+          this.conversationService.updateConversation(conversationId,{
+            [this.userService.getMyUserId()]: 0
+          });
   }
 
   async presentConfirm(

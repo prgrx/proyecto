@@ -5,6 +5,7 @@ import { MenuController, ModalController } from '@ionic/angular';
 import { OrderByDirection } from 'firebase/firestore';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/shared/interfaces/product';
+import { ProductService } from 'src/shared/services/product.service';
 import { ModalCreatePage } from './modal-create/modal-create.page';
 import { ModalShowPage } from './modal-show/modal-show.page';
 
@@ -34,15 +35,26 @@ export class ProductsPage {
   limitAllProducts: number = 6;
   limitUserProducts: number = 6;
   skeletons: number[] = [0, 1, 2, 3]
+  productsNotifications: number = 0;
+  notificationSub: Subscription;
 
   constructor(
     private modalController: ModalController,
     private firestore: AngularFirestore,
-    private menuController: MenuController
+    private menuController: MenuController,
+    private productService: ProductService
   ) {}
 
   ngOnInit(): void {
     this.getAllProducts();
+
+    this.notificationSub = this.productService.getNotifications().subscribe(res => {
+      this.productsNotifications = res.length;
+    });    
+  }
+
+  ngOnDestroy(): void {
+    this.notificationSub.unsubscribe();
   }
 
   ionViewDidLeave(): void {
@@ -153,4 +165,12 @@ export class ProductsPage {
   async closeMenuSort(): Promise<void> {
     await this.menuController.close('filtersSort');
   }
+
+  setRead(productId){
+    this.productService.update(
+      productId,
+      {unread: 0} as Product
+    );
+  }
+  
 }

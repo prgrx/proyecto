@@ -14,4 +14,5 @@ export interface User {
     hobbies?: string
     experiences?: string
     birthday?: FieldValue
+    reports?: string[]
 }

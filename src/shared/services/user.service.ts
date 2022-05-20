@@ -11,6 +11,10 @@ export class UserService {
     private firestore : AngularFirestore
   ) { }
 
+  getMyUserId(){
+    return JSON.parse(localStorage.getItem('user')).uid;
+  }
+
   getAll(){
     return this.firestore
       .collection('users',
