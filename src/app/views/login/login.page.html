@@ -90,15 +90,24 @@
           color="primary"
           formControlName="checkPrivacy"
         ></ion-checkbox>
-        <p>Aceptar política de Privacidad y Términos de Condiciones. <ion-icon name="arrow-redo-outline"></ion-icon></p>
-        
+        <p>
+          Aceptar Política de Privacidad y Términos de Condiciones.
+          <span class="link" routerLink="/privacity-terms" routerLinkActive="active">
+            Leer <ion-icon name="arrow-redo-outline"></ion-icon
+          ></span>
+        </p>
       </ion-row>
       <ion-row class="politics ion-align-items-center ion-margin-bottom">
         <ion-checkbox
           color="primary"
           formControlName="checkData"
         ></ion-checkbox>
-        <p>Aceptar Tratamiento de datos y Cookies. <ion-icon name="arrow-redo-outline"></ion-icon></p>
+        <p>
+          Aceptar Tratamiento de datos y Cookies.
+          <span class="link" routerLink="/cookies" routerLinkActive="active">
+            Leer <ion-icon name="arrow-redo-outline"></ion-icon
+          ></span>
+        </p>
       </ion-row>
       <ion-button
         type="submit"

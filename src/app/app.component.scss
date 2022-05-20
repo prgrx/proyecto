@@ -1,0 +1,35 @@
+.close-icon {
+  font-size: 2rem;
+  padding-right: 0.5rem;
+}
+
+.politics {
+  h1,
+  h2 {
+    font-weight: bold;
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+
+  .firstSectionTitle {
+    margin-top: 0;
+  }
+
+  .name {
+    font-weight: bold;
+  }
+
+  .endSection {
+    margin-bottom: 3rem;
+  }
+
+  .email {
+    color: var(--ion-color-primary);
+  }
+}

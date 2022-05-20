@@ -62,12 +62,25 @@ export class ModalRegisterPage implements OnInit {
     this.modalController.dismiss();
   }
 
-  nextSlides(formControl: AbstractControl): void {
+  nextSlides(formControl: AbstractControl, info?: string): void {
     if (formControl.valid) {
-      this.slides.lockSwipeToNext(false);
-      this.slides.slideNext();
-      this.slides.lockSwipeToNext(true);
+      if (info === 'date') {
+        let days: number =
+          (new Date().getTime() - new Date(formControl.value).getTime()) /
+          (1000 * 60 * 60 * 24);
+        days < 5113
+          ? this.showToast('Tienes que ser mayor de 14 años', 5)
+          : this.nextSlideLogic();
+      } else {
+        this.nextSlideLogic();
+      }
     }
+  }
+
+  nextSlideLogic(): void {
+    this.slides.lockSwipeToNext(false);
+    this.slides.slideNext();
+    this.slides.lockSwipeToNext(true);
   }
 
   previousSlides(): void {

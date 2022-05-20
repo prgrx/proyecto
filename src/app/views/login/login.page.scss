@@ -55,8 +55,14 @@ ion-content {
           margin-left: 0.75rem;
           margin-bottom: 0;
 
-          ion-icon {
-            font-size: 1rem;
+          .link {
+            font-weight: bold;
+            border-bottom: 1px solid;
+
+            ion-icon {
+              font-size: 1rem;
+              --ionicon-stroke-width: 4rem;
+            }
           }
         }
       }
