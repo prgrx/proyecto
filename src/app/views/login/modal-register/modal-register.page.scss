@@ -12,6 +12,12 @@ ion-input {
   }
 }
 
+ion-item {
+  &::part(native) {
+    background-color: var(--ion-color-light-tint);
+  }
+}
+
 ion-textarea{
   height: 12rem;
   
@@ -65,7 +71,7 @@ ion-datetime {
   border-radius: 50%;
   overflow: hidden;
   margin: auto;
-  background-color: transparent;
+  background-color: var(--ion-color-light-tint);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

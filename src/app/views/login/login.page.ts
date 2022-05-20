@@ -6,7 +6,6 @@ import { AuthService } from '../../../shared/services/auth-service.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalRegisterPage } from './modal-register/modal-register.page';
 import { FirebaseError } from '@angular/fire/app';
-import { User } from 'src/shared/interfaces/user';
 
 @Component({
   selector: 'app-login',
@@ -14,13 +13,14 @@ import { User } from 'src/shared/interfaces/user';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  segmentModel: string = 'signup';
+  segmentModel: string = 'login';
   emailValid: boolean = true;
   registerSubmitted: boolean = false;
+  loginSubmitted: boolean = false;
   colorImage: string;
   showPart: string = 'full';
   userAuth: any;
-  registerForm = new FormGroup({
+  registerForm: FormGroup = new FormGroup({
     email: new FormControl(
       '',
       Validators.compose([
@@ -34,6 +34,19 @@ export class LoginPage implements OnInit {
     ),
     checkPrivacy: new FormControl(false, Validators.requiredTrue),
     checkData: new FormControl(false, Validators.requiredTrue),
+  });
+  loginForm: FormGroup = new FormGroup({
+    email: new FormControl(
+      '',
+      Validators.compose([
+        Validators.required,
+        Validators.pattern(/^[^@]+@[^@]+\.[^@]+$/),
+      ])
+    ),
+    password: new FormControl(
+      '',
+      Validators.compose([Validators.required, Validators.minLength(6)])
+    ),
   });
 
   constructor(
@@ -56,25 +69,32 @@ export class LoginPage implements OnInit {
       component: ModalRegisterPage,
       componentProps: {
         registerForm: this.registerForm,
-        userAuth: this.userAuth
+        userAuth: this.userAuth,
       },
     });
 
     await modal.present();
   }
 
-  loginUser(emailInput: IonInput, passwordInput: IonInput) {
-    let email: string = emailInput.value.toString();
-    let password: string = passwordInput.value.toString();
-    this.authService
-      .loginUser(email, password)
-      .then((res) => {
-        localStorage.setItem('user', JSON.stringify(res.user));
-        this.router.navigate(['app/profile']);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+  loginUser() {
+    if (this.loginForm.valid) {
+      this.authService
+        .loginUser(
+          this.loginForm.controls.email.value,
+          this.loginForm.controls.password.value
+        )
+        .then((res) => {
+          localStorage.setItem('user', JSON.stringify(res.user));
+          this.router.navigate(['app/profile']);
+        })
+        .catch((error: FirebaseError) => {
+          if (error.message.includes('password')) {
+            this.showToast('La contraseña es incorrecta', 5);
+          } else if (error.message.includes('no user record')) {
+            this.showToast('No hay ningún usuario con esa cuenta de correo', 5);
+          }
+        });
+    }
   }
 
   comprobateEmail(): void {
@@ -97,9 +117,12 @@ export class LoginPage implements OnInit {
             this.showToast('Ya hay una cuenta creada con ese correo', 5);
           }
         });
-    }else {
-      if (this.registerForm.controls.checkData.errors || this.registerForm.controls.checkPrivacy.errors) {
-        this.showToast('Tienes que aceptar nuestra política de privacidad', 5)
+    } else {
+      if (
+        this.registerForm.controls.checkData.errors ||
+        this.registerForm.controls.checkPrivacy.errors
+      ) {
+        this.showToast('Tienes que aceptar nuestra política de privacidad', 5);
       }
     }
   }

@@ -1,16 +1,16 @@
 <ion-content fullscreen>
+  <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-buttons>
+      <ion-icon
+        class="closeRegister"
+        name="close-circle-outline"
+        (click)="backToRegister()"
+      ></ion-icon>
+    </ion-buttons>
+  </ion-fab>
   <form [formGroup]="remainUser" autocomplete="off">
     <ion-slides pager="true" #slides>
       <ion-slide>
-        <ion-fab vertical="top" horizontal="start" slot="fixed">
-          <ion-buttons>
-            <ion-icon
-              class="closeRegister"
-              name="close-circle-outline"
-              (click)="backToRegister()"
-            ></ion-icon>
-          </ion-buttons>
-        </ion-fab>
         <ion-col>
           <h1>¿Cómo te llamas?</h1>
           <ion-item
@@ -43,18 +43,13 @@
         </ion-fab>
       </ion-slide>
       <ion-slide>
-        <ion-fab vertical="top" horizontal="start" slot="fixed">
-          <ion-buttons>
-            <ion-icon
-              class="closeRegister"
-              name="close-circle-outline"
-              (click)="backToRegister()"
-            ></ion-icon>
-          </ion-buttons>
-        </ion-fab>
         <ion-col>
           <h1>¿Cuando es tu fecha de nacimiento?</h1>
-          <ion-datetime [value]="today" presentation="date" formControlName="birthday"></ion-datetime>
+          <ion-datetime
+            [value]="today"
+            presentation="date"
+            formControlName="birthday"
+          ></ion-datetime>
           <div class="ion-text-start ion-padding-horizontal">
             <span
               class="error"
@@ -85,15 +80,6 @@
         </ion-fab>
       </ion-slide>
       <ion-slide>
-        <ion-fab vertical="top" horizontal="start" slot="fixed">
-          <ion-buttons>
-            <ion-icon
-              class="closeRegister"
-              name="close-circle-outline"
-              (click)="backToRegister()"
-            ></ion-icon>
-          </ion-buttons>
-        </ion-fab>
         <ion-col>
           <h1>Presentate un poco para que los demás te conozcan</h1>
           <ion-item
@@ -136,15 +122,6 @@
         </ion-fab>
       </ion-slide>
       <ion-slide>
-        <ion-fab vertical="top" horizontal="start" slot="fixed">
-          <ion-buttons>
-            <ion-icon
-              class="closeRegister"
-              name="close-circle-outline"
-              (click)="backToRegister()"
-            ></ion-icon>
-          </ion-buttons>
-        </ion-fab>
         <ion-col>
           <h1>Cuentanos lo que haces en tu tiempo libre</h1>
           <ion-item
@@ -187,15 +164,6 @@
         </ion-fab>
       </ion-slide>
       <ion-slide>
-        <ion-fab vertical="top" horizontal="start" slot="fixed">
-          <ion-buttons>
-            <ion-icon
-              class="closeRegister"
-              name="close-circle-outline"
-              (click)="backToRegister()"
-            ></ion-icon>
-          </ion-buttons>
-        </ion-fab>
         <ion-col>
           <h1>Cuenta tus experiencias para entenderte mejor</h1>
           <ion-item
@@ -238,17 +206,7 @@
         </ion-fab>
       </ion-slide>
       <ion-slide>
-        <ion-fab vertical="top" horizontal="start" slot="fixed">
-          <ion-buttons>
-            <ion-icon
-              class="closeRegister"
-              name="close-circle-outline"
-              (click)="backToRegister()"
-            ></ion-icon>
-          </ion-buttons>
-        </ion-fab>
         <ion-col>
-          <h1>Introduce una foto</h1>
           <div
             class="circle"
             [ngClass]="(remainUser.controls.imageProfile.touched || imageProfileSubmitted) && remainUser.controls.imageProfile.errors?.required ? 'circle__error' : ''"

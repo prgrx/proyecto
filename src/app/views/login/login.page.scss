@@ -8,6 +8,7 @@ ion-content {
 
   ion-card {
     padding-bottom: 2rem;
+    width: 30.188rem;
 
     .logo {
       width: 200px;
@@ -58,6 +59,7 @@ ion-content {
           .link {
             font-weight: bold;
             border-bottom: 1px solid;
+            color: var(--ion-color-dark);
 
             ion-icon {
               font-size: 1rem;
@@ -84,12 +86,23 @@ ion-content {
         flex: 0 0 auto;
         padding-left: 0.4rem;
         padding-right: 0.4rem;
+        user-select: none;
       }
 
       .line {
         height: 2px;
         width: 29%;
         background-color: var(--color);
+      }
+    }
+
+    .redirectToCreate {
+      font-size: 1rem;
+      margin-top: 2rem;
+
+      span {
+        color: var(--ion-color-dark);
+        text-decoration: underline;
       }
     }
   }
