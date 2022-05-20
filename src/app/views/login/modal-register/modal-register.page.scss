@@ -2,9 +2,19 @@ form, ion-slides {
   height: 100%;
 }
 
+.closeRegister {
+  font-size: 2.5rem;
+}
+
 ion-input {
   &::part(native) {
     background: rgba(255, 255, 255, 0.1) !important;
+  }
+}
+
+ion-item {
+  &::part(native) {
+    background-color: var(--ion-color-light-tint);
   }
 }
 
@@ -22,6 +32,11 @@ ion-textarea{
       }
     }
   }
+}
+
+ion-datetime {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .error {
@@ -56,7 +71,7 @@ ion-textarea{
   border-radius: 50%;
   overflow: hidden;
   margin: auto;
-  background-color: transparent;
+  background-color: var(--ion-color-light-tint);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

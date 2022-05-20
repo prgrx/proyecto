@@ -13,7 +13,15 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./views/login/login.module').then(m => m.LoginPageModule),
     canActivate: [NoLoginGuard]
+  },  {
+    path: 'cookies',
+    loadChildren: () => import('./views/politics/cookies/cookies.module').then( m => m.CookiesPageModule)
   },
+  {
+    path: 'privacity-terms',
+    loadChildren: () => import('./views/politics/privacity-terms/privacity-terms.module').then( m => m.PrivacityTermsPageModule)
+  },
+
 ];
 
 @NgModule({

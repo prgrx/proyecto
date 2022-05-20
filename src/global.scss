@@ -25,12 +25,4 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-.smooth{
-    animation-name: smooth;
-    animation-duration: 1s;
-}
-
-@keyframes smooth {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
+@import 'app/app.component.scss';

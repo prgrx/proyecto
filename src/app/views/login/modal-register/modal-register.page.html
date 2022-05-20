@@ -1,15 +1,16 @@
 <ion-content fullscreen>
-  <form [formGroup]="remainUser">
+  <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-buttons>
+      <ion-icon
+        class="closeRegister"
+        name="close-circle-outline"
+        (click)="backToRegister()"
+      ></ion-icon>
+    </ion-buttons>
+  </ion-fab>
+  <form [formGroup]="remainUser" autocomplete="off">
     <ion-slides pager="true" #slides>
       <ion-slide>
-        <ion-fab vertical="top" horizontal="start" slot="fixed">
-          <ion-fab-button>
-            <ion-icon
-              name="log-out-outline"
-              (click)="backToRegister()"
-            ></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
         <ion-col>
           <h1>¿Cómo te llamas?</h1>
           <ion-item
@@ -44,7 +45,11 @@
       <ion-slide>
         <ion-col>
           <h1>¿Cuando es tu fecha de nacimiento?</h1>
-          <ion-datetime [value]="today" presentation="date" formControlName="birthday"></ion-datetime>
+          <ion-datetime
+            [value]="today"
+            presentation="date"
+            formControlName="birthday"
+          ></ion-datetime>
           <div class="ion-text-start ion-padding-horizontal">
             <span
               class="error"
@@ -67,7 +72,7 @@
         <ion-fab slot="fixed" vertical="bottom" horizontal="end">
           <ion-row
             class="next ion-align-items-center"
-            (click)="nextSlides(remainUser.controls.birthday); birthdaySubmitted = true"
+            (click)="nextSlides(remainUser.controls.birthday, 'date'); birthdaySubmitted = true"
           >
             <p class="ion-no-margin">Siguiente</p>
             <ion-icon name="arrow-forward-outline"></ion-icon>
@@ -202,7 +207,6 @@
       </ion-slide>
       <ion-slide>
         <ion-col>
-          <h1>Introduce una foto</h1>
           <div
             class="circle"
             [ngClass]="(remainUser.controls.imageProfile.touched || imageProfileSubmitted) && remainUser.controls.imageProfile.errors?.required ? 'circle__error' : ''"

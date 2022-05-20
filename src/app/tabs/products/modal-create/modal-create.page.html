@@ -9,8 +9,15 @@
 </ion-header>
 <ion-content>
   <form [formGroup]="productForm">
-    <ion-item lines="full">
-      <ion-label position="floating">Nombre del Producto</ion-label>
+    <ion-item
+      lines="full"
+      [ngClass]="submitted && productForm.controls.name.errors?.required ? 'errorInput' : ''"
+    >
+      <ion-label
+        position="floating"
+        [ngClass]="submitted && productForm.controls.name.errors?.required ? 'error_color' : ''"
+        >Nombre del Producto</ion-label
+      >
       <ion-input
         type="text"
         formControlName="name"
@@ -24,8 +31,15 @@
       <ion-icon name="alert-circle-outline"></ion-icon> El nombre no puede estar
       vacío
     </span>
-    <ion-item lines="full">
-      <ion-label position="floating">Descripción del Producto</ion-label>
+    <ion-item
+      lines="full"
+      [ngClass]="submitted && productForm.controls.description.errors?.required ? 'errorInput' : ''"
+    >
+      <ion-label
+        position="floating"
+        [ngClass]="submitted && productForm.controls.description.errors?.required ? 'error_color' : ''"
+        >Descripción del Producto</ion-label
+      >
       <ion-textarea
         formControlName="description"
         required
@@ -40,8 +54,14 @@
       <ion-icon name="alert-circle-outline"></ion-icon> La descripción no puede
       estar vacío
     </span>
-    <ion-item>
-      <ion-label>Acción</ion-label>
+    <ion-item
+      lines="full"
+      [ngClass]="submitted && productForm.controls.action.errors?.required ? 'errorInput' : ''"
+    >
+      <ion-label
+        [ngClass]="submitted && productForm.controls.action.errors?.required ? 'error_color' : ''"
+        >Acción</ion-label
+      >
       <ion-select interface="popover" formControlName="action">
         <ion-select-option value="true">Vender</ion-select-option>
         <ion-select-option value="false">Recomendar</ion-select-option>
@@ -54,8 +74,15 @@
       <ion-icon name="alert-circle-outline"></ion-icon> Tienes que seleccionar
       alguna opción
     </span>
-    <ion-item lines="full">
-      <ion-label position="floating">Precio</ion-label>
+    <ion-item
+      lines="full"
+      [ngClass]="submitted && productForm.controls.price.errors?.required ? 'errorInput' : ''"
+    >
+      <ion-label
+        position="floating"
+        [ngClass]="submitted && productForm.controls.price.errors?.required ? 'error_color' : ''"
+        >Precio</ion-label
+      >
       <ion-input
         type="tel"
         formControlName="price"
@@ -76,7 +103,11 @@
       <ion-icon name="alert-circle-outline"></ion-icon> Tienes que poner un
       precio correcto
     </span>
-    <ion-item lines="full" class="item-image">
+    <ion-item
+      lines="full"
+      class="item-image"
+      [ngClass]="submitted && productForm.controls.image.errors?.required ? 'errorInput' : ''"
+    >
       <ion-input
         type="file"
         class="input-image"

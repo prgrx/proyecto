@@ -66,7 +66,8 @@ ion-content{
   }
 }
 
-.close-icon {
-  font-size: 2rem;
-  padding-right: 0.5rem;
-} 
+.errorInput {
+  &::part(native) {
+    border-bottom: 1px solid var(--ion-color-danger-tint);
+  }
+}

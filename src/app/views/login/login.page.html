@@ -6,27 +6,49 @@
     </ion-segment>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <ion-card *ngIf="segmentModel === 'signup'">
-    <form [formGroup]="registerForm">
-      <ion-title>Registrar</ion-title>
+    <ion-row class="ion-justify-content-center">
+      <app-logo
+        [colorImage]="colorImage"
+        [showPart]="showPart"
+        class="logo"
+      ></app-logo>
+    </ion-row>
+    <ion-row
+      class="title ion-align-items-center ion-justify-content-center ion-text-center"
+    >
+      <div class="line"></div>
+      <ion-title class="ion-no-padding">Registrar</ion-title>
+      <div class="line"></div>
+    </ion-row>
+    <form [formGroup]="registerForm" autocomplete="off">
       <ion-item
         lines="full"
-        [ngClass]="(registerForm.controls.email.touched || registerSubmitted) && registerForm.controls.email.errors?.required ? 'errorInput' : ''"
+        [ngClass]="(registerForm.controls.email.touched || registerSubmitted) 
+        && (registerForm.controls.email.errors?.required || registerForm.controls.email.errors?.pattern)  ? 'errorInput' : ''"
       >
-        <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" formControlName="email"></ion-input>
+        <ion-input
+          type="email"
+          formControlName="email"
+          placeholder="Email"
+          class="input"
+        ></ion-input>
+        <ion-icon
+          name="mail"
+          slot="start"
+          class="input_icon ion-no-margin"
+        ></ion-icon>
       </ion-item>
       <span
-        class="error ion-padding"
+        class="error error__email"
         *ngIf="registerForm.controls.email.errors?.pattern"
       >
         <ion-icon name="alert-circle-outline"></ion-icon> Tiene que ser un email
         válido
       </span>
       <span
-        class="error ion-padding"
+        class="error error__email"
         *ngIf="(registerForm.controls.email.touched || registerSubmitted) && registerForm.controls.email.errors?.required"
       >
         <ion-icon name="alert-circle-outline"></ion-icon> Tienes que poner un
@@ -34,50 +56,170 @@
       </span>
       <ion-item
         lines="full"
-        [ngClass]="(registerForm.controls.password.touched || registerSubmitted) && registerForm.controls.password.errors?.required ? 'errorInput' : ''"
+        [ngClass]="(registerForm.controls.password.touched || registerSubmitted) &&
+         (registerForm.controls.password.errors?.required || registerForm.controls.password.errors?.minlength) ? 'errorInput' : ''"
       >
-        <ion-label position="floating">Password</ion-label>
-        <ion-input type="password" formControlName="password"></ion-input>
+        <ion-input
+          type="password"
+          formControlName="password"
+          placeholder="Password"
+          class="input"
+        ></ion-input>
+        <ion-icon
+          name="lock-closed"
+          slot="start"
+          class="input_icon ion-no-margin"
+        ></ion-icon>
       </ion-item>
       <span
-        class="error ion-padding"
+        class="error error__password"
         *ngIf="registerForm.controls.password.errors?.minlength"
       >
         <ion-icon name="alert-circle-outline"></ion-icon> Tiene que tener 6
         carácteres
       </span>
       <span
-        class="error ion-padding"
+        class="error error__password"
         *ngIf="(registerForm.controls.password.touched || registerSubmitted) && registerForm.controls.password.errors?.required"
       >
         <ion-icon name="alert-circle-outline"></ion-icon> Tiene que tener 6
         carácteres
       </span>
-      <ion-item>
-        <ion-button type="submit" color="danger" (click)="openModalRegister()">Submit</ion-button>
-      </ion-item>
+      <ion-row class="politics ion-align-items-center ion-margin-bottom">
+        <ion-checkbox
+          color="primary"
+          formControlName="checkPrivacy"
+        ></ion-checkbox>
+        <p>
+          Aceptar Política de Privacidad y Términos de Condiciones.
+          <span
+            class="link"
+            role="button"
+            routerLink="/privacity-terms"
+            routerLinkActive="active"
+          >
+            Leer <ion-icon name="arrow-redo-outline"></ion-icon
+          ></span>
+        </p>
+      </ion-row>
+      <ion-row class="politics ion-align-items-center ion-margin-bottom">
+        <ion-checkbox
+          color="primary"
+          formControlName="checkData"
+        ></ion-checkbox>
+        <p>
+          Aceptar Tratamiento de datos y Cookies.
+          <span
+            class="link"
+            role="button"
+            routerLink="/cookies"
+            routerLinkActive="active"
+          >
+            Leer <ion-icon name="arrow-redo-outline"></ion-icon
+          ></span>
+        </p>
+      </ion-row>
+      <ion-button
+        type="submit"
+        color="primary"
+        (click)="comprobateEmail()"
+        expand="block"
+        >Registrarse</ion-button
+      >
     </form>
   </ion-card>
 
   <ion-card *ngIf="segmentModel === 'login'">
-    <form>
-      <ion-title>Login</ion-title>
-      <ion-item lines="full">
-        <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" #email2 required></ion-input>
+    <ion-row class="ion-justify-content-center">
+      <app-logo
+        [colorImage]="colorImage"
+        [showPart]="showPart"
+        class="logo"
+      ></app-logo>
+    </ion-row>
+    <ion-row
+      class="title ion-align-items-center ion-justify-content-center ion-text-center"
+    >
+      <div class="line"></div>
+      <ion-title class="ion-no-padding">Login</ion-title>
+      <div class="line"></div>
+    </ion-row>
+    <form [formGroup]="loginForm" autocomplete="off">
+      <ion-item
+        lines="full"
+        [ngClass]="(loginForm.controls.email.touched || loginSubmitted) 
+        && (loginForm.controls.email.errors?.required || loginForm.controls.email.errors?.pattern)  ? 'errorInput' : ''"
+      >
+        <ion-input
+          type="email"
+          formControlName="email"
+          placeholder="Email"
+          class="input"
+        ></ion-input>
+        <ion-icon
+          name="mail"
+          slot="start"
+          class="input_icon ion-no-margin"
+        ></ion-icon>
       </ion-item>
-      <ion-item lines="full">
-        <ion-label position="floating">Password</ion-label>
-        <ion-input type="password" #password2 required></ion-input>
+      <span
+        class="error error__email"
+        *ngIf="loginForm.controls.email.errors?.pattern"
+      >
+        <ion-icon name="alert-circle-outline"></ion-icon> Tiene que ser un email
+        válido
+      </span>
+      <span
+        class="error error__email"
+        *ngIf="(loginForm.controls.email.touched || loginSubmitted) && loginForm.controls.email.errors?.required"
+      >
+        <ion-icon name="alert-circle-outline"></ion-icon> Tienes que poner un
+        email
+      </span>
+      <ion-item
+        lines="full"
+        [ngClass]="(loginForm.controls.password.touched || loginSubmitted) &&
+         (loginForm.controls.password.errors?.required || loginForm.controls.password.errors?.minlength) ? 'errorInput' : ''"
+      >
+        <ion-input
+          type="password"
+          formControlName="password"
+          placeholder="Password"
+          class="input"
+        ></ion-input>
+        <ion-icon
+          name="lock-closed"
+          slot="start"
+          class="input_icon ion-no-margin"
+        ></ion-icon>
       </ion-item>
-      <ion-item>
-        <ion-button
-          type="submit"
-          (click)="loginUser(email2, password2)"
-          color="danger"
-          >Submit</ion-button
-        >
-      </ion-item>
+      <span
+        class="error error__password"
+        *ngIf="loginForm.controls.password.errors?.minlength"
+      >
+        <ion-icon name="alert-circle-outline"></ion-icon> Tiene que tener 6
+        carácteres
+      </span>
+      <span
+        class="error error__password"
+        *ngIf="(loginForm.controls.password.touched || loginSubmitted) && loginForm.controls.password.errors?.required"
+      >
+        <ion-icon name="alert-circle-outline"></ion-icon> Tiene que tener 6
+        carácteres
+      </span>
+      <ion-button
+        type="submit"
+        color="primary"
+        expand="block"
+        (click)="loginUser()"
+        >Loguearse</ion-button
+      >
     </form>
+    <p class="redirectToCreate ion-text-center">
+      ¿No estás registrado aún?
+      <span (click)="segmentModel = 'signup'" role="button"
+        >¡Create una cuenta!</span
+      >
+    </p>
   </ion-card>
 </ion-content>

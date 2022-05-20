@@ -1,3 +1,113 @@
+ion-content {
+  &::part(scroll) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ion-card {
+    padding-bottom: 2rem;
+    width: 30.188rem;
+
+    .logo {
+      width: 200px;
+      height: 200px;
+    }
+
+    form {
+      position: relative;
+
+      ion-item {
+        height: 2.5rem;
+        margin-bottom: 1.75rem;
+        border-radius: 4px;
+
+        &::part(native) {
+          background-color: var(--ion-color-light-tint);
+          padding-left: 0.5rem;
+        }
+
+        .input {
+          ::ng-deep input {
+            padding-top: 0;
+            padding-bottom: 0.5rem;
+          }
+
+          &_icon {
+            margin-right: 0.4rem;
+            margin-bottom: 0.5rem;
+          }
+        }
+      }
+
+      .politics {
+        flex-wrap: nowrap;
+        margin-bottom: 1.5rem;
+
+        ion-checkbox {
+          width: 20px;
+          height: 20px;
+        }
+
+        p {
+          font-size: 0.95rem;
+          width: 90%;
+          margin-left: 0.75rem;
+          margin-bottom: 0;
+
+          .link {
+            font-weight: bold;
+            border-bottom: 1px solid;
+            color: var(--ion-color-dark);
+
+            ion-icon {
+              font-size: 1rem;
+              --ionicon-stroke-width: 4rem;
+            }
+          }
+        }
+      }
+    }
+
+    .title,
+    form,
+    ion-card {
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .title {
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+
+      ion-title {
+        flex: 0 0 auto;
+        padding-left: 0.4rem;
+        padding-right: 0.4rem;
+        user-select: none;
+      }
+
+      .line {
+        height: 2px;
+        width: 29%;
+        background-color: var(--color);
+      }
+    }
+
+    .redirectToCreate {
+      font-size: 1rem;
+      margin-top: 2rem;
+
+      span {
+        color: var(--ion-color-dark);
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
 .error {
   color: var(--ion-color-danger-tint);
   font-size: 0.9rem;
@@ -6,10 +116,22 @@
     vertical-align: text-top;
     padding-top: 1px;
   }
+
+  &__email,
+  &__password {
+    position: absolute;
+    left: 0;
+  }
+
+  &__email {
+    top: 2.65rem;
+  }
+
+  &__password {
+    top: 7rem;
+  }
 }
 
 .errorInput {
-  &::part(native) {
-    border-bottom: 1px solid var(--ion-color-danger-tint);
-  }
+  border-bottom: 1px solid var(--ion-color-danger-tint);
 }
