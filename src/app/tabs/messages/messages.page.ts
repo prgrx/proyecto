@@ -38,7 +38,7 @@ export class MessagesPage {
   }
 
   ionViewWillEnter(){
-    this.user = JSON.parse(localStorage.getItem('user')).uid;
+    this.user = this.userService.getMyUserId();
   }
 
   ionViewDidEnter(){
@@ -71,7 +71,7 @@ export class MessagesPage {
 
   clearUnread(conversationId){
           this.conversationService.updateConversation(conversationId,{
-            [JSON.parse(localStorage.getItem('user')).uid]: 0
+            [this.userService.getMyUserId()]: 0
           });
   }
 

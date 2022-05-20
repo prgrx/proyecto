@@ -52,6 +52,38 @@ ion-avatar.offline {
     border: 2px solid var(--ion-color-danger) !important;
 }
 
+
+.highlight {
+    text-align: inherit !important;
+    position: relative;
+    color: var(--ion-color-primary);
+    font-weight: 500;
+}
+
+.highlight:after{
+   content:" ";
+   display: block;
+   width: 100%;
+   position: absolute;
+   height: 1px;
+   bottom: -2px;
+   left: 0;
+   background-color: var(--ion-color-primary);
+   transform: scaleX(0);
+   transform-origin: bottom right;
+   transition: transform 0.3s;
+   animation-name: unsaved;
+   animation-iteration-count: infinite;
+   animation-duration: 1s;
+}
+
+@keyframes unsaved {
+    to {
+        transform-origin: bottom left;
+        transform: scaleX(1);
+    }
+}
+
 /*
 @media(min-width: 768px) {
   ion-content {

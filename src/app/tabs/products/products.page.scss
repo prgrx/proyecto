@@ -6,6 +6,14 @@ ion-col {
     height: 16.75rem;
     margin: 0 auto;
     border-radius: 0.7rem;
+    position: relative;
+
+    ion-badge {
+      position: absolute; 
+      font-size: 8pt;
+      right: 6px;
+      top: 6px; 
+    }
   
     &-subtitle {
       font-size: 1.15rem;
@@ -75,4 +83,14 @@ ion-list {
       width: 40%;
     }
   }
+}
+
+
+.circle {
+  width: 8px;
+  height: 8px;
+  background: var(--ion-color-danger);
+  border-radius: 50%;
+  position: absolute;
+  right: 8px;
 }

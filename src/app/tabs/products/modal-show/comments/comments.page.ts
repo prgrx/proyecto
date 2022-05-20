@@ -51,6 +51,12 @@ export class CommentsPage implements OnInit {
           merge: true,
         });
       this.commentGroup.reset();
+
+      this.firestore
+        .doc('/products/' + this.product.id)
+        .update({
+          unread: ++this.product.unread
+        })
     }
   }
 

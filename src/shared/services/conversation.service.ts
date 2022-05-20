@@ -6,6 +6,7 @@ import { LogedUser } from '../constants/logedUser'
 import { stringify } from 'querystring';
 import { serverTimestamp } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class ConversationService {
 
   constructor( 
     private firestore : AngularFirestore,
+    private userService : UserService,
     public router : Router
   ) { }
 
@@ -39,6 +41,17 @@ export class ConversationService {
       .collection('conversations')
       .doc(id)
       .get().toPromise()
+  }
+
+  getNotifications(){
+    return this.firestore
+    .collection<Conversation>('conversations',
+      ref => ref
+        .where(this.userService.getMyUserId(), ">", 0)
+        .orderBy(this.userService.getMyUserId())
+        .limit(1)
+    )
+    .valueChanges();
   }
 
   newConversation(conversation: Conversation){

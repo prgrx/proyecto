@@ -30,6 +30,32 @@ export class ProfilePage {
     this.userSub = this.userService.get(this.userId).subscribe( (user) => {
       this.user = user as User;
     });
+
+    let sections = [
+      'presentation',
+      'hobbies',
+      'experiences'
+    ];
+
+    sections.forEach( section => {
+      let el = this.element('#'+section);
+      let editBtn = this.element('#edit-'+section);
+  
+      el.addEventListener('keydown', (evt) => {
+        if (evt.keyCode === 13) {
+            evt.preventDefault();
+        }
+      });
+
+      el.addEventListener('keyup', ()=> {
+        if (el.innerText != this.user[section]) {
+          editBtn.classList.add('highlight');
+        }else{
+          editBtn.classList.remove('highlight');
+        }
+      });
+    });
+
   }
 
   ionViewWillEnter(){
@@ -56,12 +82,6 @@ export class ProfilePage {
     cancelBtn.classList.remove('hidden');
     cancelBtn.style.display = '';
 
-    el.addEventListener('keydown', (evt) => {
-      if (evt.keyCode === 13) {
-          evt.preventDefault();
-      }
-    });
-
     el.spellcheck = false;
 
     if(el.contentEditable == 'true'){
@@ -70,6 +90,7 @@ export class ProfilePage {
         this.user.uid, 
         {[section]: el.innerText}
       );
+      editBtn.classList.remove('highlight');
       cancelBtn.classList.add('hidden');
       el.contentEditable = 'false';
     }else{
@@ -84,6 +105,7 @@ export class ProfilePage {
     let editBtn = this.element('#edit-'+section);
     let cancelBtn = this.element('#cancel-'+section);
     editBtn.innerText = 'Editar';
+    editBtn.classList.remove('highlight');
     el.innerText = this.user[section];
     el.contentEditable = 'false';
     cancelBtn.style.display = 'none';
@@ -112,7 +134,15 @@ export class ProfilePage {
               '¿Cambiar foto de perfil?',
               `
               <div class="ion-text-center">
-                  <img src="${base64}" style="height: 50px !important; width: 50px !important; border-radius: 50%; margin:0 auto;">
+                  <img 
+                    src="${base64}"
+                    style="
+                      height: 50px !important; 
+                      width: 50px !important; 
+                      border-radius: 50%; 
+                      margin:0 auto;
+                    "
+                  >
               </div>
               `
               ,
@@ -129,27 +159,6 @@ export class ProfilePage {
       });
 
     }
-
-
-
-    /*
-    this.previousImg = '';
-    let photo: File = event.target.files[0];
-    let size: number = +(event.target.files[0].size / 1024 / 1024).toFixed(2);
-    console.log(size + 'MB');
-
-    if (size < 1) {
-      if (photo != undefined) {
-        let reader = new FileReader();
-        reader.readAsDataURL(photo);
-        reader.onload = () => {
-          if (reader.result != null) {
-            this.imgBase64 = reader.result.toString();
-            this.setImgBackground(this.imgBase64);
-          }
-        };
-      }
-    }*/
   }
 
   uploadPhoto(photo:string){

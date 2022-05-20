@@ -70,7 +70,6 @@
     <form (ngSubmit)="sendMessage()">
     <ion-item [style.--background]="'#303030'">
       <ion-input [formControl]="msgToSend" required spellcheck="true"></ion-input>
-      <!--<ion-textarea [formControl]="msgToSend" required spellcheck="true" rows="3" placeholder=""></ion-textarea>-->
       <ion-button type="submit" [disabled]="msgToSend.value==''" item-end>
         <ion-icon name="send-outline"></ion-icon>
       </ion-button>

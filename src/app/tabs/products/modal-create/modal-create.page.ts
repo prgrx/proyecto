@@ -95,6 +95,7 @@ export class ModalCreatePage implements OnInit {
         price: this.productForm.controls.price.value,
         last_modified: serverTimestamp(),
         user_id: JSON.parse(localStorage.getItem('user')!).uid,
+        unread: 0
       };
 
       const productRef: AngularFirestoreDocument<any> =
