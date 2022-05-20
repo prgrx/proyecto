@@ -6,6 +6,7 @@ import { AuthService } from '../../../shared/services/auth-service.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalRegisterPage } from './modal-register/modal-register.page';
 import { FirebaseError } from '@angular/fire/app';
+import { User } from 'src/shared/interfaces/user';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class LoginPage implements OnInit {
   registerSubmitted: boolean = false;
   colorImage: string;
   showPart: string = 'full';
+  userAuth: any;
   registerForm = new FormGroup({
     email: new FormControl(
       '',
@@ -54,6 +56,7 @@ export class LoginPage implements OnInit {
       component: ModalRegisterPage,
       componentProps: {
         registerForm: this.registerForm,
+        userAuth: this.userAuth
       },
     });
 
@@ -82,7 +85,8 @@ export class LoginPage implements OnInit {
           this.registerForm.controls.email.value,
           this.registerForm.controls.password.value
         )
-        .then(() => {
+        .then((result) => {
+          this.userAuth = result.user;
           this.openModalRegister();
         })
         .catch((error: FirebaseError) => {

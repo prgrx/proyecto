@@ -5,7 +5,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { IonSlides, ModalController, ToastController } from '@ionic/angular';
 import { User } from 'src/shared/interfaces/user';
@@ -19,6 +18,7 @@ import { Timestamp } from '@angular/fire/firestore';
 })
 export class ModalRegisterPage implements OnInit {
   @Input() registerForm: FormGroup;
+  @Input() userAuth: any;
   remainUser: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
     birthday: new FormControl('', Validators.required),
@@ -117,46 +117,36 @@ export class ModalRegisterPage implements OnInit {
 
   registerUser() {
     if (!this.imageProfileSubmitted) return;
-    this.authService
-      .registerUser(
-        this.registerForm.controls.email.value,
-        this.registerForm.controls.password.value
-      )
-      .then((res) => {
-        localStorage.setItem('user', JSON.stringify(res.user));
-        let user: User = {
-          uid: res.user.uid,
-          email: this.registerForm.controls.email.value,
-          name: this.remainUser.controls.name.value,
-          birthday: new Timestamp(
-            Math.floor(
-              new Date(this.remainUser.controls.birthday.value).getTime() / 1000
-            ),
-            0
-          ),
-          presentation: this.remainUser.controls.presentation.value.replaceAll(
-            '\n',
-            '\\n'
-          ),
-          hobbies: this.remainUser.controls.hobbies.value.replaceAll(
-            '\n',
-            '\\n'
-          ),
-          experiences: this.remainUser.controls.experiences.value.replaceAll(
-            '\n',
-            '\\n'
-          ),
-          photo: this.imageProfile,
-          isAdmin: false,
-          isOnline: true,
-          isBanned: false,
-          isVerified: false,
-          blocks: [],
-        };
-        this.authService.setUserData(user);
-        this.router.navigate(['app/profile']);
-        this.modalController.dismiss();
-      });
+    localStorage.setItem('user', JSON.stringify(this.userAuth));
+    let user: User = {
+      uid: this.userAuth.uid,
+      email: this.registerForm.controls.email.value,
+      name: this.remainUser.controls.name.value,
+      birthday: new Timestamp(
+        Math.floor(
+          new Date(this.remainUser.controls.birthday.value).getTime() / 1000
+        ),
+        0
+      ),
+      presentation: this.remainUser.controls.presentation.value.replaceAll(
+        '\n',
+        '\\n'
+      ),
+      hobbies: this.remainUser.controls.hobbies.value.replaceAll('\n', '\\n'),
+      experiences: this.remainUser.controls.experiences.value.replaceAll(
+        '\n',
+        '\\n'
+      ),
+      photo: this.imageProfile,
+      isAdmin: false,
+      isOnline: true,
+      isBanned: false,
+      isVerified: false,
+      blocks: [],
+    };
+    this.authService.setUserData(user);
+    this.router.navigate(['app/profile']);
+    this.modalController.dismiss();
   }
 
   async showToast(message: string, seconds: number): Promise<void> {
