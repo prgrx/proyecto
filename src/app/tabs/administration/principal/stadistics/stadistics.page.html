@@ -1,0 +1,58 @@
+<ion-grid
+  class="ion-no-padding"
+  *ngIf="usersLength && productsLength && conversationsLength"
+>
+  <ion-row>
+    <ion-col size="12" sizeLg="3.7" class="ion-no-padding">
+      <ion-card class="ion-no-margin">
+        <ion-row>
+          <ion-col size="6" class="leftPart">
+            <div class="circle circle-green">
+              <ion-icon name="people-outline"></ion-icon>
+            </div>
+          </ion-col>
+          <ion-col size="6" class="rightPart ion-text-end">
+            <div class="info ion-text-center">
+              <h3>{{usersLength}}</h3>
+              <p>Usuarios</p>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-col>
+    <ion-col size="12" sizeMd="5.72" sizeLg="3.7" class="ion-no-padding">
+      <ion-card class="ion-no-margin">
+        <ion-row>
+          <ion-col size="6" class="leftPart">
+            <div class="circle circle-red">
+              <ion-icon name="basket-outline"></ion-icon>
+            </div>
+          </ion-col>
+          <ion-col size="6" class="rightPart ion-text-end">
+            <div class="info ion-text-center">
+              <h3>{{productsLength}}</h3>
+              <p>Productos</p>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-col>
+    <ion-col size="12" sizeMd="5.72" sizeLg="3.7" class="ion-no-padding">
+      <ion-card class="ion-no-margin">
+        <ion-row>
+          <ion-col size="6" class="leftPart">
+            <div class="circle circle-yellow">
+              <ion-icon name="chatbubbles-outline"></ion-icon>
+            </div>
+          </ion-col>
+          <ion-col size="6" class="rightPart ion-text-end">
+            <div class="info ion-text-center">
+              <h3>{{conversationsLength}}</h3>
+              <p>Conversaciones</p>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>

@@ -1,0 +1,25 @@
+ion-content {
+  &::part(scroll) {
+    padding: 3rem 2rem;
+  }
+}
+
+ion-menu {
+  ion-content {
+    &::part(scroll) {
+      padding: 0;
+    }
+  }
+
+  ion-row {
+    font-size: 1.15rem;
+
+    &:hover {
+      background-color: var(--ion-color-light-tint);
+    }
+
+    ion-icon {
+      margin: 0 0.5rem 0.2rem 0;
+    }
+  }
+}

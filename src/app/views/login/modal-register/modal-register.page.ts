@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { IonSlides, ModalController, ToastController } from '@ionic/angular';
 import { User } from 'src/shared/interfaces/user';
 import { AuthService } from 'src/shared/services/auth-service.service';
-import { Timestamp } from '@angular/fire/firestore';
+import { Timestamp, serverTimestamp } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-modal-register',
@@ -143,6 +143,8 @@ export class ModalRegisterPage implements OnInit {
       isBanned: false,
       isVerified: false,
       blocks: [],
+      createdAt: serverTimestamp(),
+      reports: []
     };
     this.authService.setUserData(user);
     this.router.navigate(['app/profile']);

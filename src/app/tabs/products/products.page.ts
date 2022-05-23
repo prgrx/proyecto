@@ -53,12 +53,18 @@ export class ProductsPage {
     });    
   }
 
-  ngOnDestroy(): void {
-    this.notificationSub.unsubscribe();
+  async ionViewWillEnter(): Promise<void> {
+    if (!await this.menuController.isEnabled('filtersSort')) {
+      this.menuController.enable(true, 'filtersSort');
+    }
   }
-
-  ionViewDidLeave(): void {
+  
+  async ionViewDidLeave(): Promise<void> {
+    this.notificationSub.unsubscribe();
     this.productsSub.unsubscribe();
+    if (await this.menuController.isOpen('filtersSort')) {
+      await this.menuController.close('filtersSort');
+    }
   }
 
   async openModalShowProduct(product: Product): Promise<void> {

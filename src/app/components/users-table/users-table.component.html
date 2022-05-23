@@ -1,0 +1,75 @@
+<ion-grid class="ion-padding-horizontal" *ngIf="users.length > 1">
+  <ion-row>
+    <ion-col size="12" class="title">
+      <h5 class="ion-text-uppercase">Los 10 usuarios más recientes</h5>
+    </ion-col>
+    <ion-col size="12" class="table">
+      <table>
+        <thead>
+          <tr class="ion-text-uppercase ion-text-center">
+            <th class="avatar">Avatar</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th class="date">Fech. Regis.</th>
+            <th class="reports">Reports</th>
+            <th class="state">Estado</th>
+            <th class="actions">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let user of users; trackBy: trackByFn"
+            class="ion-text-center insideTr"
+          >
+            <td>
+              <img
+                [src]="user.uid | photoById | async"
+                style="display: none"
+                onload="this.style.display=''"
+                alt="Avatar"
+              />
+            </td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ showDate(user.createdAt) | date: "dd/MM/YYYY HH:mm" }}</td>
+            <td>
+              <ion-row class="ion-align-items-center">
+                <p
+                  role="button"
+                  class="ion-no-margin"
+                  (click)="showReports(user)"
+                >
+                  {{ user.reports.length }}
+                  <ion-icon name="caret-down-outline"></ion-icon>
+                </p>
+                <ion-button>Notificar</ion-button>
+              </ion-row>
+            </td>
+            <td>
+              <ion-button
+                *ngIf="user.isBanned"
+                color="success"
+                (click)="openBanUserAlert(user, 'desbanear')"
+                >Desbanear</ion-button
+              >
+              <ion-button
+                *ngIf="!user.isBanned"
+                color="danger"
+                (click)="openBanUserAlert(user, 'banear')"
+                >Banear</ion-button
+              >
+            </td>
+            <td>
+              <ion-button
+                (click)="redirectToUserPage(user)"
+                class="buttonAction"
+                >Ver perfil</ion-button
+              >
+              <ion-button class="buttonAction">Contactar</ion-button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ion-col>
+  </ion-row>
+</ion-grid>

@@ -46,12 +46,16 @@ const routes: Routes = [
         loadChildren: () => import('./housing/housing.module').then(m => m.HousingPageModule)
       },
       {
+        path: 'administration',
+        loadChildren: () => import('./administration/administration.module').then( m => m.AdministrationPageModule)
+      },
+      {
         path: '',
         redirectTo: 'profile',
         pathMatch: 'full'
       }
     ]
-  },
+  }
 ];
 
 @NgModule({

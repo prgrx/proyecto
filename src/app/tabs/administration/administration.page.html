@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons
+      slot="start"
+      class="ion-margin-start"
+      (click)="openMenuConfig()"
+      role="button"
+    >
+      <ion-icon name="options-outline" class="close-icon"></ion-icon>
+    </ion-buttons>
+    <ion-title>Administración</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" id="admin">
+  <h3>Panel de Control</h3>
+  <router-outlet></router-outlet>
+</ion-content>
+
+<ion-menu side="start" menuId="configMenu" content-id="admin">
+  <ion-header>
+    <ion-toolbar translucent>
+      <ion-title>Ajustes</ion-title>
+      <ion-buttons slot="end" (click)="closeMenuConfig()" role="button">
+        <ion-icon name="close-circle-outline" class="close-icon"></ion-icon>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-row class="ion-align-items-center ion-padding" role="button">
+      <ion-icon name="person-outline"></ion-icon>
+      Modify Users
+    </ion-row>
+  </ion-content>
+</ion-menu>
