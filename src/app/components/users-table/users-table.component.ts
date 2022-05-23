@@ -13,7 +13,8 @@ import { NameByIdPipe } from 'src/shared/pipes/name-by-id.pipe';
 })
 export class UsersTableComponent implements OnInit {
   @Input() users: User[];
-
+  @Input() component: string;
+  
   constructor(
     private firestore: AngularFirestore,
     private router: Router,

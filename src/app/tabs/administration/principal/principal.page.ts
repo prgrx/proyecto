@@ -11,6 +11,8 @@ import { User } from 'src/shared/interfaces/user';
 export class PrincipalPage implements OnInit {
   users: User[];
   usersSub: Subscription;
+  component: string = 'principal';
+  
   constructor(private firestore: AngularFirestore) {}
 
   ngOnInit(): void {
