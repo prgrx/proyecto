@@ -16,11 +16,14 @@ import { NameByIdPipe } from 'src/shared/pipes/name-by-id.pipe';
 export class UsersTableComponent implements OnInit {
   @Input() users: User[];
   usersSub: Subscription;
+  actualFilter: boolean | string = 'everything';
+  filterSub: Subscription;
   allUsers: User[];
-  actualSearch:string;
+  actualSearch: string;
   @Input() component: string;
   searchForm: FormGroup = new FormGroup({
-    searchValue: new FormControl('', Validators.required),
+    searchValue: new FormControl(''),
+    searchFilter: new FormControl(''),
   });
 
   constructor(
@@ -32,14 +35,22 @@ export class UsersTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    
+    this.filterSub =
+      this.searchForm.controls.searchFilter.valueChanges.subscribe(
+        (searchFilter: string) => {
+          searchFilter === 'everything'
+            ? (this.actualFilter = 'everything')
+            : (this.actualFilter = 'true' === searchFilter);
+          this.filterData(this.actualSearch, this.actualFilter);
+        }
+      );
     this.usersSub = this.searchForm.controls.searchValue.valueChanges.subscribe(
       (searchValue: string) => {
         if (searchValue) {
-          this.filterData(searchValue)
-        }else {
-          this.users = this.allUsers;
+          this.filterData(searchValue, this.actualFilter);
+        } else {
           this.actualSearch = '';
+          this.filterData(this.actualSearch, this.actualFilter)
         }
       }
     );
@@ -49,23 +60,51 @@ export class UsersTableComponent implements OnInit {
     this.users = changes['users'].currentValue;
     this.allUsers = this.users;
     if (this.actualSearch) {
-      this.filterData(this.actualSearch);
+      this.filterData(this.actualSearch, this.actualFilter);
     }
   }
 
   ionViewDidLeave(): void {
     this.usersSub.unsubscribe();
+    this.filterSub.unsubscribe();
   }
 
-  filterData(searchValue: string) {
+  filterData(searchValue: string, filter: string | boolean) {
     this.actualSearch = searchValue;
-    this.users = this.allUsers.filter((user: User) => {
-      return (
-        user.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchValue.toLowerCase())
-      );
-    });
-    console.log(this.users);
+    if (filter === 'everything') {
+      this.filterEverything(searchValue, filter);
+    } else {
+     this.filterNotEverything(searchValue, filter)
+    }
+  }
+
+  filterNotEverything(searchValue: string, filter: string | boolean): void {
+    if (searchValue) {
+      this.users = this.allUsers.filter((user: User) => {
+        return (
+          user.isBanned === filter &&
+          (user.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+            user.email.toLowerCase().includes(searchValue.toLowerCase()))
+        );
+      });
+    } else {
+      this.users = this.allUsers.filter((user: User) => {
+        return user.isBanned === filter;
+      });
+    }
+  }
+
+  filterEverything(searchValue: string, filter: string | boolean): void {
+    if (searchValue) {
+      this.users = this.allUsers.filter((user: User) => {
+        return (
+          user.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+          user.email.toLowerCase().includes(searchValue.toLowerCase())
+        );
+      });
+    }else {
+      this.users = this.allUsers;
+    }
   }
 
   showDate(timestamp: FieldValue): Date {
