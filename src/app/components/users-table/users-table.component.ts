@@ -1,8 +1,10 @@
 import { Component, Input, OnInit, SimpleChange } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FieldValue } from '@angular/fire/firestore';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { User } from 'src/shared/interfaces/user';
 import { NameByIdPipe } from 'src/shared/pipes/name-by-id.pipe';
 
@@ -13,8 +15,14 @@ import { NameByIdPipe } from 'src/shared/pipes/name-by-id.pipe';
 })
 export class UsersTableComponent implements OnInit {
   @Input() users: User[];
+  usersSub: Subscription;
+  allUsers: User[];
+  actualSearch:string;
   @Input() component: string;
-  
+  searchForm: FormGroup = new FormGroup({
+    searchValue: new FormControl('', Validators.required),
+  });
+
   constructor(
     private firestore: AngularFirestore,
     private router: Router,
@@ -23,10 +31,41 @@ export class UsersTableComponent implements OnInit {
     private nameByIdPipe: NameByIdPipe
   ) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    
+    this.usersSub = this.searchForm.controls.searchValue.valueChanges.subscribe(
+      (searchValue: string) => {
+        if (searchValue) {
+          this.filterData(searchValue)
+        }else {
+          this.users = this.allUsers;
+          this.actualSearch = '';
+        }
+      }
+    );
+  }
 
   ngOnChanges(changes: SimpleChange) {
     this.users = changes['users'].currentValue;
+    this.allUsers = this.users;
+    if (this.actualSearch) {
+      this.filterData(this.actualSearch);
+    }
+  }
+
+  ionViewDidLeave(): void {
+    this.usersSub.unsubscribe();
+  }
+
+  filterData(searchValue: string) {
+    this.actualSearch = searchValue;
+    this.users = this.allUsers.filter((user: User) => {
+      return (
+        user.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    });
+    console.log(this.users);
   }
 
   showDate(timestamp: FieldValue): Date {
@@ -53,23 +92,27 @@ export class UsersTableComponent implements OnInit {
 
   async showReports(user: User): Promise<void> {
     var options = {
-        cssClass: 'alertDelete',
-        header: 'Reportes',
-        message:
-          'Estos son los usuarios que han reportado a ' + user.name + ':',
-        buttons: [
-          {
-            text: 'Cancelar',
-          }
-        ],
-        inputs: []
+      cssClass: 'alertDelete',
+      header: 'Reportes',
+      message: 'Estos son los usuarios que han reportado a ' + user.name + ':',
+      buttons: [
+        {
+          text: 'Cancelar',
+        },
+      ],
+      inputs: [],
     };
-    options.inputs =  []
-    
+    options.inputs = [];
+
     for (let report of user.reports) {
-      options.inputs.push({ name : 'options', value: await this.nameByIdPipe.transform(report), label: 'Nombres', cssClass: 'name' })
+      options.inputs.push({
+        name: 'options',
+        value: await this.nameByIdPipe.transform(report),
+        label: 'Nombres',
+        cssClass: 'name',
+      });
     }
-    const alert = await this.alertController.create(options)
+    const alert = await this.alertController.create(options);
     await alert.present();
   }
 

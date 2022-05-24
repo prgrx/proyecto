@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 
 @Component({
@@ -8,7 +9,7 @@ import { MenuController } from '@ionic/angular';
 })
 export class AdministrationPage implements OnInit {
 
-  constructor(private menuController: MenuController) {}
+  constructor(private menuController: MenuController, private router: Router) {}
 
   ngOnInit() { }
 
@@ -30,5 +31,10 @@ export class AdministrationPage implements OnInit {
 
   async closeMenuConfig(): Promise<void> {
     await this.menuController.close('configMenu');
+  }
+
+  async redirectTo(link: string): Promise<void> {
+    this.router.navigate([link]);
+    await this.closeMenuConfig();
   }
 }

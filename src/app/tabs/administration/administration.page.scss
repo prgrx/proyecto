@@ -1,6 +1,10 @@
 ion-content {
   &::part(scroll) {
-    padding: 3rem 2rem;
+    padding: 5rem 2rem;
+  }
+
+  h3 {
+    margin-bottom: 2rem;
   }
 }
 
