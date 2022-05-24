@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, SimpleChange } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FieldValue } from '@angular/fire/firestore';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
