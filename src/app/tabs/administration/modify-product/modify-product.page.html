@@ -1,0 +1,63 @@
+<ion-grid class="ion-padding-horizontal">
+  <ion-row>
+    <ion-col size="12" class="title">
+      <h5 class="ion-text-uppercase">Todos los productos</h5>
+      <form [formGroup]="searchForm">
+        <ion-row>
+          <ion-searchbar
+            formControlName="searchValue"
+            placeholder="Buscar por nombre del producto"
+          ></ion-searchbar>
+        </ion-row>
+      </form>
+    </ion-col>
+    <ion-col size="12" class="table" *ngIf="products">
+      <table>
+        <thead>
+          <tr class="ion-text-uppercase ion-text-center">
+            <th class="image">Img. Producto</th>
+            <th>Nombre</th>
+            <th class="price">Price</th>
+            <th class="dateModified">Ult. Vez Modificado</th>
+            <th class="creatorName">Creador</th>
+            <th class="reports">Reportes</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let product of products; trackBy: trackByFn"
+            class="ion-text-center insideTr"
+          >
+            <td><img [src]="product.image" /></td>
+            <td>{{product.name}}</td>
+            <td>
+              {{product.price === 0 ? 'Recomendado' : product.price + '€'}}
+            </td>
+            <td>
+              {{showDate(product.last_modified) | date: "dd/MM/YYYY HH:mm"}}
+            </td>
+            <td>{{product.user_id | nameById | async}}</td>
+            <td>
+              <ion-row class="ion-align-items-center ion-justify-content-center">
+                <p
+                  role="button"
+                  class="ion-no-margin"
+                  (click)="showReports(product)"
+                >
+                  {{ product.reports.length }}
+                  <ion-icon name="caret-down-outline"></ion-icon>
+                </p>
+                <ion-button>Notificar</ion-button>
+              </ion-row>
+            </td>
+            <td class="buttons-action">
+              <ion-button color="danger" (click)="openAlertDelete(product)">Eliminar Producto</ion-button>
+              <ion-button (click)="redirectToProduct(product.id)">Ver Producto</ion-button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ion-col>
+  </ion-row>
+</ion-grid>

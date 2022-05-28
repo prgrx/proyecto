@@ -9,4 +9,5 @@ export interface Product {
     last_modified: FieldValue
     unread?: string[]
     user_id: string
+    reports: string[]
 }

@@ -1,0 +1,73 @@
+ion-grid {
+  margin: 0;
+  width: 97.5%;
+  border-top: 4px solid var(--ion-color-primary);
+  background: var(
+    --ion-card-background,
+    var(--ion-item-background, var(--ion-background-color, #fff))
+  );
+  box-shadow: rgb(0 0 0 / 20%) 0px 3px 1px -2px,
+    rgb(0 0 0 / 14%) 0px 2px 2px 0px, rgb(0 0 0 / 12%) 0px 1px 5px 0px;
+
+  .title {
+    h5 {
+      font-weight: bold;
+      color: var(--ion-color-medium);
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .table {
+    width: 100%;
+    overflow-x: auto;
+
+    table {
+      width: 100%;
+      color: var(--ion-color-dark);
+      table-layout: fixed;
+      border-collapse: separate;
+
+      th, td {
+        border-bottom: 1px solid var(--ion-color-dark);
+      }
+
+      th {
+        padding: 1rem;
+        width: 13rem;
+
+        &.price {
+          width: 8rem;
+        }
+        
+        &.dateModified, &.image, &.creatorName {
+          width: 10rem;
+        }
+
+        &.reports {
+          width: 12rem;
+        }
+      }
+
+      .insideTr {
+        &:hover {
+          background-color: var(--ion-color-light-tint);
+        }
+
+        td {
+          padding: 0.75rem;
+
+          img {
+            width: 7rem;
+          }
+
+          &.buttons-action {
+            ion-button {
+              width: 95%;
+            }
+          }
+        }
+      }
+    }
+  }
+}

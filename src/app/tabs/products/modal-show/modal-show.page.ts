@@ -29,6 +29,7 @@ export class ModalShowPage implements OnInit {
   @Input() product: Product;
   description: string;
   isSameUser: boolean;
+  isAdmin: boolean;
   productForm: FormGroup;
 
   userProduct: User;
@@ -38,6 +39,7 @@ export class ModalShowPage implements OnInit {
   myselfSub : Subscription;
 
   activatedRouteSubscription: Subscription;
+  userSub: Subscription;
   id: string;
 
   constructor(
@@ -53,20 +55,21 @@ export class ModalShowPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRouteSubscription = this.activatedRoute.params.subscribe((params: Params) => {
-      if (params.id) {
-        this.id = params.id;
-        this.firestore
-          .doc('/products/' + params.id)
-          .valueChanges()
-          .subscribe((product: Product) => {
-            this.product = product;
-            this.initialActions();
-          });
-      }else {
-        this.initialActions();
-      }
-    });
+    this.activatedRouteSubscription = this.activatedRoute.params.subscribe(
+      (params: Params) => {
+        if (params.id) {
+          this.id = params.id;
+          this.firestore
+            .doc('/products/' + params.id)
+            .valueChanges()
+            .subscribe((product: Product) => {
+              this.product = product;
+              this.initialActions();
+            });
+        } else {
+          this.initialActions();
+        }
+      });
 
     this.myselfSub = this.userService.get(this.userService.getMyUserId()).subscribe( (user) => {
       this.myself = user as User;
@@ -80,14 +83,19 @@ export class ModalShowPage implements OnInit {
   ionViewWillLeave(): void {
     this.userProductsSubscription.unsubscribe();
     this.activatedRouteSubscription.unsubscribe();
+    this.userSub.unsubscribe();
   }
 
   initialActions(): void {
-    this.isSameUser =
-      JSON.parse(localStorage.getItem('user')!).uid == this.product?.user_id
-        ? true
-        : false;
+    let idUser: string = JSON.parse(localStorage.getItem('user')!).uid;
+    this.isSameUser = idUser == this.product?.user_id ? true : false;
     this.product.description = this.product.description.replace(/\\n/gm, '\n');
+    this.userSub = this.firestore
+      .doc('/users/' + idUser)
+      .valueChanges()
+      .subscribe((user: User) => {
+        this.isAdmin = user.isAdmin;
+      });
     this.getUserProduct();
 
     console.log(this.id)
@@ -95,8 +103,8 @@ export class ModalShowPage implements OnInit {
 
   dismissModal(): void {
     if (this.id) {
-      this.router.navigate(['/app/products'], { replaceUrl: true})
-    }else {
+      this.router.navigate(['/app/products'], { replaceUrl: true });
+    } else {
       this.modalController.dismiss();
     }
   }

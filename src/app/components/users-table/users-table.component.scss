@@ -1,0 +1,102 @@
+ion-grid {
+  margin: 0;
+  width: 97.5%;
+  border-top: 4px solid var(--ion-color-primary);
+  background: var(
+    --ion-card-background,
+    var(--ion-item-background, var(--ion-background-color, #fff))
+  );
+  box-shadow: rgb(0 0 0 / 20%) 0px 3px 1px -2px,
+    rgb(0 0 0 / 14%) 0px 2px 2px 0px, rgb(0 0 0 / 12%) 0px 1px 5px 0px;
+
+  .title {
+    h5 {
+      font-weight: bold;
+      color: var(--ion-color-medium);
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .table {
+    width: 100%;
+    overflow-x: auto;
+
+    table {
+      width: 100%;
+      color: var(--ion-color-dark);
+      table-layout: fixed;
+      border-collapse: separate;
+
+      th, td {
+        border-bottom: 1px solid var(--ion-color-dark);
+      }
+
+      th {
+        width: 13.5rem;
+        padding: 1rem;
+
+        &.avatar {
+          width: 6rem;
+        }
+
+        &.date,
+        &.actions {
+          width: 8rem;
+        }
+        
+
+        &.state {
+          width: 9.5rem;
+        }
+
+        &.reports {
+          width: 12rem;
+        }
+      }
+
+      .insideTr {
+        &:hover {
+          background-color: var(--ion-color-light-tint);
+        } 
+
+        td {
+          padding: 0.75rem;
+  
+          img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+          }
+  
+          p {
+            width: 2rem;
+            margin-left: auto;
+            margin-right: 0.5rem;
+          }
+
+          .buttonAction {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+::ng-deep .alert-input-group {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  overflow: auto;
+
+  ::ng-deep .alert-input {
+    padding: 0;
+    border-bottom: 0 !important;
+    pointer-events: none; 
+  }
+}
+
+.itemFilter {
+  padding: 0.3rem;
+}
+

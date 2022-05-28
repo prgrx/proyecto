@@ -15,6 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { ScrollToBottomDirective } from 'src/shared/directives/scroll-to-bottom.directive';
+import { NameByIdPipe } from 'src/shared/pipes/name-by-id.pipe';
 //import { DomChangeDirective } from 'src/shared/directives/dom-change.directive';
 
 @NgModule({
@@ -37,7 +38,8 @@ import { ScrollToBottomDirective } from 'src/shared/directives/scroll-to-bottom.
     ReactiveFormsModule
   ],
   providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    NameByIdPipe
   ],
   bootstrap: [AppComponent],
 })

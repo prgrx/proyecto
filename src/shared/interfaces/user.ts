@@ -15,4 +15,5 @@ export interface User {
     experiences?: string
     birthday?: FieldValue
     reports?: string[]
+    createdAt?: FieldValue
 }

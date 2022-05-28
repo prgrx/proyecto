@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons
+      slot="start"
+      class="ion-margin-start"
+      (click)="openMenuConfig()"
+      role="button"
+    >
+      <ion-icon name="options-outline" class="close-icon"></ion-icon>
+    </ion-buttons>
+    <ion-title>Administración</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" id="admin">
+  <ion-row class="topPart ion-align-items-end ion-justify-content-between">
+    <h3>Panel de Control</h3>
+    <app-logo [colorImage]="colorImage"
+    [showPart]="'full'"
+    class="logo"></app-logo>
+  </ion-row>
+  <router-outlet></router-outlet>
+</ion-content>
+
+<ion-menu side="start" menuId="configMenu" content-id="admin">
+  <ion-header>
+    <ion-toolbar translucent>
+      <ion-title>Ajustes</ion-title>
+      <ion-buttons slot="end" (click)="closeMenuConfig()" role="button">
+        <ion-icon name="close-circle-outline" class="close-icon"></ion-icon>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-row class="ion-align-items-center ion-padding" role="button" (click)="redirectTo('/app/administration')">
+      <ion-icon name="home-outline"></ion-icon>
+      Inicio
+    </ion-row>
+    <ion-row class="ion-align-items-center ion-padding" role="button" (click)="redirectTo('/app/administration/users')">
+      <ion-icon name="person-outline"></ion-icon>
+      Modificar Usuarios
+    </ion-row>
+    <ion-row class="ion-align-items-center ion-padding" role="button" (click)="redirectTo('/app/administration/products')">
+      <ion-icon name="basket-outline"></ion-icon>
+      Modificar Productos
+    </ion-row>
+  </ion-content>
+</ion-menu>
