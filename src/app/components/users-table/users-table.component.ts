@@ -126,7 +126,7 @@ export class UsersTableComponent implements OnInit {
   }
 
   redirectToUserPage(user: User): void {
-    this.router.navigate(['/users/' + user.uid]);
+    this.router.navigate(['app/user/' + user.uid]);
   }
 
   async showReports(user: User): Promise<void> {
