@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { AdministrationPageRoutingModule } from './administration-routing.module';
-
+import { LogoModule } from 'src/app/components/logo/logo.module';
 import { AdministrationPage } from './administration.page';
 
 @NgModule({
@@ -13,7 +13,8 @@ import { AdministrationPage } from './administration.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    AdministrationPageRoutingModule
+    AdministrationPageRoutingModule,
+    LogoModule
   ],
   declarations: [AdministrationPage]
 })

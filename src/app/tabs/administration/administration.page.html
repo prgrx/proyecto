@@ -13,7 +13,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" id="admin">
-  <h3>Panel de Control</h3>
+  <ion-row class="topPart ion-align-items-end ion-justify-content-between">
+    <h3>Panel de Control</h3>
+    <app-logo [colorImage]="colorImage"
+    [showPart]="'full'"
+    class="logo"></app-logo>
+  </ion-row>
   <router-outlet></router-outlet>
 </ion-content>
 

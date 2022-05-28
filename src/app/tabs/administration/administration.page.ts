@@ -8,13 +8,19 @@ import { MenuController } from '@ionic/angular';
   styleUrls: ['./administration.page.scss'],
 })
 export class AdministrationPage implements OnInit {
+  colorImage: string;
 
   constructor(private menuController: MenuController, private router: Router) {}
 
-  ngOnInit() { }
+  ngOnInit(): void {
+    let prefersDark: boolean = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches;
+    this.colorImage = prefersDark ? 'white' : 'dark';
+  }
 
   async ionViewWillEnter(): Promise<void> {
-    if (!await this.menuController.isEnabled('configMenu')) {
+    if (!(await this.menuController.isEnabled('configMenu'))) {
       this.menuController.enable(true, 'configMenu');
     }
   }

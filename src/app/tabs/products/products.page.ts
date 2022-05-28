@@ -57,6 +57,7 @@ export class ProductsPage {
     if (!await this.menuController.isEnabled('filtersSort')) {
       this.menuController.enable(true, 'filtersSort');
     }
+    this.getAllProducts();
   }
   
   async ionViewDidLeave(): Promise<void> {

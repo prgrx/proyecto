@@ -43,7 +43,7 @@
   <ion-item>
     <p class="description">{{product.description}}</p>
   </ion-item>
-  <ion-row class="item-button ion-justify-content-evenly ion-padding-vertical" *ngIf="isSameUser">
+  <ion-row class="item-button ion-justify-content-evenly ion-padding-vertical" *ngIf="isSameUser || isAdmin">
     <ion-button (click)="openModalCreate()">Editar Producto</ion-button>
     <ion-button (click)="openAlertDelete()" color="danger"
       >Borrar Producto</ion-button

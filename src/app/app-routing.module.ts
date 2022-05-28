@@ -13,7 +13,8 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./views/login/login.module').then(m => m.LoginPageModule),
     canActivate: [NoLoginGuard]
-  },  {
+  },
+  {
     path: 'cookies',
     loadChildren: () => import('./views/politics/cookies/cookies.module').then( m => m.CookiesPageModule)
   },

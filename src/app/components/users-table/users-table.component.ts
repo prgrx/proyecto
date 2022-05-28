@@ -72,7 +72,7 @@ export class UsersTableComponent implements OnInit {
   filterData(searchValue: string, filter: string | boolean) {
     this.actualSearch = searchValue;
     if (filter === 'everything') {
-      this.filterEverything(searchValue, filter);
+      this.filterEverything(searchValue);
     } else {
      this.filterNotEverything(searchValue, filter)
     }
@@ -94,7 +94,7 @@ export class UsersTableComponent implements OnInit {
     }
   }
 
-  filterEverything(searchValue: string, filter: string | boolean): void {
+  filterEverything(searchValue: string): void {
     if (searchValue) {
       this.users = this.allUsers.filter((user: User) => {
         return (
