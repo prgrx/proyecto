@@ -73,6 +73,7 @@ export class LoginPage implements OnInit {
         registerForm: this.registerForm,
         userAuth: this.userAuth,
       },
+      cssClass: 'modalEverything'
     });
 
     await modal.present();
