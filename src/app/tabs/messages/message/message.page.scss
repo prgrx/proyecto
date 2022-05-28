@@ -4,10 +4,11 @@ ion-item.message {
 
     ion-label {
 
-         h2 {
+         .name {
             font-size: .75em;
             color: var(--ion-color-primary);
             font-weight: bolder;
+            text-decoration: none;
         }
     }
 

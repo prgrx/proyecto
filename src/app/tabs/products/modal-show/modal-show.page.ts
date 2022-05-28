@@ -14,6 +14,11 @@ import { Product } from 'src/shared/interfaces/product';
 import { ModalCreatePage } from '../modal-create/modal-create.page';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ConversationService } from 'src/shared/services/conversation.service';
+import { UserService } from 'src/shared/services/user.service';
+import { Message } from 'src/shared/interfaces/message';
+import { serverTimestamp } from '@angular/fire/firestore';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-modal-show',
@@ -25,8 +30,13 @@ export class ModalShowPage implements OnInit {
   description: string;
   isSameUser: boolean;
   productForm: FormGroup;
+
   userProduct: User;
   userProductsSubscription: Subscription;
+
+  myself : User;
+  myselfSub : Subscription;
+
   activatedRouteSubscription: Subscription;
   id: string;
 
@@ -36,7 +46,10 @@ export class ModalShowPage implements OnInit {
     private toastController: ToastController,
     private firestore: AngularFirestore,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private conversationService: ConversationService,
+    private userService: UserService,
+    public _location: Location
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +67,14 @@ export class ModalShowPage implements OnInit {
         this.initialActions();
       }
     });
+
+    this.myselfSub = this.userService.get(this.userService.getMyUserId()).subscribe( (user) => {
+      this.myself = user as User;
+    });
+  }
+
+  ngOnDestroy(){
+    this.myselfSub.unsubscribe();
   }
 
   ionViewWillLeave(): void {
@@ -68,6 +89,8 @@ export class ModalShowPage implements OnInit {
         : false;
     this.product.description = this.product.description.replace(/\\n/gm, '\n');
     this.getUserProduct();
+
+    console.log(this.id)
   }
 
   dismissModal(): void {
@@ -153,5 +176,32 @@ export class ModalShowPage implements OnInit {
       color: 'light',
     });
     await toast.present();
+  }
+
+  async contact(contactId){
+    let conversationId = await this.conversationService.contact(
+      this.userService.getMyUserId(),
+      contactId,
+      true
+    );
+
+    this.router.navigate(['app/messages/'+conversationId]);
+
+    let message = {
+      content: `Hola, me interesa tu producto "${this.product.name}".`,
+      senderId: this.userService.getMyUserId(),
+      createdAt: serverTimestamp(),
+      productId: this.product.id
+    } as Message;
+
+    this.conversationService.postMessage(conversationId, message);
+    this.conversationService.updateConversation(conversationId,{
+      lastMessage: message.content
+    });
+  }
+
+
+  goBack(){
+    this._location.back();
   }
 }

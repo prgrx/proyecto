@@ -2,9 +2,15 @@
   <ion-toolbar>
     <ion-title>Productos</ion-title>
     <ion-buttons slot="end">
+
       <ion-button (click)="openMenuSort()">
-        <ion-icon name="funnel" slot="icon-only"></ion-icon>
+        <ion-icon name="funnel" slot="icon-only" style="height: 20px;"></ion-icon>
       </ion-button>
+
+      <ion-button (click)="openModalCreateProduct()">
+        <ion-icon name="add" slot="icon-only"></ion-icon>
+      </ion-button>
+
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
@@ -62,7 +68,7 @@
             (click)="openModalShowProduct(product); setRead(product.id)"
           >
           
-            <ion-badge *ngIf="product.unread > 0" color="danger">{{product.unread}}</ion-badge>
+            <ion-badge *ngIf="product.unread.length > 0" color="danger">{{ product.unread.length }}</ion-badge>
 
             <div class="imgContainer ion-text-center">
               <img [src]="product.image" alt="Imagen del producto" />
@@ -121,11 +127,6 @@
       </ion-row>
     </ion-grid>
   </div>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="openModalCreateProduct()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 </ion-content>
 
 <ion-menu side="start" menuId="filtersSort" content-id="products">

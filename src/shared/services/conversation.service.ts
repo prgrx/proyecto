@@ -7,6 +7,7 @@ import { stringify } from 'querystring';
 import { serverTimestamp } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { UserService } from './user.service';
+import { error } from 'console';
 
 @Injectable({
   providedIn: 'root'
@@ -54,20 +55,19 @@ export class ConversationService {
     .valueChanges();
   }
 
-  newConversation(conversation: Conversation){
+  async newConversation(conversation){
 
-    let conversationId:string;
-
-    this.firestore
+    let conversationId = await this.firestore
       .collection('conversations')
       .add(conversation)
       .then(conv => {
         this.firestore
           .collection(`conversations`)
           .doc(conv.id).update({id: conv.id});
-        conversationId = conv.id;
+        return conv.id;
       });
     
+    console.log(conversationId)
     return conversationId;
   }
 
@@ -110,22 +110,49 @@ export class ConversationService {
       });
   }
 
-  contact(creatorUid, contactUid){
-    let conversationId:string;
+  async contact(creatorUid:string, contactUid:string, notify:boolean){
 
-    if(true/** existe conver con uid1 y uid2 */){
-      conversationId = ''//getConversationIdWithUsers(creatorUid, contactUid);
+    let conversationId : string;
+    let contactUnreads : number;
+
+    let conversationExists = await this.firestore
+    .collection<Conversation>('conversations',
+      ref => ref
+        .where("members", "in", [
+          [contactUid, creatorUid],
+          [creatorUid, contactUid]
+        ])
+        .limit(1)
+    )
+    .get()
+    .toPromise()
+    .then(x => {
+      if(x.size == 1){
+        conversationId = x.docs[0].data().id;
+        contactUnreads = x.docs[0].data()[contactUid];
+      }
+      return (x.size == 1 ? true : false)
+    });
+
+    if(conversationExists){
+      if (notify)
+        this.updateConversation(conversationId, {
+          [contactUid]: ++contactUnreads,
+          updatedAt: serverTimestamp()
+        });
     }else{
-      conversationId = this.newConversation({
+      conversationId = await this.newConversation({
         members: [creatorUid, contactUid],
-        updatedAt: serverTimestamp(),
-        createdAt: serverTimestamp(),
+        [creatorUid]: 0,
+        [contactUid]: 1,
         createdBy: creatorUid,
-      } as Conversation);
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        lastMessage: "Nueva conversación"
+      });
     }
 
-    this.router.navigate(['app/messages/'+conversationId]);
-    return
+    return conversationId;
   }
 
 }

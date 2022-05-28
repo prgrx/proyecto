@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button (click)="clearUnread(conversation?.id)"></ion-back-button>
+      <ion-back-button defaultHref="app/messages" (click)="clearUnread(conversation?.id)"></ion-back-button>
     </ion-buttons>
     <ion-title class="smooth">{{ this.contactName }}</ion-title>
     <ion-avatar slot="start" style="width: 36px !important;  
@@ -17,9 +17,9 @@
     <ion-item-sliding *ngFor="let message of messages; trackBy: trackByFn" #slidingItem>
       
       <ion-item *ngIf="!message.system" class="message">
-        <ion-label [style]="(message.senderId == myself) ? 'text-align:right;' : ''" text-wrap>
-          <h2 *ngIf="message.senderId != myself">{{contactName}}</h2>
-          <h3 [style]="'font-size: larger; '+(message.senderId == myself ? 'opacity: .75;' : '')">
+        <ion-label [style]="(message.senderId == myId) ? 'text-align:right;' : ''" text-wrap>
+          <a *ngIf="message.senderId != myId" class="name" [routerLink]="'/app/user/'+message.senderId">{{contactName}}</a>
+          <h3 [style]="'font-size: larger; '+(message.senderId == myId ? 'opacity: .75;' : '')">
             <ng-container 
               [ngTemplateOutlet]="message.deleted ? notDeleted : deleted" 
               [ngTemplateOutletContext]="{message:message}">
@@ -45,7 +45,7 @@
 
 
 
-      <ion-item-options *ngIf="message.senderId == myself && !message.deleted">
+      <ion-item-options *ngIf="message.senderId == myId && !message.deleted">
         <ion-item-option color="danger" (click)="delete(slidingItem, conversation.id,message.messageId)">
           <ion-icon slot="icon-only" name="trash-bin-outline"></ion-icon>
         </ion-item-option>
@@ -54,6 +54,11 @@
 
     <ng-template #deleted let-message='message'>
       <ion-text>{{ message.content }}</ion-text>
+      <br>
+      <a 
+        *ngIf="message.productId"
+        [routerLink]="'/app/products/'+message.productId"
+      >Ver producto</a>
     </ng-template>
     
     <ng-template #notDeleted let-message='message'>
@@ -69,7 +74,12 @@
   <ion-toolbar>
     <form (ngSubmit)="sendMessage()">
     <ion-item [style.--background]="'#303030'">
-      <ion-input [formControl]="msgToSend" required spellcheck="true"></ion-input>
+      <ion-input 
+        [formControl]="msgToSend" 
+        [disabled]="myself?.blocks.includes(contactUid) || contactBlocks?.includes(myself?.uid)"
+        required 
+        spellcheck="true"
+      ></ion-input>
       <ion-button type="submit" [disabled]="msgToSend.value==''" item-end>
         <ion-icon name="send-outline"></ion-icon>
       </ion-button>

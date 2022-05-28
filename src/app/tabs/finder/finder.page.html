@@ -3,6 +3,15 @@
     <ion-title>
       Buscador
     </ion-title>
+    <ion-select value="users" slot="end" (ionChange)="toggleSearch($event)">
+      <ion-select-option value="users">Usuarios</ion-select-option>
+      <ion-select-option value="products">Productos</ion-select-option>
+    </ion-select>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!usersSearch" (click)="openMenuSort()" class="slide-in">
+        <ion-icon name="funnel" slot="icon-only" style="height: 20px;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -13,7 +22,50 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-searchbar placeholder="Producto, recomendación, comentario, etc..."></ion-searchbar>
+  <ion-searchbar 
+    [placeholder]="usersSearch ? 'Nombre o email del usuario' : 'Nombre o descripción del producto'"
+    (keyup)="search($event)"
+  ></ion-searchbar>
 
-  <app-explore-container name="Buscador"></app-explore-container>
+  <!-- Usuarios -->
+  <div *ngIf="usersSearch">
+    <ion-list *ngIf="users?.length > 0; else noResult">
+        <ion-item *ngFor="let user of users; trackBy: trackByFn">
+          <ion-avatar slot="start" [routerLink]="'/app/user/'+user.uid">
+            <img *ngIf="user?.photo" class="smooth" [src]="user?.photo"/>
+          </ion-avatar>
+          <ion-label [routerLink]="'/app/user/'+user.uid">
+            <ion-text class="smooth">{{ user.name }}</ion-text>
+          </ion-label>
+          <ion-button slot="end" fill="clear" shape="circle" (click)="contact(user.uid)">
+            <ion-icon slot="icon-only" name="chatbubble-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- Productos -->
+  <div *ngIf="!usersSearch">
+    <ion-list *ngIf="products?.length > 0; else noResult">
+      <ion-item *ngFor="let product of products; trackBy: trackByFn">
+        <ion-avatar slot="start" [routerLink]="'/app/products/'+product?.id">
+          <img *ngIf="product?.image" class="smooth" [src]="product.image"/>
+        </ion-avatar>
+        <ion-label [routerLink]="'/app/products/'+product.id">
+          <ion-text class="smooth">{{ product.name }}</ion-text>
+          <p class="smooth">{{product.description | replaceLineBreaks }}</p>
+        </ion-label>
+      </ion-item>
+  </ion-list>
+  </div>
+
+  <ng-template #noResult>
+
+    <app-explore-container 
+      name="Sin resultados"
+      message="No existen resultados para tu busqueda."
+    ></app-explore-container>
+    
+  </ng-template>
+
 </ion-content>

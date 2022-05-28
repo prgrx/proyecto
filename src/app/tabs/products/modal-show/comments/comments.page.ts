@@ -14,12 +14,14 @@ import { Subscription } from 'rxjs';
 })
 export class CommentsPage implements OnInit {
   @Input() product: Product;
+  @Input() disabled: boolean;
   comments: Comment[] = [];
   commentGroup: FormGroup = new FormGroup({
     comment: new FormControl('', Validators.required),
   });
   user_id: string = JSON.parse(localStorage.getItem('user')).uid;
   getCommentsSubscription: Subscription;
+  productSubcription: Subscription;
 
   constructor(
     private firestore: AngularFirestore,
@@ -29,6 +31,12 @@ export class CommentsPage implements OnInit {
 
   ngOnInit(): void {
     this.getAllComments();
+    this.productSubcription = this.firestore
+      .doc(`products/${this.product.id}`)
+      .valueChanges()
+      .subscribe(
+        product => this.product = product as Product
+      );
   }
 
   ionViewWillLeave(): void {
@@ -52,10 +60,13 @@ export class CommentsPage implements OnInit {
         });
       this.commentGroup.reset();
 
+      let addUnread = this.product.unread;
+      addUnread.push(comment.id);
+
       this.firestore
         .doc('/products/' + this.product.id)
         .update({
-          unread: ++this.product.unread
+          unread: addUnread
         })
     }
   }
@@ -101,6 +112,15 @@ export class CommentsPage implements OnInit {
             this.firestore
             .doc('/products/' + this.product.id + '/comments/' + comment.id)
             .delete();
+
+            if(this.product.unread.includes(comment.id)){
+              this.firestore
+                .doc('/products/' + this.product.id)
+                .update({
+                  unread: this.product.unread.filter(x => x !== comment.id)
+                });
+            }
+
             this.showToast('¡Se ha eliminado el comentario correctamente!', 5);
           },
         },
@@ -121,5 +141,9 @@ export class CommentsPage implements OnInit {
 
   trackByFn(item: any): number {
     return item.serialNumber;
+  }
+
+  ngOnDestroy(){
+    this.productSubcription.unsubscribe();
   }
 }

@@ -60,3 +60,9 @@ ion-content {
 ::ng-deep .alertDelete {
   --max-width: 85%;
 }
+
+ion-label {
+  a {
+    font-size: small;
+  }
+}

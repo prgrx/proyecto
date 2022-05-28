@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { AuthService } from 'src/shared/services/auth-service.service';
 import { Subscription } from 'rxjs';
 import { User } from 'src/shared/interfaces/user';

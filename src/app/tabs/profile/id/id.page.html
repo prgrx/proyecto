@@ -1,0 +1,90 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Perfil de {{user?.name}}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="block(user?.uid)">
+        <ion-icon *ngIf="myself?.blocks.includes(user.uid); else unblock" slot="icon-only" name="lock-closed-outline" style="height: 22px;"></ion-icon>
+        <ng-template #unblock>
+          <ion-icon slot="icon-only" name="lock-open-outline" style="height: 22px;"></ion-icon>
+        </ng-template>
+      </ion-button>
+      <ion-button (click)="report(myself?.uid)">
+        <ion-icon slot="icon-only" name="alert-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Perfil de {{user?.name}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="perfil-top">
+    <ion-card-header id="perfil-top-content">
+      <ion-avatar [ngClass]="user?.isOnline ?  'online' : 'offline'">
+        <img *ngIf="user" [src]="user?.photo" class="smooth" id="photo-image">
+      </ion-avatar>
+      <div>
+        <ion-card-title class="smooth" id="user-verified">
+          {{user?.name}}
+          <verification-tag *ngIf="user?.isVerified"></verification-tag>
+        </ion-card-title>
+        <ion-card-subtitle [color]="user?.isOnline ? 'success' : 'danger'">
+          <ion-text *ngIf="user" class="smooth">{{user?.isOnline ? 'On' : 'Off'}}line</ion-text>
+        </ion-card-subtitle>
+      </div>
+    </ion-card-header>
+  </div>
+
+  <ion-card style="background:transparent;">
+    <ion-button 
+      expand="full" 
+      shape="round"
+      (click)="contact(userId)"
+      [disabled]="myself?.blocks.includes(user.uid) || user?.blocks.includes(myself?.uid)"
+      >
+      Enviar un mensaje
+    </ion-button>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Presentación</ion-card-title>
+    </ion-card-header>
+    
+    <ion-card-content id="presentation">
+      {{user?.presentation}}
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Aficiones</ion-card-title>      
+    </ion-card-header>
+    
+    <ion-card-content id="hobbies">
+      {{user?.hobbies}}
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Experiencias</ion-card-title>
+    </ion-card-header>
+    
+    <ion-card-content id="experiences">
+      {{user?.experiences}}
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

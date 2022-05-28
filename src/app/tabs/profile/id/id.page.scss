@@ -1,0 +1,36 @@
+#perfil-top-content {
+    display: flex;
+    align-items: center;
+
+    div {
+        margin-left: 15px;
+    }
+}
+
+
+.hidden {
+    display: none;
+}
+
+ion-card-title {
+    display: inline;
+}
+
+ion-card-content {
+    color: var(--ion-color-primary-contrast);
+    font-weight: 400;
+    font-size: medium;
+    text-align: justify;
+}
+
+ion-avatar {
+    transition: opacity .5s ease-out 100ms;
+}
+
+ion-avatar.online {
+    border: 2px solid var(--ion-color-success) !important;
+}
+
+ion-avatar.offline {
+    border: 2px solid var(--ion-color-danger) !important;
+}

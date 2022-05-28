@@ -169,7 +169,7 @@ export class ProductsPage {
   setRead(productId){
     this.productService.update(
       productId,
-      {unread: 0} as Product
+      {unread: []} as Product
     );
   }
   

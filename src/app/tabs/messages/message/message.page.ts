@@ -12,6 +12,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { DomChangeDirective } from 'src/shared/directives/dom-change.directive';
 import { User } from 'src/shared/interfaces/user';
 import { AlertController } from '@ionic/angular';
+import { UserService } from 'src/shared/services/user.service';
 
 @Component({
   selector: 'app-message',
@@ -31,8 +32,13 @@ export class MessagePage implements OnInit {
   messages: Array<Message>
   messagesSub: Subscription
   
-  myself = JSON.parse(localStorage.getItem('user')).uid;
+  myId = JSON.parse(localStorage.getItem('user')).uid;
   contactName: string
+  contactUid: string
+  contactBlocks: string[];
+
+  myself : User
+  myselfSub : Subscription
 
   photo : string
 
@@ -42,7 +48,8 @@ export class MessagePage implements OnInit {
     public cs : ConversationService,
     private activatedRoute : ActivatedRoute,
     private af : AngularFirestore,
-    public alertCrtl : AlertController
+    public alertCrtl : AlertController,
+    private userService : UserService
   ) { }
 
   ngOnInit() {
@@ -56,6 +63,8 @@ export class MessagePage implements OnInit {
           this.conversationData.members.filter( x => x != JSON.parse(localStorage.getItem('user')).uid )[0]
         }`).get().then( x => {
           this.contactName = x.data()['name']
+          this.contactUid = x.data()['uid']
+          this.contactBlocks = x.data()['blocks']
           this.photo = x.data()['photo']
         })
 
@@ -65,7 +74,10 @@ export class MessagePage implements OnInit {
       .subscribe ( conversation => {
         this.conversation = conversation as Conversation;
       });
-    
+
+    this.myselfSub = this.userService.get(this.userService.getMyUserId()).subscribe( (user) => {
+      this.myself = user as User;
+    });
   }
 
   ionViewWillEnter(){
@@ -88,6 +100,7 @@ export class MessagePage implements OnInit {
   ngOnDestroy(){
     this.messagesSub.unsubscribe();
     this.converSub.unsubscribe();
+    this.myselfSub.unsubscribe();
   }
 
   onDomChange($event: Event): void {
@@ -117,7 +130,7 @@ export class MessagePage implements OnInit {
       this.cs.postMessage(this.converId, message);
 
       //Modificar mensajes leídos y no leídos
-      let myself = JSON.parse(localStorage.getItem('user')).uid;
+      let myself = this.userService.getMyUserId();
 
       this.cs.updateConversation(this.converId,{
         updatedAt: serverTimestamp(),

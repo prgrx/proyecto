@@ -1,0 +1,15 @@
+ion-button[shape=circle] {
+    --border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    color: var(--ion-color-primary-contrast);
+}
+
+.slide-in{
+animation: slide-in 1s;
+}
+
+@keyframes slide-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

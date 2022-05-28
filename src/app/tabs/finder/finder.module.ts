@@ -7,6 +7,7 @@ import { FinderPage } from './finder.page';
 import { ExploreContainerComponentModule } from '../../components/explore-container/explore-container.module';
 
 import { FinderPageRoutingModule } from './finder-routing.module';
+import { PipesModule } from 'src/shared/pipes/pipes.module';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { FinderPageRoutingModule } from './finder-routing.module';
     ExploreContainerComponentModule,
     RouterModule.forChild([{ path: '', component: FinderPage }]),
     FinderPageRoutingModule,
+    PipesModule
   ],
   declarations: [FinderPage]
 })

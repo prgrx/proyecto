@@ -13,12 +13,18 @@ export class ProductService {
     private firestore: AngularFirestore
   ) { }
 
+  getAll(){
+    return this.firestore
+      .collection<Product>('products')
+      .valueChanges();
+  }
+
   getNotifications(){
     return this.firestore
     .collection<Product>('products',
       ref => ref
         .where("user_id", "==", this.userService.getMyUserId())
-        .where("unread", ">", 0)
+        .where("unread", "!=", [])
         .limit(1)
     )
     .valueChanges();

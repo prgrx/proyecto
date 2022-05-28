@@ -12,6 +12,15 @@ const routes: Routes = [
         loadChildren: () => import('../tabs/profile/profile.module').then(m => m.ProfilePageModule)
       },
       {
+        path: 'user',
+        redirectTo: 'profile',
+        pathMatch: 'full'
+      },
+      {
+        path: 'user/:id',
+        loadChildren: () => import('./profile/id/id.module').then(m => m.IdPageModule)
+      },
+      {
         path: 'messages',
         children: [
           {

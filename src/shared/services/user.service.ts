@@ -31,6 +31,13 @@ export class UserService {
       .valueChanges();
   }
 
+  getData(id){
+    return this.firestore
+      .collection('users')
+      .doc(id)
+      .get();
+  }
+
   update(id,data){
     this.firestore
       .doc(`users/${id}`)

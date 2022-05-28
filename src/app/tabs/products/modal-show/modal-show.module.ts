@@ -9,6 +9,7 @@ import { ModalShowPageRoutingModule } from './modal-show-routing.module';
 import { ModalShowPage } from './modal-show.page';
 import { CommentsPage } from './comments/comments.page';
 import { PipesModule } from 'src/shared/pipes/pipes.module';
+import { VerificationTagComponentModule } from 'src/app/components/verification-tag/verification-tag.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { PipesModule } from 'src/shared/pipes/pipes.module';
     IonicModule,
     ModalShowPageRoutingModule,
     ReactiveFormsModule,
-    PipesModule
+    PipesModule,
+    VerificationTagComponentModule
   ],
   declarations: [ModalShowPage, CommentsPage]
 })

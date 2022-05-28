@@ -21,7 +21,7 @@
 
   <ion-list *ngIf="conversations?.length > 0; else noConver" (domChange)="onDomChange($event)">
 
-    <ion-item-sliding *ngFor="let conv of conversations; trackBy: trackByFn">
+    <ion-item-sliding *ngFor="let conv of conversations; trackBy: trackByFn" #slidingItem>
       <ion-item [routerLink]="[conv?.id]" (click)="clearUnread(conv?.id)">
         <ion-avatar slot="start">
           <img *ngIf="conv?.members | excludeMyself | async | photoById | async" class="smooth" [src]="conv?.members | excludeMyself | async | photoById | async"/>
@@ -35,7 +35,7 @@
         <ion-badge *ngIf="conv[user] > 0" slot="end" color="danger">{{conv[user]}}</ion-badge>
       </ion-item>
       <ion-item-options>
-        <ion-item-option color="danger" (click)="delete(conv.id)">
+        <ion-item-option color="danger" (click)="delete(slidingItem, conv.id)">
           <ion-icon slot="icon-only" name="trash-bin-outline"></ion-icon>
           <!--Borrar-->
         </ion-item-option>

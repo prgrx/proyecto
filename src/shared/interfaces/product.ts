@@ -7,6 +7,6 @@ export interface Product {
     image: string
     price: number
     last_modified: FieldValue
-    unread?: number
+    unread?: string[]
     user_id: string
 }

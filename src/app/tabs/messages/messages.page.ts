@@ -58,13 +58,14 @@ export class MessagesPage {
     return item.serialNumber;
   }
 
-  delete(conversationId){
+  delete(slidingItem, conversationId){
     this.presentConfirm(
       '¿Borrar conversación?',
       'Se borrará para ambos usuarios.',
       'Borrar',
       () => {
         this.conversationService.deleteConversation(conversationId);
+        slidingItem.close();
       }
     );
   }

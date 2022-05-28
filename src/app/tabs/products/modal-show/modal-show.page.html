@@ -1,8 +1,16 @@
 <ion-header translucent>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>{{product?.name}}</ion-title>
-    <ion-buttons slot="end" (click)="dismissModal()">
-      <ion-icon name="close-circle-outline" class="close-icon"></ion-icon>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="id == undefined" (click)="dismissModal()">
+        <ion-icon name="close-circle-outline" class="close-icon"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="id != undefined" (click)="goBack()">
+        <ion-icon name="close-circle-outline" class="close-icon"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -11,12 +19,18 @@
     <ion-avatar slot="start">
       <img
         [src]="product.user_id | photoById | async"
-        alt="Avatar of User"
+        onerror="this.src='assets/loading-avatar.png'"
       />
     </ion-avatar>
     <ion-label>
-      <h2>{{ userProduct?.name }}</h2>
-      <p>Verificado o no verificado</p>
+      <h2>
+        {{ userProduct?.name }}
+        <verification-tag *ngIf="userProduct?.isVerified"></verification-tag>
+      </h2>
+      <a 
+        [routerLink]="isSameUser ? '/app/profile' : '/app/user/'+product.user_id"
+        (click)="dismissModal()"
+      >Ver perfil</a>
     </ion-label>
   </ion-item>
   <ion-button
@@ -24,6 +38,8 @@
     expand="block"
     shape="round"
     class="ion-margin-horizontal ion-margin-bottom btn-contact"
+    (click)="contact(product.user_id); dismissModal()"
+    [disabled]="myself?.blocks.includes(userProduct?.uid) || userProduct?.blocks.includes(myself?.uid)"
     >{{ product.price ? 'Contactar para comprar' : 'Contactar usuario'}}</ion-button
   >
   <div class="image ion-padding-horizontal">
@@ -51,6 +67,9 @@
   </ion-row>
   <h2 class="commentsTitle ion-margin-horizontal ion-text-center">Comentarios</h2>
   <div class="ion-margin-horizontal">
-    <app-comments [product]="product"></app-comments>
+    <app-comments 
+      [product]="product" 
+      [disabled]="myself?.blocks.includes(userProduct?.uid) || userProduct?.blocks.includes(myself?.uid)"
+    ></app-comments>
   </div>
 </ion-content>
