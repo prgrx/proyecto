@@ -26,9 +26,7 @@
               >
                 <ion-select-option value="everything">Todos</ion-select-option>
                 <ion-select-option value="true">Baneados</ion-select-option>
-                <ion-select-option value="false"
-                  >No baneados</ion-select-option
-                >
+                <ion-select-option value="false">No baneados</ion-select-option>
               </ion-select>
             </ion-item>
           </ion-col>
@@ -81,15 +79,33 @@
               <ion-button
                 *ngIf="user.isBanned"
                 color="success"
+                class="buttonActionState"
                 (click)="openBanUserAlert(user, 'desbanear')"
                 >Desbanear</ion-button
               >
               <ion-button
                 *ngIf="!user.isBanned"
                 color="danger"
+                class="buttonActionState"
                 (click)="openBanUserAlert(user, 'banear')"
                 >Banear</ion-button
               >
+              <ion-button
+                *ngIf="user.isVerified"
+                color="success"
+                class="buttonActionState"
+                (click)="openVerifiedAlert(user, 'desverificar')"
+              >
+                Desverificar
+              </ion-button>
+              <ion-button
+                *ngIf="!user.isVerified"
+                color="danger"
+                class="buttonActionState"
+                (click)="openVerifiedAlert(user, 'verificar')"
+              >
+                Verificar
+              </ion-button>
             </td>
             <td>
               <ion-button

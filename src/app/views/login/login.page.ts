@@ -79,7 +79,7 @@ export class LoginPage implements OnInit {
     await modal.present();
   }
 
-  loginUser() {
+  loginUser(): void {
     if (this.loginForm.valid) {
       this.authService
         .loginUser(
@@ -99,6 +99,11 @@ export class LoginPage implements OnInit {
           }
         });
     }
+  }
+
+  keyDown(event: KeyboardEvent, action: string): void {
+    if (event.code != 'Enter') return
+    action === 'login' ? this.loginUser : this.comprobateEmail();
   }
 
   comprobateEmail(): void {
