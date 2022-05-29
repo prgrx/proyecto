@@ -11,6 +11,7 @@
   <form [formGroup]="remainUser" autocomplete="off">
     <ion-slides pager="true" #slides>
       <ion-slide>
+        <app-logo [showPart]="'full'" [colorImage]="colorImage" class="logo"></app-logo>
         <ion-col>
           <h1>¿Cómo te llamas?</h1>
           <ion-item
@@ -22,7 +23,7 @@
               autocapitalize="sentences"
             ></ion-input>
           </ion-item>
-          <div class="ion-text-start ion-padding-horizontal">
+          <div class="ion-text-start ion-padding-horizontal errorMessage">
             <span
               class="error"
               *ngIf="(remainUser.controls.name.touched || nameSubmitted) && remainUser.controls.name.errors?.required"
@@ -50,7 +51,7 @@
             presentation="date"
             formControlName="birthday"
           ></ion-datetime>
-          <div class="ion-text-start ion-padding-horizontal">
+          <div class="ion-text-start ion-padding-horizontal errorMessage">
             <span
               class="error"
               *ngIf="(remainUser.controls.birthday.touched || birthdaySubmitted) && remainUser.controls.birthday.errors?.required"
@@ -80,6 +81,7 @@
         </ion-fab>
       </ion-slide>
       <ion-slide>
+        <app-logo [showPart]="'full'" [colorImage]="colorImage" class="logo"></app-logo>
         <ion-col>
           <h1>Presentate un poco para que los demás te conozcan</h1>
           <ion-item
@@ -92,7 +94,7 @@
               autocapitalize="sentences"
             ></ion-textarea>
           </ion-item>
-          <div class="ion-text-start ion-padding-horizontal">
+          <div class="ion-text-start ion-padding-horizontal errorMessage">
             <span
               class="error"
               *ngIf="(remainUser.controls.presentation.touched || presentationSubmitted) && remainUser.controls.presentation.errors?.required"
@@ -122,6 +124,7 @@
         </ion-fab>
       </ion-slide>
       <ion-slide>
+        <app-logo [showPart]="'full'" [colorImage]="colorImage" class="logo"></app-logo>
         <ion-col>
           <h1>Cuentanos lo que haces en tu tiempo libre</h1>
           <ion-item
@@ -134,7 +137,7 @@
               autocapitalize="sentences"
             ></ion-textarea>
           </ion-item>
-          <div class="ion-text-start ion-padding-horizontal">
+          <div class="ion-text-start ion-padding-horizontal errorMessage">
             <span
               class="error"
               *ngIf="(remainUser.controls.hobbies.touched || hobbiesSubmitted) && remainUser.controls.hobbies.errors?.required"
@@ -164,6 +167,7 @@
         </ion-fab>
       </ion-slide>
       <ion-slide>
+        <app-logo [showPart]="'full'" [colorImage]="colorImage" class="logo"></app-logo>
         <ion-col>
           <h1>Cuenta tus experiencias para entenderte mejor</h1>
           <ion-item
@@ -176,7 +180,7 @@
               autocapitalize="sentences"
             ></ion-textarea>
           </ion-item>
-          <div class="ion-text-start ion-padding-horizontal">
+          <div class="ion-text-start ion-padding-horizontal errorMessage">
             <span
               class="error"
               *ngIf="(remainUser.controls.experiences.touched || experiencesSubmitted) && remainUser.controls.experiences.errors?.required"
@@ -206,6 +210,7 @@
         </ion-fab>
       </ion-slide>
       <ion-slide>
+        <app-logo [showPart]="'full'" [colorImage]="colorImage" class="logo"></app-logo>
         <ion-col>
           <div
             class="circle"
@@ -221,7 +226,7 @@
               ></ion-input>
             </div>
           </div>
-          <div class="ion-text-center ion-padding-horizontal">
+          <div class="ion-text-center ion-padding-horizontal errorMessage">
             <span
               class="error"
               *ngIf="(remainUser.controls.imageProfile.touched || imageProfileSubmitted) && remainUser.controls.imageProfile.errors?.required"

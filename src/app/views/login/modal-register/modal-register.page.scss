@@ -36,8 +36,7 @@ ion-textarea{
 }
 
 ion-datetime {
-  margin-left: auto;
-  margin-right: auto;
+  margin: 2rem auto 0 auto;
 }
 
 .error {
@@ -71,7 +70,7 @@ ion-datetime {
   width: 17rem;
   border-radius: 50%;
   overflow: hidden;
-  margin: auto;
+  margin: 4rem auto 0 auto;
   background-color: var(--ion-color-light-tint);
   background-position: center;
   background-repeat: no-repeat;
@@ -112,5 +111,35 @@ ion-datetime {
 
   &__error {
     border: 3px solid var(--ion-color-danger-tint);
+  }
+}
+
+.logo {
+  position: absolute;
+  top: 0;
+  width: 12rem;
+}
+
+::ng-deep ion-input {
+  pointer-events: none;
+}
+
+@media (min-width: 1200px) {
+  .errorMessage, ion-item {
+    width: 50% !important;
+  }
+}
+
+@media (min-width: 576px) {
+  .errorMessage, ion-item {
+    width: 70%;
+  }
+
+  ion-item {
+    margin: 1.5rem auto 0 auto;
+  }
+
+  .errorMessage {
+    margin: auto;
   }
 }

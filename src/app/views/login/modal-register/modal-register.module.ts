@@ -6,6 +6,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ModalRegisterPageRoutingModule } from './modal-register-routing.module';
 
 import { ModalRegisterPage } from './modal-register.page';
+import { LogoModule } from 'src/app/components/logo/logo.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { ModalRegisterPage } from './modal-register.page';
     IonicModule,
     ModalRegisterPageRoutingModule,
     ReactiveFormsModule,
-    BrowserModule
+    BrowserModule,
+    LogoModule
   ],
   declarations: [ModalRegisterPage]
 })
