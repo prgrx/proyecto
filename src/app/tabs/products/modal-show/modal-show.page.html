@@ -15,61 +15,59 @@
   </ion-toolbar>
 </ion-header>
 <ion-content *ngIf="product">
-  <ion-item>
-    <ion-avatar slot="start">
-      <img
-        [src]="product.user_id | photoById | async"
-        onerror="this.src='assets/loading-avatar.png'"
-      />
-    </ion-avatar>
-    <ion-label>
-      <h2>
-        {{ userProduct?.name }}
-        <verification-tag *ngIf="userProduct?.isVerified"></verification-tag>
-      </h2>
-      <a 
-        [routerLink]="isSameUser ? '/app/profile' : '/app/user/'+product.user_id"
-        (click)="dismissModal()"
-      >Ver perfil</a>
-    </ion-label>
-  </ion-item>
-  <ion-button
-    *ngIf="!isSameUser"
-    expand="block"
-    shape="round"
-    class="ion-margin-horizontal ion-margin-bottom btn-contact"
-    (click)="contact(product.user_id); dismissModal()"
-    [disabled]="myself?.blocks.includes(userProduct?.uid) || userProduct?.blocks.includes(myself?.uid)"
-    >{{ product.price ? 'Contactar para comprar' : 'Contactar usuario'}}</ion-button
-  >
-  <div class="image ion-padding-horizontal">
-    <img
-      [src]="product.image"
-      alt="Image of the product"
-      style="display: none"
-      onload="this.style.display=''"
-    />
-  </div>
-  <div class="title ion-margin-horizontal border-bottom">
-    <p class="price">
-      {{product.price ? product.price + ' EUR' : 'Recomendado'}}
-    </p>
-    <h2 class="name">{{product.name}}</h2>
-  </div>
-  <ion-item>
-    <p class="description">{{product.description}}</p>
-  </ion-item>
-  <ion-row class="item-button ion-justify-content-evenly ion-padding-vertical" *ngIf="isSameUser || isAdmin">
-    <ion-button (click)="openModalCreate()">Editar Producto</ion-button>
-    <ion-button (click)="openAlertDelete()" color="danger"
-      >Borrar Producto</ion-button
-    >
-  </ion-row>
-  <h2 class="commentsTitle ion-margin-horizontal ion-text-center">Comentarios</h2>
-  <div class="ion-margin-horizontal">
-    <app-comments 
-      [product]="product" 
+  <div class="content">
+
+    <ion-item>
+      <ion-avatar slot="start">
+        <img
+          [src]="product.user_id | photoById | async"
+          onerror="this.src='assets/loading-avatar.png'"
+        />
+      </ion-avatar>
+      <ion-label>
+        <h2>
+          {{ userProduct?.name }}
+          <verification-tag *ngIf="userProduct?.isVerified"></verification-tag>
+        </h2>
+        <a 
+          [routerLink]="isSameUser ? '/app/profile' : '/app/user/'+product.user_id"
+          (click)="dismissModal()"
+        >Ver perfil</a>
+      </ion-label>
+    </ion-item>
+    <ion-button
+      *ngIf="!isSameUser"
+      expand="block"
+      shape="round"
+      class="ion-margin-horizontal ion-margin-bottom btn-contact"
+      (click)="contact(product.user_id); dismissModal()"
       [disabled]="myself?.blocks.includes(userProduct?.uid) || userProduct?.blocks.includes(myself?.uid)"
-    ></app-comments>
+      >{{ product.price ? 'Contactar para comprar' : 'Contactar usuario'}}</ion-button
+    >
+    <div class="image ion-padding-horizontal">
+      <ngx-image-viewer [src]="[product.image]" [config]="config" class="productImg"></ngx-image-viewer>
+    </div>
+    <div class="title ion-margin-horizontal border-bottom">
+      <ion-chip class="productPrice ion-margin-vertical">
+        <ion-label color="primary"> {{product.price ? product.price + ' EUR' : 'Recomendado'}} </ion-label>
+      </ion-chip>
+      <h2 class="name">{{product.name}}</h2>
+    </div>
+    <ion-item>
+      <p class="description">{{product.description}}</p>
+    </ion-item>
+    <ion-row class="item-button ion-justify-content-evenly ion-padding-vertical" *ngIf="isSameUser || isAdmin">
+      <ion-button (click)="openModalCreate()">Editar Producto</ion-button>
+      <ion-button (click)="openAlertDelete()" color="danger"
+        >Borrar Producto</ion-button
+      >
+    </ion-row>
+    <h2 class="commentsTitle ion-margin-horizontal ion-text-center">Comentarios</h2>
+    <div class="ion-margin-horizontal">
+      <app-comments 
+        [product]="product" 
+        [disabled]="myself?.blocks.includes(userProduct?.uid) || userProduct?.blocks.includes(myself?.uid)"
+      ></app-comments>
+    </div>
   </div>
 </ion-content>

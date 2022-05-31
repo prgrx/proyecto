@@ -17,7 +17,15 @@ import { AppComponent } from './app.component';
 
 import { ScrollToBottomDirective } from 'src/shared/directives/scroll-to-bottom.directive';
 import { NameByIdPipe } from 'src/shared/pipes/name-by-id.pipe';
+import { ImageViewerModule } from "ngx-image-viewer";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
 
+
+library.add(fas, far, fab)
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +43,9 @@ import { NameByIdPipe } from 'src/shared/pipes/name-by-id.pipe';
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FontAwesomeModule,
+    ImageViewerModule.forRoot()
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
