@@ -74,7 +74,7 @@
                   {{ user.reports.length }}
                   <ion-icon name="caret-down-outline"></ion-icon>
                 </p>
-                <ion-button>Notificar</ion-button>
+                <ion-button [disabled]="user.reports.length == 0" (click)="notify(user.uid, user.reports.length)">Notificar</ion-button>
               </ion-row>
             </td>
             <td>
@@ -97,7 +97,10 @@
                 class="buttonAction"
                 >Ver perfil</ion-button
               >
-              <ion-button class="buttonAction">Contactar</ion-button>
+              <ion-button 
+                (click)="openChat(user.uid)"
+                class="buttonAction"
+              >Contactar</ion-button>
             </td>
           </tr>
         </tbody>

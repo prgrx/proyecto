@@ -15,7 +15,7 @@ export class ProductService {
 
   getAll(){
     return this.firestore
-      .collection<Product>('products')
+      .collection<Product>('products', ref => ref.orderBy('last_modified', 'asc'))
       .valueChanges();
   }
 

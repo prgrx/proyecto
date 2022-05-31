@@ -5,8 +5,12 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { Message } from 'src/shared/interfaces/message';
 import { User } from 'src/shared/interfaces/user';
 import { NameByIdPipe } from 'src/shared/pipes/name-by-id.pipe';
+import { ConversationService } from 'src/shared/services/conversation.service';
+import { serverTimestamp } from '@firebase/firestore';
+import { UserService } from 'src/shared/services/user.service';
 
 @Component({
   selector: 'app-users-table',
@@ -31,7 +35,9 @@ export class UsersTableComponent implements OnInit {
     private router: Router,
     private alertController: AlertController,
     private toastController: ToastController,
-    private nameByIdPipe: NameByIdPipe
+    private nameByIdPipe: NameByIdPipe,
+    private conversationService: ConversationService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -189,4 +195,43 @@ export class UsersTableComponent implements OnInit {
   trackByFn(item: any): number {
     return item.serialNumber;
   }
+
+  async notify(id, reports){
+    this.contact(
+      id,
+      `Has sido reportado por ${reports} usuario${(reports == 1) ? '' : 's'}. 
+      El equipo Muévete llevará a cabo una investigación 
+      para determinar el proceso a seguir. Si piensas que 
+      se trata de un error, puedes responder a este mensaje.`
+    );
+  }
+
+
+  async contact(id,messageText){
+    let conversationId = await this.conversationService.contact(
+      this.userService.getMyUserId(),
+      id,
+      true
+    );
+
+    this.conversationService.postMessage(
+      conversationId,
+      {
+        content: messageText,
+        senderId: this.userService.getMyUserId(),
+        createdAt: serverTimestamp()
+      } as Message
+    );
+  }
+
+  async openChat(id:string){
+    let conversationId = await this.conversationService.contact(
+      this.userService.getMyUserId(),
+      id,
+      false
+    );
+
+    this.router.navigate(['app/messages/'+ conversationId]);
+  }
+
 }

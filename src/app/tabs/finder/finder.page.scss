@@ -9,6 +9,15 @@ ion-button[shape=circle] {
 animation: slide-in 1s;
 }
 
+.selected {
+    color: var(--ion-color-primary);
+    border-bottom: 1px solid var(--ion-color-primary);
+  
+    ion-icon {
+      color: inherit;
+    }
+}
+
 @keyframes slide-in {
     from { opacity: 0; }
     to { opacity: 1; }
