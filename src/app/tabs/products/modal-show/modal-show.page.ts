@@ -92,14 +92,11 @@ export class ModalShowPage implements OnInit {
     });
   }
 
-  ngOnDestroy(){
-    this.myselfSub.unsubscribe();
-  }
-
   ionViewWillLeave(): void {
     this.userProductsSubscription.unsubscribe();
     this.activatedRouteSubscription.unsubscribe();
     this.userSub.unsubscribe();
+    this.myselfSub.unsubscribe();
   }
 
   initialActions(): void {

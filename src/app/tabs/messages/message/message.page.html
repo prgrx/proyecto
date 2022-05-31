@@ -73,7 +73,7 @@
 <ion-footer keyboard-attach>
   <ion-toolbar>
     <form (ngSubmit)="sendMessage()">
-    <ion-item [style.--background]="'#303030'">
+    <ion-item>
       <ion-input 
         [formControl]="msgToSend" 
         [disabled]="myself?.blocks.includes(contactUid) || contactBlocks?.includes(myself?.uid)"

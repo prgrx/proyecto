@@ -4,7 +4,7 @@
       Perfil
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="logOut()">
+      <ion-button (click)="logOutAlert()">
         <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
       </ion-button>
       <ion-button>
@@ -30,7 +30,7 @@
       <div>
         <ion-card-title class="smooth" id="user-verified">
           {{user?.name}}
-          <verification-tag *ngIf="user?.isVerified"></verification-tag>
+          <verification-tag *ngIf="user?.isVerified" role="button"></verification-tag>
         </ion-card-title>
         <ion-card-subtitle [color]="user?.isOnline ? 'success' : 'danger'">
           <ion-text *ngIf="user" class="smooth">{{user?.isOnline ? 'On' : 'Off'}}line</ion-text>

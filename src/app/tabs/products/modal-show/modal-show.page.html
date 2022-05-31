@@ -4,13 +4,9 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>{{product?.name}}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button *ngIf="id == undefined" (click)="dismissModal()">
-        <ion-icon name="close-circle-outline" class="close-icon"></ion-icon>
-      </ion-button>
-      <ion-button *ngIf="id != undefined" (click)="goBack()">
-        <ion-icon name="close-circle-outline" class="close-icon"></ion-icon>
-      </ion-button>
+    <ion-buttons slot="end" role="button">
+        <ion-icon name="close-circle-outline" class="close-icon" *ngIf="id == undefined" (click)="dismissModal()"></ion-icon>
+        <ion-icon name="close-circle-outline" class="close-icon" *ngIf="id != undefined" (click)="goBack()"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

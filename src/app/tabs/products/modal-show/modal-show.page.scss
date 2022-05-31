@@ -1,3 +1,4 @@
+
 .close-icon {
   font-size: 2rem;
   padding-right: 0.5rem;
@@ -23,6 +24,10 @@
 
     ::ng-deep div {
       border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--ion-color-light) !important;
     }
   }
 }
@@ -50,9 +55,9 @@
   }
 }
 
-.buttons {
+.item-button {
   ion-button {
-    width: 10rem;
+    width: 12rem;
     height: 2.5rem;
     letter-spacing: 0 !important;
   }
@@ -73,6 +78,16 @@ ion-content {
 ion-label {
   a {
     font-size: small;
+  }
+}
+
+@media (max-width: 576px) {
+  .image {
+    .productImg {
+      ::ng-deep .default {
+        margin-right: 0 !important;
+      }
+    }
   }
 }
 

@@ -71,3 +71,11 @@ ion-content{
     border-bottom: 1px solid var(--ion-color-danger-tint);
   }
 }
+
+.input-image {
+  ::ng-deep input {
+    &:hover {
+      cursor: pointer !important;
+    }
+  }
+}
