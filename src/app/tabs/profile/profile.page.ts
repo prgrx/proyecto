@@ -12,7 +12,7 @@ import { AlertController } from '@ionic/angular';
 })
 export class ProfilePage {
 
-  userId: string
+  userId: string = JSON.parse(localStorage.getItem('user')).uid;
   user: User
   userSub : Subscription
   userVerified : boolean = false
@@ -26,7 +26,6 @@ export class ProfilePage {
   ) {}
 
   ngOnInit() {
-    this.userId = JSON.parse(localStorage.getItem('user')).uid;
     this.userSub = this.userService.get(this.userId).subscribe( (user) => {
       this.user = user as User;
     });

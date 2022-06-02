@@ -37,6 +37,8 @@ export class ProductsPage {
   skeletons: number[] = [0, 1, 2, 3]
   productsNotifications: number = 0;
   notificationSub: Subscription;
+  id_user: string = JSON.parse(localStorage.getItem('user')).uid;
+
 
   constructor(
     private modalController: ModalController,
@@ -98,8 +100,6 @@ export class ProductsPage {
   }
 
   getAllProducts(): void {
-    let id_user: string = JSON.parse(localStorage.getItem('user')).uid;
-
     this.productsSub = this.firestore
       .collection('/products', (ref) => ref.orderBy(this.orderBy, this.orderDirection))
       .valueChanges()
@@ -110,7 +110,7 @@ export class ProductsPage {
         productsSnapshot.forEach((productDB: Product) => {
           let product: Product = productDB;
           this.allProducts.push(product);
-          if (product.user_id == id_user) {
+          if (product.user_id == this.id_user) {
             this.allUserProducts.push(productDB);
           }
         });

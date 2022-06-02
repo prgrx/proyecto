@@ -17,6 +17,7 @@ export class TabsPage {
   userSub: Subscription;
   products: number = 0;
   productSub: Subscription;
+  userId: string = JSON.parse(localStorage.getItem('user')).uid;
 
   constructor(
     private conversationService: ConversationService,
@@ -25,7 +26,6 @@ export class TabsPage {
   ) {}
 
   ngOnInit(): void {
-    let id = JSON.parse(localStorage.getItem('user')).uid;
     this.convesationSub = this.conversationService
       .getNotifications()
       .subscribe((res) => {
@@ -39,7 +39,7 @@ export class TabsPage {
       });
 
     this.userSub = this.firestore
-      .doc('/users/' + id)
+      .doc('/users/' + this.userId)
       .valueChanges()
       .subscribe((user: User) => {
         this.user = user;
