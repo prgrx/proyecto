@@ -1,0 +1,30 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 2rem;
+  
+    & > * {
+      text-align: center;
+    }
+  
+    h1, h2 {
+        font-weight: bold;
+        margin: 0;
+    }
+
+    h1 {
+        font-size: 7rem;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    h5 {
+        margin: 0.5rem 0 1.5rem 0;
+    }
+  }
+  
