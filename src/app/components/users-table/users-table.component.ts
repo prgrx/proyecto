@@ -56,7 +56,7 @@ export class UsersTableComponent implements OnInit {
           this.filterData(searchValue, this.actualFilter);
         } else {
           this.actualSearch = '';
-          this.filterData(this.actualSearch, this.actualFilter)
+          this.filterData(this.actualSearch, this.actualFilter);
         }
       }
     );
@@ -80,7 +80,7 @@ export class UsersTableComponent implements OnInit {
     if (filter === 'everything') {
       this.filterEverything(searchValue);
     } else {
-     this.filterNotEverything(searchValue, filter)
+      this.filterNotEverything(searchValue, filter);
     }
   }
 
@@ -108,13 +108,21 @@ export class UsersTableComponent implements OnInit {
           user.email.toLowerCase().includes(searchValue.toLowerCase())
         );
       });
-    }else {
+    } else {
       this.users = this.allUsers;
     }
   }
 
   showDate(timestamp: FieldValue): Date {
     return new Date(timestamp['seconds'] * 1000);
+  }
+
+  updateBan(user: User, isBanned: boolean): void {
+    this.firestore.doc('/users/' + user.uid).update({ isBanned: isBanned });
+  }
+
+  updateVerified(user: User, isVerified: boolean): void {
+    this.firestore.doc('/users/' + user.uid).update({ isVerified: isVerified });
   }
 
   desBanUser(user: User): void {
@@ -127,8 +135,14 @@ export class UsersTableComponent implements OnInit {
     this.showToast('Has baneado correctamente a ' + user.name, 5);
   }
 
-  updateBan(user: User, isBanned: boolean): void {
-    this.firestore.doc('/users/' + user.uid).update({ isBanned: isBanned });
+  unVerifiedUser(user: User): void {
+    this.updateVerified(user, false);
+    this.showToast('Has desverificado correctamente a ' + user.name, 5);
+  }
+
+  verifiedUser(user: User): void {
+    this.updateVerified(user, true);
+    this.showToast('Has verificado correctamente a ' + user.name, 5);
   }
 
   redirectToUserPage(user: User): void {
@@ -175,6 +189,28 @@ export class UsersTableComponent implements OnInit {
           text: action,
           handler: () => {
             action === 'banear' ? this.banUser(user) : this.desBanUser(user);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async openVerifiedAlert(user: User, action: string): Promise<void> {
+    const alert = await this.alertController.create({
+      cssClass: 'alertDelete',
+      header: 'Verificar usuario',
+      message:
+        '¿Estás seguro de que quieres ' + action + ' a ' + user.name + '?',
+      buttons: [
+        {
+          text: 'Cancelar',
+        },
+        {
+          text: action,
+          handler: () => {
+            action === 'verificar' ? this.verifiedUser(user) : this.unVerifiedUser(user);
           },
         },
       ],

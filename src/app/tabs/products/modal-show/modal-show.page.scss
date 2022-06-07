@@ -1,3 +1,4 @@
+
 .close-icon {
   font-size: 2rem;
   padding-right: 0.5rem;
@@ -8,22 +9,35 @@
 }
 
 .image {
-  height: 22rem;
   overflow: hidden;
 
-  img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    background-image: var(--ion-item-background);
-    border-radius: 10px;
+  .productImg {
+    ::ng-deep img {
+      background-image: var(--ion-item-background);
+      border-radius: 10px;
+    }
+
+    ::ng-deep .default {
+      color: black !important;
+      margin-right: 0.5rem;
+    }
+
+    ::ng-deep div {
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--ion-color-light) !important;
+    }
   }
 }
 
-.price {
-  font-size: 1.5rem;
-  margin: 0.5rem 0 0.5rem 0;
+.productPrice {
+  margin-left: 0;
+  font-size: 1.25rem;
   font-weight: bold;
+  padding: 1.25rem;
+  border-radius: 2rem;
 }
 
 .name {
@@ -41,9 +55,9 @@
   }
 }
 
-.buttons {
+.item-button {
   ion-button {
-    width: 10rem;
+    width: 12rem;
     height: 2.5rem;
     letter-spacing: 0 !important;
   }
@@ -64,5 +78,26 @@ ion-content {
 ion-label {
   a {
     font-size: small;
+  }
+}
+
+@media (max-width: 576px) {
+  .image {
+    .productImg {
+      ::ng-deep .default {
+        margin-right: 0 !important;
+      }
+    }
+  }
+}
+
+@media (min-width: 576px) {
+  .content {
+    width: 40rem;
+    margin: auto;
+
+    .image {
+      height: 30rem !important;
+    }
   }
 }

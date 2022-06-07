@@ -1,0 +1,15 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  place-content: center;
+  height: 100%;
+  padding: 2rem;
+
+  & > * {
+    text-align: center;
+  }
+
+  span {
+    color: var(--ion-color-primary);
+  }
+}

@@ -47,3 +47,10 @@
 ::ng-deep .alert-wrapper {
   --max-width: 35rem;
 }
+
+ion-modal {
+  &::part(content) {
+    height: 100vh !important;
+    width: 100vw !important;
+  }
+}

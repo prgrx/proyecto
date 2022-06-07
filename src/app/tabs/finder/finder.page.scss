@@ -2,19 +2,16 @@ ion-button[shape=circle] {
     --border-radius: 50%;
     width: 42px;
     height: 42px;
-    color: var(--ion-color-primary-contrast);
+    color: var(--ion-color-light-contrast);
 }
 
 .slide-in{
 animation: slide-in 1s;
 }
 
-.selected {
-    color: var(--ion-color-primary);
-    border-bottom: 1px solid var(--ion-color-primary);
-  
-    ion-icon {
-      color: inherit;
+ion-item {
+    &:hover {
+        --background: var(--ion-color-light);
     }
 }
 

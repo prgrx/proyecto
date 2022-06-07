@@ -31,16 +31,32 @@ export class ModalShowPage implements OnInit {
   isSameUser: boolean;
   isAdmin: boolean;
   productForm: FormGroup;
-
   userProduct: User;
   userProductsSubscription: Subscription;
-
   myself : User;
   myselfSub : Subscription;
-
   activatedRouteSubscription: Subscription;
   userSub: Subscription;
   id: string;
+  config = {
+    btnClass: 'default',
+    zoomFactor: 0.1,
+    containerBackgroundColor: 'transparent',
+    wheelZoom: true,
+    allowFullscreen: true,
+    allowKeyboardNavigation: false,
+    btnIcons: {
+      fullscreen: 'fa fa-arrows-alt',
+    },
+    btnShow: {
+      zoomIn: true,
+      zoomOut: true,
+      rotateClockwise: false,
+      rotateCounterClockwise: false,
+      next: false,
+      prev: false
+    }
+  };
 
   constructor(
     private modalController: ModalController,
@@ -51,7 +67,7 @@ export class ModalShowPage implements OnInit {
     private router: Router,
     private conversationService: ConversationService,
     private userService: UserService,
-    public _location: Location
+    public _location: Location,
   ) {}
 
   ngOnInit(): void {
@@ -76,14 +92,11 @@ export class ModalShowPage implements OnInit {
     });
   }
 
-  ngOnDestroy(){
-    this.myselfSub.unsubscribe();
-  }
-
   ionViewWillLeave(): void {
     this.userProductsSubscription.unsubscribe();
     this.activatedRouteSubscription.unsubscribe();
     this.userSub.unsubscribe();
+    this.myselfSub.unsubscribe();
   }
 
   initialActions(): void {
@@ -97,8 +110,6 @@ export class ModalShowPage implements OnInit {
         this.isAdmin = user.isAdmin;
       });
     this.getUserProduct();
-
-    console.log(this.id)
   }
 
   dismissModal(): void {

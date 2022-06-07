@@ -22,7 +22,7 @@
       <ion-title class="ion-no-padding">Registrar</ion-title>
       <div class="line"></div>
     </ion-row>
-    <form [formGroup]="registerForm" autocomplete="off">
+    <form [formGroup]="registerForm" autocomplete="off" (keydown)="keyDown($event, 'signup')">
       <ion-item
         lines="full"
         [ngClass]="(registerForm.controls.email.touched || registerSubmitted) 
@@ -144,7 +144,7 @@
       <ion-title class="ion-no-padding">Login</ion-title>
       <div class="line"></div>
     </ion-row>
-    <form [formGroup]="loginForm" autocomplete="off">
+    <form [formGroup]="loginForm" autocomplete="off" (submit)="loginUser()" (keydown)="keyDown($event, 'login')">
       <ion-item
         lines="full"
         [ngClass]="(loginForm.controls.email.touched || loginSubmitted) 
@@ -211,7 +211,6 @@
         type="submit"
         color="primary"
         expand="block"
-        (click)="loginUser()"
         >Loguearse</ion-button
       >
     </form>

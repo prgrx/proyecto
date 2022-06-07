@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -37,8 +37,15 @@ export class ModalRegisterPage implements OnInit {
   imageProfileSubmitted: boolean = false;
   segmentModel: string;
   today: string = new Date().toISOString();
+  colorImage: string;
   @ViewChild('slides') slides: IonSlides;
 
+  @HostListener('window:keydown', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (event.code != 'Tab') return
+    event.preventDefault();
+  }
+  
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -46,9 +53,14 @@ export class ModalRegisterPage implements OnInit {
     private toastController: ToastController
   ) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    let prefersDark: boolean = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches;
+    this.colorImage = prefersDark ? 'white' : 'dark';
+  }
 
-  ionViewDidEnter() {
+  ionViewDidEnter(): void {
     this.slides.lockSwipeToNext(true);
   }
 

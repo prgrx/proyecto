@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title *ngIf="action === 'create'">Crear Producto</ion-title>
     <ion-title *ngIf="action != 'create'">Modificar Producto</ion-title>
-    <ion-buttons slot="end" (click)="dismissModal()">
+    <ion-buttons slot="end" (click)="dismissModal()" role="button">
       <ion-icon name="close-circle-outline" class="close-icon"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
@@ -119,7 +119,7 @@
       <ion-icon
         name="cloud-upload-outline"
         class="icon-image"
-        [ngClass]="(productForm.controls.image.touched || submitted) && productForm.controls.image.errors?.required ? 'error_color' : ''"
+        [ngClass]="(productForm.controls.image.touched || submitted) && productForm.controls.image.errors?.required ? 'error_color' : ''" 
       ></ion-icon>
       <ion-label
         [ngClass]="(productForm.controls.image.touched || submitted)  && productForm.controls.image.errors?.required ? 'error_color' : ''"
@@ -130,9 +130,7 @@
       class="error ion-padding"
       *ngIf="(productForm.controls.image.touched || submitted)  && productForm.controls.image.errors?.required"
     >
-      <ion-icon name="alert-circle-outline"></ion-icon> Tienes que poner un
-      precio correcto
-    </span>
+      <ion-icon name="alert-circle-outline"></ion-icon> Tienes que poner algna imagen </span>
     <ion-item class="item-backImage"></ion-item>
     <ion-row class="item-button ion-justify-content-evenly">
       <ion-button (click)="sendProduct()" *ngIf="action === 'create'"

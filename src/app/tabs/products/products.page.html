@@ -2,22 +2,21 @@
   <ion-toolbar>
     <ion-title>Productos</ion-title>
     <ion-buttons slot="end">
-
       <ion-button (click)="openMenuSort()">
-        <ion-icon name="funnel" slot="icon-only" style="height: 20px;"></ion-icon>
+        <ion-icon
+          name="funnel"
+          slot="icon-only"
+          style="height: 20px"
+        ></ion-icon>
       </ion-button>
-
       <ion-button (click)="openModalCreateProduct()">
         <ion-icon name="add" slot="icon-only"></ion-icon>
       </ion-button>
-
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
     <ion-segment value="options" [(ngModel)]="segmentProducts">
-      <ion-segment-button value="allProducts">
-        Todos
-      </ion-segment-button>
+      <ion-segment-button value="allProducts"> Todos </ion-segment-button>
       <ion-segment-button value="myProducts">
         Mis productos
         <i *ngIf="productsNotifications > 0" class="circle"></i>
@@ -33,10 +32,13 @@
           class="ion-no-padding"
           *ngFor="let product of principalProducts"
           size="6"
+          sizeMd="4"
+          sizeXl="3"
         >
           <ion-card
             class="ion-no-margin"
             (click)="openModalShowProduct(product)"
+            role="button"
           >
             <div class="imgContainer ion-text-center">
               <img [src]="product.image" alt="Imagen del producto" />
@@ -66,10 +68,11 @@
           <ion-card
             class="ion-no-margin custom-class"
             (click)="openModalShowProduct(product); setRead(product.id)"
+            role="button"
           >
-          
-            <ion-badge *ngIf="product.unread.length > 0" color="danger">{{ product.unread.length }}</ion-badge>
-
+            <ion-badge *ngIf="product.unread.length > 0" color="danger"
+              >{{ product.unread.length }}</ion-badge
+            >
             <div class="imgContainer ion-text-center">
               <img [src]="product.image" alt="Imagen del producto" />
             </div>
@@ -98,7 +101,13 @@
   <div *ngIf="!dataLoaded">
     <ion-grid>
       <ion-row>
-        <ion-col class="ion-no-padding" *ngFor="let i of skeletons">
+        <ion-col
+          class="ion-no-padding"
+          *ngFor="let i of skeletons"
+          size="6"
+          sizeMd="4"
+          sizeXl="3"
+        >
           <ion-card class="ion-no-margin">
             <div class="skeleton--imgContainer ion-text-center">
               <ion-skeleton-text
@@ -133,7 +142,7 @@
   <ion-header>
     <ion-toolbar translucent>
       <ion-title>Ordenar por</ion-title>
-      <ion-buttons slot="end" (click)="closeMenuSort()">
+      <ion-buttons slot="end" (click)="closeMenuSort()" role="button">
         <ion-icon name="close-circle-outline" class="close-icon"></ion-icon>
       </ion-buttons>
     </ion-toolbar>
@@ -143,6 +152,7 @@
       <ion-item
         (click)="changeSort('last_modified','asc') "
         [ngClass]="orderBy === 'last_modified' && orderDirection === 'asc' ? 'selected' : ''"
+        role="button"
       >
         <ion-icon name="calendar-outline" slot="start"></ion-icon>
         <ion-label>Fecha asc.</ion-label>
@@ -150,6 +160,7 @@
       <ion-item
         (click)="changeSort('last_modified', 'desc')"
         [ngClass]="orderBy === 'last_modified' && orderDirection === 'desc' ? 'selected' : ''"
+        role="button"
       >
         <ion-icon name="today-outline" slot="start"></ion-icon>
         <ion-label>Fecha desc.</ion-label>
@@ -157,6 +168,7 @@
       <ion-item
         (click)="changeSort('price','asc')"
         [ngClass]="orderBy === 'price' && orderDirection === 'asc' ? 'selected' : ''"
+        role="button"
       >
         <ion-icon name="pricetag-outline" slot="start"></ion-icon>
         <ion-label>Precio asc.</ion-label>
@@ -164,6 +176,7 @@
       <ion-item
         (click)="changeSort('price', 'desc')"
         [ngClass]="orderBy === 'price' && orderDirection === 'desc' ? 'selected' : ''"
+        role="button"
       >
         <ion-icon name="cash-outline" slot="start"></ion-icon>
         <ion-label>Precio desc.</ion-label>

@@ -1,5 +1,5 @@
 <ion-content fullscreen>
-  <ion-fab vertical="top" horizontal="end" slot="fixed">
+  <ion-fab vertical="top" horizontal="end" slot="fixed" role="button">
     <ion-buttons>
       <ion-icon
         class="closeRegister"
@@ -11,6 +11,7 @@
   <form [formGroup]="remainUser" autocomplete="off">
     <ion-slides pager="true" #slides>
       <ion-slide>
+        <app-logo [showPart]="'full'" [colorImage]="colorImage" class="logo"></app-logo>
         <ion-col>
           <h1>¿Cómo te llamas?</h1>
           <ion-item
@@ -22,7 +23,7 @@
               autocapitalize="sentences"
             ></ion-input>
           </ion-item>
-          <div class="ion-text-start ion-padding-horizontal">
+          <div class="ion-text-start ion-padding-horizontal errorMessage">
             <span
               class="error"
               *ngIf="(remainUser.controls.name.touched || nameSubmitted) && remainUser.controls.name.errors?.required"
@@ -36,6 +37,7 @@
           <ion-row
             class="next ion-align-items-center"
             (click)="nextSlides(remainUser.controls.name); nameSubmitted = true"
+            role="button"
           >
             <p class="ion-no-margin">Siguiente</p>
             <ion-icon name="arrow-forward-outline"></ion-icon>
@@ -50,7 +52,7 @@
             presentation="date"
             formControlName="birthday"
           ></ion-datetime>
-          <div class="ion-text-start ion-padding-horizontal">
+          <div class="ion-text-start ion-padding-horizontal errorMessage">
             <span
               class="error"
               *ngIf="(remainUser.controls.birthday.touched || birthdaySubmitted) && remainUser.controls.birthday.errors?.required"
@@ -64,6 +66,7 @@
           <ion-row
             class="next ion-align-items-center"
             (click)="previousSlides()"
+            role="button"
           >
             <ion-icon name="arrow-back-outline"></ion-icon>
             <p class="ion-no-margin">Anterior</p>
@@ -73,6 +76,7 @@
           <ion-row
             class="next ion-align-items-center"
             (click)="nextSlides(remainUser.controls.birthday, 'date'); birthdaySubmitted = true"
+            role="button"
           >
             <p class="ion-no-margin">Siguiente</p>
             <ion-icon name="arrow-forward-outline"></ion-icon>
@@ -80,6 +84,7 @@
         </ion-fab>
       </ion-slide>
       <ion-slide>
+        <app-logo [showPart]="'full'" [colorImage]="colorImage" class="logo"></app-logo>
         <ion-col>
           <h1>Presentate un poco para que los demás te conozcan</h1>
           <ion-item
@@ -92,7 +97,7 @@
               autocapitalize="sentences"
             ></ion-textarea>
           </ion-item>
-          <div class="ion-text-start ion-padding-horizontal">
+          <div class="ion-text-start ion-padding-horizontal errorMessage">
             <span
               class="error"
               *ngIf="(remainUser.controls.presentation.touched || presentationSubmitted) && remainUser.controls.presentation.errors?.required"
@@ -106,6 +111,7 @@
           <ion-row
             class="next ion-align-items-center"
             (click)="previousSlides()"
+            role="button"
           >
             <ion-icon name="arrow-back-outline"></ion-icon>
             <p class="ion-no-margin">Anterior</p>
@@ -115,6 +121,7 @@
           <ion-row
             class="next ion-align-items-center"
             (click)="nextSlides(remainUser.controls.presentation); presentationSubmitted = true"
+            role="button"
           >
             <p class="ion-no-margin">Siguiente</p>
             <ion-icon name="arrow-forward-outline"></ion-icon>
@@ -122,6 +129,7 @@
         </ion-fab>
       </ion-slide>
       <ion-slide>
+        <app-logo [showPart]="'full'" [colorImage]="colorImage" class="logo"></app-logo>
         <ion-col>
           <h1>Cuentanos lo que haces en tu tiempo libre</h1>
           <ion-item
@@ -134,7 +142,7 @@
               autocapitalize="sentences"
             ></ion-textarea>
           </ion-item>
-          <div class="ion-text-start ion-padding-horizontal">
+          <div class="ion-text-start ion-padding-horizontal errorMessage">
             <span
               class="error"
               *ngIf="(remainUser.controls.hobbies.touched || hobbiesSubmitted) && remainUser.controls.hobbies.errors?.required"
@@ -148,6 +156,7 @@
           <ion-row
             class="next ion-align-items-center"
             (click)="previousSlides()"
+            role="button"
           >
             <ion-icon name="arrow-back-outline"></ion-icon>
             <p class="ion-no-margin">Anterior</p>
@@ -157,6 +166,7 @@
           <ion-row
             class="next ion-align-items-center"
             (click)="nextSlides(remainUser.controls.hobbies); hobbiesSubmitted = true"
+            role="button"
           >
             <p class="ion-no-margin">Siguiente</p>
             <ion-icon name="arrow-forward-outline"></ion-icon>
@@ -164,6 +174,7 @@
         </ion-fab>
       </ion-slide>
       <ion-slide>
+        <app-logo [showPart]="'full'" [colorImage]="colorImage" class="logo"></app-logo>
         <ion-col>
           <h1>Cuenta tus experiencias para entenderte mejor</h1>
           <ion-item
@@ -176,7 +187,7 @@
               autocapitalize="sentences"
             ></ion-textarea>
           </ion-item>
-          <div class="ion-text-start ion-padding-horizontal">
+          <div class="ion-text-start ion-padding-horizontal errorMessage">
             <span
               class="error"
               *ngIf="(remainUser.controls.experiences.touched || experiencesSubmitted) && remainUser.controls.experiences.errors?.required"
@@ -190,6 +201,7 @@
           <ion-row
             class="next ion-align-items-center"
             (click)="previousSlides()"
+            role="button"
           >
             <ion-icon name="arrow-back-outline"></ion-icon>
             <p class="ion-no-margin">Anterior</p>
@@ -199,6 +211,7 @@
           <ion-row
             class="next ion-align-items-center"
             (click)="nextSlides(remainUser.controls.experiences); experiencesSubmitted = true"
+            role="button"
           >
             <p class="ion-no-margin">Siguiente</p>
             <ion-icon name="arrow-forward-outline"></ion-icon>
@@ -206,6 +219,7 @@
         </ion-fab>
       </ion-slide>
       <ion-slide>
+        <app-logo [showPart]="'full'" [colorImage]="colorImage" class="logo"></app-logo>
         <ion-col>
           <div
             class="circle"
@@ -221,7 +235,7 @@
               ></ion-input>
             </div>
           </div>
-          <div class="ion-text-center ion-padding-horizontal">
+          <div class="ion-text-center ion-padding-horizontal errorMessage">
             <span
               class="error"
               *ngIf="(remainUser.controls.imageProfile.touched || imageProfileSubmitted) && remainUser.controls.imageProfile.errors?.required"
@@ -235,6 +249,7 @@
           <ion-row
             class="next ion-align-items-center"
             (click)="previousSlides()"
+            role="button"
           >
             <ion-icon name="arrow-back-outline"></ion-icon>
             <p class="ion-no-margin">Anterior</p>
@@ -244,6 +259,7 @@
           <ion-row
             class="next ion-align-items-center"
             (click)="registerUser(); imageProfileSubmitted = true"
+            role="button"
           >
             <p class="ion-no-margin">Terminar</p>
             <ion-icon name="arrow-forward-outline"></ion-icon>

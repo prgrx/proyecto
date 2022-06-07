@@ -34,7 +34,7 @@ export class ProductsPage {
   dataLoaded: boolean = false;
   limitAllProducts: number = 6;
   limitUserProducts: number = 6;
-  skeletons: number[] = [0, 1, 2, 3]
+  skeletons: number[] = [0, 1, 2, 3, 4, 5, 6, 7]
   productsNotifications: number = 0;
   notificationSub: Subscription;
   id_user: string = JSON.parse(localStorage.getItem('user')).uid;

@@ -21,8 +21,8 @@ export class ProfilePage {
   constructor(
     public authService: AuthService,
     public userService: UserService,
-    private _elementRef: ElementRef, 
-    public alertCtrl : AlertController
+    private _elementRef: ElementRef,
+    public alertController: AlertController
   ) {}
 
   ngOnInit() {
@@ -30,79 +30,62 @@ export class ProfilePage {
       this.user = user as User;
     });
 
-    let sections = [
-      'presentation',
-      'hobbies',
-      'experiences'
-    ];
+    let sections = ['presentation', 'hobbies', 'experiences'];
 
-    sections.forEach( section => {
-      let el = this.element('#'+section);
-      let editBtn = this.element('#edit-'+section);
-  
+    sections.forEach((section) => {
+      let el = this.element('#' + section);
+      let editBtn = this.element('#edit-' + section);
+
       el.addEventListener('keydown', (evt) => {
         if (evt.keyCode === 13) {
-            evt.preventDefault();
+          evt.preventDefault();
         }
       });
 
-      el.addEventListener('keyup', ()=> {
+      el.addEventListener('keyup', () => {
         if (el.innerText != this.user[section]) {
           editBtn.classList.add('highlight');
-        }else{
+        } else {
           editBtn.classList.remove('highlight');
         }
       });
     });
-
   }
 
-  ionViewWillEnter(){
-  }
-
-  ionViewDidEnter(){
-  }
-
-  ionViewWillLeave(){
-  }
-
-  ngOnDestroy(){
+  ionViewWillLeave() {
     this.userSub.unsubscribe();
   }
 
-  logOut(){
+  logOut() {
     this.authService.signOut(this.userId);
   }
 
-  edit(section){
-    let el = this.element('#'+section);
-    let editBtn = this.element('#edit-'+section);
-    let cancelBtn = this.element('#cancel-'+section);
+  edit(section) {
+    let el = this.element('#' + section);
+    let editBtn = this.element('#edit-' + section);
+    let cancelBtn = this.element('#cancel-' + section);
     cancelBtn.classList.remove('hidden');
     cancelBtn.style.display = '';
 
     el.spellcheck = false;
 
-    if(el.contentEditable == 'true'){
+    if (el.contentEditable == 'true') {
       editBtn.innerText = 'Editar';
-      this.userService.update(
-        this.user.uid, 
-        {[section]: el.innerText}
-      );
+      this.userService.update(this.user.uid, { [section]: el.innerText });
       editBtn.classList.remove('highlight');
       cancelBtn.classList.add('hidden');
       el.contentEditable = 'false';
-    }else{
+    } else {
       editBtn.innerText = 'Guardar';
       el.contentEditable = 'true';
       el.focus();
     }
   }
 
-  cancel(section){
-    let el = this.element('#'+section);
-    let editBtn = this.element('#edit-'+section);
-    let cancelBtn = this.element('#cancel-'+section);
+  cancel(section) {
+    let el = this.element('#' + section);
+    let editBtn = this.element('#edit-' + section);
+    let cancelBtn = this.element('#cancel-' + section);
     editBtn.innerText = 'Editar';
     editBtn.classList.remove('highlight');
     el.innerText = this.user[section];
@@ -110,22 +93,20 @@ export class ProfilePage {
     cancelBtn.style.display = 'none';
   }
 
-  changePhoto(input){
+  changePhoto(input) {
     let fileInput = this.element(input);
 
     fileInput.click();
 
-    if(!this.photoEventSet){
+    if (!this.photoEventSet) {
       this.photoEventSet = true;
 
-      fileInput.addEventListener("change", () =>{
-
+      fileInput.addEventListener('change', () => {
         let photo = fileInput.files[0];
 
         let fr = new FileReader();
         fr.readAsDataURL(photo);
         fr.onload = () => {
-
           if (fr.result != null) {
             let base64 = fr.result.toString();
 
@@ -143,43 +124,35 @@ export class ProfilePage {
                     "
                   >
               </div>
-              `
-              ,
+              `,
               'Cambiar',
               async () => {
                 this.uploadPhoto(base64);
               }
             );
-
           }
-
         };
-        
       });
-
     }
   }
 
-  uploadPhoto(photo:string){
-    this.userService.update(this.userId,{
-      photo: photo
+  uploadPhoto(photo: string) {
+    this.userService.update(this.userId, {
+      photo: photo,
     });
   }
 
-  element(query:string){
-    return this
-      ._elementRef
-      .nativeElement
-      .querySelector(query);
+  element(query: string) {
+    return this._elementRef.nativeElement.querySelector(query);
   }
 
   async presentConfirm(
-    title:string, 
-    text:string, 
-    button:string, 
-    action:any
+    title: string,
+    text: string,
+    button: string,
+    action: any
   ) {
-    let alert = await this.alertCtrl.create({
+    let alert = await this.alertController.create({
       header: title,
       message: text,
       buttons: [
@@ -189,11 +162,31 @@ export class ProfilePage {
         },
         {
           text: button,
-          handler: action
-        }
-      ]
+          handler: action,
+        },
+      ],
     });
     await alert.present();
   }
 
+  async logOutAlert() {
+    const alert = await this.alertController.create({
+      cssClass: 'alertDelete',
+      header: 'Cerrar Sesión',
+      message: '¿Estás seguro de que quieres cerrar sesión?',
+      buttons: [
+        {
+          text: 'Cancelar',
+        },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            this.logOut();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
 }

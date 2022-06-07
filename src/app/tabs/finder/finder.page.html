@@ -30,7 +30,7 @@
   <!-- Usuarios -->
   <div *ngIf="usersSearch">
     <ion-list *ngIf="users?.length > 0; else noResult">
-        <ion-item *ngFor="let user of users; trackBy: trackByFn">
+        <ion-item *ngFor="let user of users; trackBy: trackByFn" role="button">
           <ion-avatar slot="start" [routerLink]="'/app/user/'+user.uid">
             <img *ngIf="user?.photo" class="smooth" [src]="user?.photo"/>
           </ion-avatar>
@@ -47,7 +47,7 @@
   <!-- Productos -->
   <div *ngIf="!usersSearch">
     <ion-list *ngIf="products?.length > 0; else noResult">
-      <ion-item *ngFor="let product of products; trackBy: trackByFn">
+      <ion-item *ngFor="let product of products; trackBy: trackByFn" role="button">
         <ion-avatar slot="start" [routerLink]="'/app/products/'+product?.id">
           <img *ngIf="product?.image" class="smooth" [src]="product.image"/>
         </ion-avatar>

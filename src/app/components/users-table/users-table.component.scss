@@ -45,9 +45,8 @@ ion-grid {
           width: 8rem;
         }
         
-
         &.state {
-          width: 9.5rem;
+          width: 11rem;
         }
 
         &.reports {
@@ -77,6 +76,10 @@ ion-grid {
 
           .buttonAction {
             width: 100%;
+          }
+
+          .buttonActionState {
+            width: 80%;
           }
         }
       }

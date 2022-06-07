@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: 'app',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: '',
@@ -22,6 +22,20 @@ const routes: Routes = [
     path: 'privacity-terms',
     loadChildren: () => import('./views/politics/privacity-terms/privacity-terms.module').then( m => m.PrivacityTermsPageModule)
   },
+  {
+    path: 'banned',
+    loadChildren: () => import('./views/banned/banned.module').then( m => m.BannedPageModule)
+  },
+  {
+    path: '404NotFound',
+    loadChildren: () => import('./views/not-found/not-found.module').then( m => m.NotFoundPageModule)
+  },
+  {
+    path: '**',
+    redirectTo: '404NotFound',
+    pathMatch: 'full'
+  },
+
 
 ];
 

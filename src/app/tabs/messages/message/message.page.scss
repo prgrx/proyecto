@@ -18,3 +18,10 @@ sup {
     font-size: 12px;
     float: right;
 }
+
+ion-footer {
+    ion-toolbar, ion-item {
+        --background: var(--ion-color-light) !important;
+    }
+
+}

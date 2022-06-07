@@ -1,21 +1,31 @@
 ion-col {
   padding: 0.6rem 0.3rem;
 
+  
   ion-card {
-    width: 10.5rem;
-    height: 16.75rem;
+    min-width: 9rem;
+    max-width: 13rem;
+    height: 17.75rem;
     margin: 0 auto;
     border-radius: 0.7rem;
     position: relative;
-
+    
     ion-badge {
-      position: absolute; 
-      font-size: 8pt;
+      position: absolute;
+      font-size: 9pt;
       right: 6px;
-      top: 6px; 
+      top: 5px;
+      z-index: 10;
+      border-radius: 50%;
+      width: 1.55rem;
+      height: 1.55rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   
     &-subtitle {
+      margin-top: 0.5rem;
       font-size: 1.15rem;
     }
   
@@ -31,6 +41,7 @@ ion-col {
       img {
         height: 9.5rem;
         width: 100%;
+        object-fit: cover;
         margin-left: auto;
         margin-right: auto;
       }
@@ -93,4 +104,24 @@ ion-list {
   border-radius: 50%;
   position: absolute;
   right: 8px;
+}
+
+
+@media (min-width:576px) {
+  ion-row {
+    width: 85% !important;
+    margin: auto;
+  }
+}
+
+@media (min-width:768px) {
+  ion-row {
+    width: 75% !important;
+  }
+}
+
+@media (min-width:1200px) {
+  ion-row {
+    width: 65% !important;
+  }
 }
