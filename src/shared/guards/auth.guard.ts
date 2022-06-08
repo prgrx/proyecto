@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate {
       ).data() as User;
       if (actualUser.isBanned) {
         localStorage.removeItem('user');
-        this.router.navigate(['cookies']);
+        this.router.navigate(['banned']);
         return false;
       }
       return true;
