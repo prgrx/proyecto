@@ -12,7 +12,7 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./views/login/login.module').then(m => m.LoginPageModule),
-    canActivate: [NoLoginGuard]
+    //canActivate: [NoLoginGuard]
   },
   {
     path: 'cookies',

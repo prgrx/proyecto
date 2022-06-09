@@ -67,7 +67,8 @@ const routes: Routes = [
       {
         path: 'administration',
         loadChildren: () => import('./administration/administration.module').then( m => m.AdministrationPageModule),
-        canActivate: [AuthGuard, AdministrationGuard]
+        canActivate: [AdministrationGuard]
+        //canActivate: [AuthGuard, AdministrationGuard]
       },
       {
         path: '',
