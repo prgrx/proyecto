@@ -94,10 +94,13 @@ export class ModalCreatePage implements OnInit {
         image: this.imgBase64 ? this.imgBase64 : this.previousImg,
         price: this.productForm.controls.price.value,
         last_modified: serverTimestamp(),
-        user_id: JSON.parse(localStorage.getItem('user')!).uid,
-        unread: [],
-        reports: []
       };
+
+      if (this.action === 'create'){
+        product.user_id = JSON.parse(localStorage.getItem('user')!).uid;
+        product.unread = [];
+        product.reports = [];
+      }
 
       const productRef: AngularFirestoreDocument<any> =
         this.firestore.doc(`products/${product.id}`);

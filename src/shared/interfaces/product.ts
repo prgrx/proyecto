@@ -8,6 +8,6 @@ export interface Product {
     price: number
     last_modified: FieldValue
     unread?: string[]
-    user_id: string
-    reports: string[]
+    user_id?: string
+    reports?: string[]
 }
