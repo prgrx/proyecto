@@ -102,8 +102,9 @@ export class LoginPage implements OnInit {
   }
 
   keyDown(event: KeyboardEvent, action: string): void {
-    if (event.code != 'Enter') return
-    action === 'login' ? this.loginUser : this.comprobateEmail();
+    if (event.code == 'Enter') {
+      action === 'login' ? this.loginUser() : this.comprobateEmail();
+    }
   }
 
   comprobateEmail(): void {
