@@ -1,7 +1,22 @@
-ion-card-content{
+ion-card {
+  max-width: 40rem;
+
+  .image {
+    width: fit-content;
+    margin: 1rem auto 0;
+  }
+
+  ion-card-content {
     text-align: justify;
+  }
 }
 
 .level-2 {
-    margin-left: 25px;
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  ion-card {
+    margin: 1rem auto;
+  }
 }
