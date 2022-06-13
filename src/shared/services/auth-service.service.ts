@@ -46,7 +46,9 @@ export class AuthService {
       isOnline: true,
       isBanned: false,
       isVerified: false,
-      blocks: []
+      createdAt: user.createdAt,
+      reports: [],
+      blocks: [],
     };
 
     return userRef.set(userData, {

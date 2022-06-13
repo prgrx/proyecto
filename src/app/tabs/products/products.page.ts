@@ -49,7 +49,7 @@ export class ProductsPage {
 
   ngOnInit(): void {
     this.getAllProducts();
-
+    this.formatLimit();
     this.notificationSub = this.productService.getNotifications().subscribe(res => {
       this.productsNotifications = res.length;
     });    
@@ -180,4 +180,14 @@ export class ProductsPage {
     );
   }
   
+  formatLimit(): void {
+    let actualWidth = window.innerWidth;
+    if (actualWidth < 1200) {
+      this.limitAllProducts = 6;
+      this.limitUserProducts = 6;
+    } else {
+      this.limitAllProducts = 8;
+      this.limitUserProducts = 8;
+    }
+  }
 }
