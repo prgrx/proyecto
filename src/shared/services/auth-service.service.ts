@@ -46,6 +46,8 @@ export class AuthService {
       isOnline: true,
       isBanned: false,
       isVerified: false,
+      createdAt: user.createdAt,
+      reports: [],
       blocks: []
     };
 
